@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
+    // Все машины
+    Route::get('cars', 'CarController@index');
+    // Поиск машины
+    Route::get('cars/find', 'CarController@find');
+    // Конкретная машина
+    Route::get('cars/{model_id}', 'CarController@show');
 });
