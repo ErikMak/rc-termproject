@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('engines', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('mark');
-            $table->double('HP', 4, 2);
-            $table->double('volume', 3, 1);
-            $table->string('fuel', 8);
-            $table->text('type');
+        Schema::create('parking', function (Blueprint $table) {
+            $table->increments('parking_id');
+            $table->text('address');
+            $table->text('phone');
         });
     }
 
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('engines');
+        Schema::dropIfExists('parking');
     }
 };

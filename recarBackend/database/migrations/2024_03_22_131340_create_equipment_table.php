@@ -15,12 +15,14 @@ return new class extends Migration
             $table->increments('equip_id');
             $table->integer('model_id')->unsigned();
             $table->index('model_id', 'cars_equip_idx');
-            $table->foreign('model_id', 'cars_equip_fk')->on('cars')->references('model_id');
-            $table->string('name', 20);
+            $table->foreign('model_id', 'cars_equip_fk')->on('cars')
+                ->references('model_id');
+            $table->text('name');
             $table->string('transmission', 10);
             $table->integer('engine')->unsigned();
             $table->index('engine', 'engines_equip_idx');
-            $table->foreign('engine', 'engines_equip_fk')->on('engines')->references('engine_id');
+            $table->foreign('engine', 'engines_equip_fk')->on('engines')
+                ->references('id');
             $table->string('drive', 15);
 
         });

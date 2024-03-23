@@ -15,7 +15,7 @@ class Equipment extends Model
     protected $primaryKey = 'equip_id';
 
     public function engine() {
-        return $this->belongsTo(Engine::class, 'engine', 'engine_id');
+        return $this->belongsTo(Engine::class, 'engine', 'id');
     }
 
     public function car() {
