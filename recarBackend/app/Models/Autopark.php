@@ -14,4 +14,16 @@ class Autopark extends Model
     public $incrementing = false;
 
     public $timestamps = false;
+
+    protected $casts = [
+        'is_exist' => 'boolean',
+    ];
+
+    public function equipments() {
+        return $this->hasMany(Equipment::class, 'equip_id', 'equip_id');
+    }
+
+    public function parkings() {
+        return $this->hasMany(Parking::class, 'parking_id', 'parking_id');
+    }
 }

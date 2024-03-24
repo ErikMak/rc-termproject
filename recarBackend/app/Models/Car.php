@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Http\Filters\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Car extends Model
 {
     use HasFactory;
+    use Filterable;
 
     public $timestamps = false;
     protected $table = 'cars';
