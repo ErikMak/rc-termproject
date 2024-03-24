@@ -14,11 +14,15 @@ class Equipment extends Model
     protected $table = 'equipment';
     protected $primaryKey = 'equip_id';
 
-    public function engine() {
+    public function car_engine() {
         return $this->belongsTo(Engine::class, 'engine', 'id');
     }
 
     public function car() {
         return $this->belongsTo(Car::class, 'model_id', 'model_id');
+    }
+
+    public function autopark() {
+        return $this->belongsTo(Autopark::class, 'equip_id', 'equip_id');
     }
 }

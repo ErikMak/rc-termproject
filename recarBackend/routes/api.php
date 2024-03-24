@@ -21,4 +21,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
     Route::get('cars/find', 'CarController@find');
     // Конкретная машина
     Route::get('cars/{model_id}', 'CarController@show');
+    // Комплектации конкретной машины
+    Route::get('equipments/{model_id}', 'EquipController@show');
+    // Все комплектации
+    Route::get('equipments', 'EquipController@index');
 });
