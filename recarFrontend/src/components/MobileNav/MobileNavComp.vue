@@ -5,31 +5,21 @@
       position="fixed"
   >
     <ul class="d-flex pa-0 ma-0">
-      <li class="pa-2 me-2 d-flex align-center justify-center">
-        <font-awesome-icon icon="fa-solid fa-house" />
-        <p class="title ms-2 font-weight-medium">Главная</p>
-      </li>
-      <li class="pa-2 me-2 active d-flex align-center justify-center">
-        <font-awesome-icon icon="fa-solid fa-bars" />
-        <p class="title ms-2 font-weight-medium">Бронь</p>
-      </li>
-      <li class="pa-2 me-2 d-flex align-center justify-center">
-        <font-awesome-icon icon="fa-solid fa-heart" />
-        <p class="title ms-2 font-weight-medium">Избранное</p>
-      </li>
-      <li class="pa-2 d-flex align-center justify-center">
-        <font-awesome-icon icon="fa-solid fa-user" />
-        <p class="title ms-2 font-weight-medium">Профиль</p>
-      </li>
+      <NavLinkComponent title="Главная" path="/catalog/bmw" icon="fa-solid fa-house"/>
+      <NavLinkComponent title="Бронь" path="/reservations" icon="fa-solid fa-bars"/>
+      <NavLinkComponent title="Избранное" path="/favorites" icon="fa-solid fa-heart"/>
+      <NavLinkComponent title="Профиль" path="/profile" icon="fa-solid fa-user"/>
     </ul>
   </v-sheet>
 </template>
 
 <script lang="ts">
 import { defineComponent} from "vue";
+import NavLinkComponent from "@/components/MobileNav/NavLinkComp.vue";
 
 export default defineComponent({
   name: 'MobileNavComponent',
+  components: {NavLinkComponent},
 })
 </script>
 
@@ -37,6 +27,7 @@ export default defineComponent({
 @import '@/assets/theme';
 
 .sm-navbar {
+  z-index: 999;
   bottom: 0;
   left: 0;
   right: 0;
@@ -46,24 +37,5 @@ export default defineComponent({
   height: 70px;
   background-color: $black;
   border-radius: 8px;
-  li {
-    text-align: center;
-    min-width: 40px;
-    list-style: none;
-    border-radius: 8px;
-  }
-  li:not(.active) p {
-    display: none;
-  }
-  li:not(.active) {
-    color: white;
-    background-color: $dark;
-  }
-  li.active {
-    color: $black;
-    background-color: $yellow;
-    padding-left: 1em !important;
-    padding-right: 1em !important;
-  }
 }
 </style>

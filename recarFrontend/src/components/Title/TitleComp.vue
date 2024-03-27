@@ -1,7 +1,9 @@
 <template>
   <div class="d-flex flex-column">
-    <p class="text-h5 font-weight-bold">Каталог</p>
-    <small class="font-weight-regular">Лучшие авто на выбор!</small>
+    <p v-if="title" class="text-h5 font-weight-bold">{{ title }}</p>
+    <p v-else class="text-h5 font-weight-bold">Главная</p>
+
+    <small v-if="sub_title" class="font-weight-regular">{{ sub_title }}</small>
   </div>
 </template>
 
@@ -10,5 +12,23 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'TitleComponent',
+  props: {
+    title: {
+      type: String,
+      required: false
+    },
+    sub_title: {
+      type: String,
+      required: false
+    }
+  }
 })
 </script>
+
+<style lang="scss" scoped>
+@import '@/assets/theme';
+
+small {
+  color: $gray-600;
+}
+</style>

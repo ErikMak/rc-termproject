@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col>
-      <TitleComponent/>
+      <TitleComponent title="Каталог" sub_title="Лучшие авто на выбор!"/>
     </v-col>
   </v-row>
   <v-row>
@@ -10,11 +10,16 @@
     </v-col>
   </v-row>
   <v-row>
+    <v-col class="pb-0">
+      <CategoryBoxesComponent />
+    </v-col>
+  </v-row>
+  <v-row>
     <v-col>
       <v-divider></v-divider>
     </v-col>
   </v-row>
-  <div class="wrapper">
+  <div class="wrapper pt-3">
     <CardComponent v-for="n in 4"/>
   </div>
 </template>
@@ -24,9 +29,11 @@ import { defineComponent} from "vue";
 import CardComponent from "@/components/Catalog/CardComp.vue";
 import SearchComponent from "@/components/Catalog/SearchComp.vue";
 import TitleComponent from "@/components/Title/TitleComp.vue";
+import CategoryBoxesComponent from "@/components/Catalog/CategoryBoxesComp.vue";
 export default defineComponent({
   name: 'CatalogView',
   components: {
+    CategoryBoxesComponent,
     TitleComponent,
     SearchComponent,
     CardComponent
@@ -36,10 +43,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/theme';
-
-small {
-  color: $gray-600;
-}
 
 .wrapper {
   display: grid;

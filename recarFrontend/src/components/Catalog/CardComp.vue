@@ -5,17 +5,17 @@
       rounded
       position="relative"
   >
-    <div class="favorite pa-2">
-      <font-awesome-icon
-          icon="fa-regular fa-bookmark"
-          size="lg"
-          style="color: black; margin-bottom: 1px"
-      />
-    </div>
+      <a class="favorite pa-2" href="#">
+        <font-awesome-icon
+            icon="fa-regular fa-bookmark"
+            size="lg"
+            style="color: black; margin-bottom: 1px"
+        />
+      </a>
     <v-img
         id="car-preview"
         class="mt-2 mb-1"
-        src="./src/assets/cars/15.png"
+        src="../src/assets/cars/15.png"
     >
     </v-img>
     <v-sheet
@@ -24,8 +24,12 @@
         class="bg-white px-2 py-1"
     >
       <div class="d-flex flex-column">
-        <b class="font-weight-medium">Mazda 6 2017</b>
-        <small style="margin-top: -3px;">Легковая; МКПП</small>
+        <router-link :to="{name: 'car', params: { brand: 'bmw', slug: '1'}}" class="pa-0">
+          <div class="d-flex flex-column" id="links">
+            <b class="font-weight-medium">Mazda 6 2017</b>
+            <small style="margin-top: -3px;">Легковая; МКПП</small>
+          </div>
+        </router-link>
         <p class="mt-1"><strong>$59</strong>/день</p>
       </div>
     </v-sheet>
@@ -44,11 +48,12 @@ export default defineComponent({
 @import '@/assets/theme';
 
 #car-card:hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+  box-shadow: 0 0 8px rgba(0, 0, 0, .08);
+  transform: scale(1.01);
 }
 #car-card {
   background: $light;
-  transition: box-shadow .3s ease-in-out;
+  transition: box-shadow .3s ease-in-out, transform .3s;
   .favorite {
     background-color: $yellow;
     position: absolute;
@@ -61,6 +66,17 @@ export default defineComponent({
   }
   strong {
     color: $green;
+  }
+  .favorite:hover {
+    background-color: $yellow-dirt;
+  }
+  b, small {
+    color: black;
+  }
+  #links:hover {
+    b, small {
+      color: $red;
+    }
   }
 }
 </style>
