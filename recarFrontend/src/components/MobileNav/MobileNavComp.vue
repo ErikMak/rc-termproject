@@ -5,10 +5,30 @@
       position="fixed"
   >
     <ul class="d-flex pa-0 ma-0">
-      <NavLinkComponent title="Главная" path="/catalog/bmw" icon="fa-solid fa-house"/>
-      <NavLinkComponent title="Бронь" path="/reservations" icon="fa-solid fa-bars"/>
-      <NavLinkComponent title="Избранное" path="/favorites" icon="fa-solid fa-heart"/>
-      <NavLinkComponent title="Профиль" path="/profile" icon="fa-solid fa-user"/>
+      <NavLinkComponent
+          title="Главная"
+          path="/catalog/bmw"
+          icon="fa-solid fa-house"
+          name="catalog"
+      />
+      <NavLinkComponent
+          title="Бронь"
+          path="/reservations"
+          icon="fa-solid fa-bars"
+          name="reservations"
+      />
+      <NavLinkComponent
+          title="Избранное"
+          path="/favorites"
+          icon="fa-solid fa-heart"
+          name="favorites"
+      />
+      <NavLinkComponent
+          title="Профиль"
+          path="/profile"
+          icon="fa-solid fa-user"
+          name="profile"
+      />
     </ul>
   </v-sheet>
 </template>

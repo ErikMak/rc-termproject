@@ -49,11 +49,10 @@ export default defineComponent({
 
 #car-card:hover {
   box-shadow: 0 0 8px rgba(0, 0, 0, .08);
-  transform: scale(1.01);
 }
 #car-card {
   background: $light;
-  transition: box-shadow .3s ease-in-out, transform .3s;
+  transition: box-shadow .3s ease-in-out;
   .favorite {
     background-color: $yellow;
     position: absolute;
@@ -70,12 +69,21 @@ export default defineComponent({
   .favorite:hover {
     background-color: $yellow-dirt;
   }
+  .favorite:active {
+    background-color: $yellow-dirt;
+  }
+
   b, small {
     color: black;
   }
   #links:hover {
     b, small {
       color: $red;
+    }
+  }
+  #links:active {
+    b, small {
+      text-decoration: underline;
     }
   }
 }

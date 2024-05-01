@@ -5,6 +5,8 @@
     <v-container fluid>
       <router-view />
     </v-container>
+    <v-footer style="background-color: #efedf0; height: 110px;">
+    </v-footer>
   </v-main>
   <MobileNavComponent/>
 </template>

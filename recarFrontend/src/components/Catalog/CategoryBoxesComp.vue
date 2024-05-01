@@ -105,7 +105,7 @@ export default defineComponent({
     transition: all .2s ease-in-out;
     border-radius: 6px;
     background-color: $gray-500;
-    border-bottom: 2px solid #abaeb4;
+    border-bottom: 2px solid $gray-550;
     .car-logo {
       max-height: 100%;
       max-width: 100%;
