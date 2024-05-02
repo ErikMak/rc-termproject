@@ -3,3 +3,4 @@ interface UserState {
     loggedIn: boolean
 }
 
+export type { UserState as UserStateType }

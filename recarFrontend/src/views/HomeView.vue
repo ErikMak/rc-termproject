@@ -1,10 +1,27 @@
-<script setup lang="ts">
-</script>
-
 <template>
-  <main>
-  </main>
+  <HeaderComponent></HeaderComponent>
+
+  <v-main>
+    <v-container fluid>
+      <router-view />
+    </v-container>
+    <v-footer style="background-color: #efedf0; height: 110px;">
+    </v-footer>
+  </v-main>
+  <MobileNavComponent/>
 </template>
 
-<style scoped lang="scss">
-</style>
+
+<script lang="ts">
+import HeaderComponent from "@/components/Header/HeaderComp.vue";
+import {defineComponent} from "vue";
+import MobileNavComponent from "@/components/MobileNav/MobileNavComp.vue";
+
+export default defineComponent({
+  name: 'HomeView',
+  components: {
+    MobileNavComponent,
+    HeaderComponent
+  }
+});
+</script>
