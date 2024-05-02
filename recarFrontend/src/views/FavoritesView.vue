@@ -1,5 +1,5 @@
 <template>
-  <TitleComponent/>
+  <TitleComponent title="Избранное"/>
 </template>
 
 <script lang="ts">

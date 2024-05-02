@@ -1,7 +1,8 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import type { RouteRecordRaw } from "vue-router";
-import HomeView from '../views/HomeView.vue'
+import HomeView from '@/views/HomeView.vue'
 import CatalogView from "@/views/CatalogView.vue";
+import AuthView from "@/views/AuthView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -34,8 +35,13 @@ const routes: Array<RouteRecordRaw> = [
         name: 'favorites',
         component: () => import('../views/FavoritesView.vue'),
       }
-    ]
+    ],
   },
+  {
+    path: '/auth',
+    name: 'auth',
+    component: AuthView
+  }
 ]
 
 const router = createRouter({

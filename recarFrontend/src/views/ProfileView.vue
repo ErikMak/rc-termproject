@@ -1,5 +1,5 @@
 <template>
-  <TitleComponent/>
+  <TitleComponent title="Профиль"/>
 </template>
 
 <script lang="ts">

@@ -1,5 +1,5 @@
 <template>
-  <TitleComponent/>
+  <TitleComponent title="Бронь"/>
 </template>
 
 <script lang="ts">
