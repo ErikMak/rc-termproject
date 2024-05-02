@@ -25,4 +25,23 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
     Route::get('equipments/{model_id}', 'EquipController@show');
     // Все комплектации
     Route::get('equipments', 'EquipController@index');
+
+
+    Route::prefix('auth')->group(function () {
+        // Регистрация
+        Route::post('register', 'AuthController@register');
+
+        // Вход в систему
+        Route::post('login', 'AuthController@login');
+        // Обновление токена
+        Route::get('refresh', 'AuthController@refresh');
+
+        // Маршруты, доступные после авторизации
+        Route::middleware('auth:api')->group(function () {
+            // Данные пользователя
+            Route::get('user', 'AuthController@user');
+            // Выход из аккаунта
+            Route::get('logout', 'AuthController@logout');
+        });
+    });
 });
