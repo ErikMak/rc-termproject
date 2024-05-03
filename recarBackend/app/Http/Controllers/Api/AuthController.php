@@ -14,7 +14,7 @@ class AuthController extends BaseController
         $data = $request->only('login', 'password');
 
         // Создание токена
-        if($token = Auth::attempt($data)) {
+        if($token = $this->guard()->attempt($data)) {
             return $this->sendOK()->header('Authorization', $token);
         }
 
@@ -50,5 +50,10 @@ class AuthController extends BaseController
         }
 
         return $this->sendError('Ошибка обновления токена авторизации!', 401);
+    }
+
+    private function guard()
+    {
+        return Auth::guard();
     }
 }
