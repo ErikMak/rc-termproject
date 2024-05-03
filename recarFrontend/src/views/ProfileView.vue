@@ -1,7 +1,7 @@
 <template>
   <TitleComponent title="Профиль"/>
   <div class="d-flex align-center mt-3">
-    <p class="text-h6 me-1">erikmak</p>
+    <p class="text-h6 me-1">{{ getUserLogin }}</p>
     <a class="text-subtitle-1 text-decoration-underline text-blue" @click.prevent="logout()">выйти</a>
   </div>
   <v-sheet class="bg-black pa-4 rounded mt-3">
@@ -14,7 +14,7 @@
 <script lang="ts">
 import TitleComponent from "@/components/Title/TitleComp.vue";
 import { defineComponent } from "vue";
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import UserService from "@/services/UserService";
 
 export default defineComponent({
@@ -27,8 +27,15 @@ export default defineComponent({
       logout() {
         UserService.logout().then(() => {
           this.checkLoggedStatus()
+          this.$router.push('/')
         })
       }
+  },
+  computed: {
+    ...mapGetters(["getLoggedStatus", "getUserLogin"])
+  },
+  created() {
+    this.checkLoggedStatus()
   }
 })
 </script>

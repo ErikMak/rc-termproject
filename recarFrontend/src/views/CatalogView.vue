@@ -61,6 +61,15 @@ export default defineComponent({
           }
         }
     )
+
+    this.$watch(
+        () => this.$route.fullPath,
+        (path) => {
+          if(path == '/catalog') {
+            this.uploadCatalogCars()
+          }
+        }
+    )
   }
 })
 </script>

@@ -7,7 +7,7 @@
     <ul class="d-flex pa-0 ma-0">
       <NavLinkComponent
           title="Главная"
-          path="/catalog/bmw"
+          path="/catalog"
           icon="fa-solid fa-house"
           name="catalog"
       />

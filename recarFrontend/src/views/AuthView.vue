@@ -1,5 +1,15 @@
 <template>
   <div class="background w-100">
+    <div class="logo position-relative">
+      <!--  Логотип компании  -->
+      <v-img
+          :height="25"
+          position="left"
+          src="../../src/assets/logo2.png"
+      ></v-img>
+      <router-link to="/" class="logo-link position-absolute"></router-link>
+    </div>
+
     <div class="wrapper mx-auto" style="width: 90%; margin-top: 10vh">
 <!--   ФОРМА ВХОДА   -->
       <v-card v-show="form == 1" class="px-6 py-3">
@@ -203,6 +213,7 @@ export default defineComponent({
         password: this.signinForm.password
       }).then(() => {
         this.checkLoggedStatus()
+        this.$router.push('/')
       })
     },
     register() {
@@ -233,6 +244,18 @@ export default defineComponent({
 .background {
   background-image: url("../src/assets/back-auth.jpg");
   background-size: cover;
+}
+
+.logo {
+  top: 5%;
+  left: 7%;
+}
+
+.logo-link {
+  top: 0;
+  max-width: 86px;
+  width: 100%;
+  height: 100%;
 }
 
 </style>

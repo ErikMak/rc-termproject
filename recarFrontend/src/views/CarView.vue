@@ -145,7 +145,7 @@
 
             <template v-slot:actions>
               <div class="ml-auto">
-                <v-btn variant="text">
+                <v-btn variant="text" @click="bookingAction()">
                   Продолжить
                 </v-btn>
                 <v-btn
@@ -203,6 +203,9 @@ export default defineComponent({
         case 'mercedes-benz': return 'Mercedes-Benz'
         default: return brand.charAt(0).toUpperCase() + brand.slice(1)
       }
+    },
+    bookingAction() {
+      this.$router.push('/booking')
     }
   },
   created() {
