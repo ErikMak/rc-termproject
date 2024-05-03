@@ -1,15 +1,42 @@
 <template>
   <TitleComponent title="Профиль"/>
+  <div class="d-flex align-center mt-3">
+    <p class="text-h6 me-1">erikmak</p>
+    <a class="text-subtitle-1 text-decoration-underline text-blue" @click.prevent="logout()">выйти</a>
+  </div>
+  <v-sheet class="bg-black pa-4 rounded mt-3">
+    <p>Баланс</p>
+    <b class="text-h5">300.00$</b>
+  </v-sheet>
+  <v-divider class="my-4"></v-divider>
 </template>
 
 <script lang="ts">
 import TitleComponent from "@/components/Title/TitleComp.vue";
 import { defineComponent } from "vue";
+import {mapActions} from "vuex";
+import UserService from "@/services/UserService";
 
 export default defineComponent({
   name: "CarView",
   components: {
     TitleComponent
+  },
+  methods: {
+      ...mapActions(["checkLoggedStatus"]),
+      logout() {
+        UserService.logout().then(() => {
+          this.checkLoggedStatus()
+        })
+      }
   }
 })
 </script>
+
+<style lang="scss" scoped>
+
+a {
+  pointer-events: all;
+  cursor: pointer;
+}
+</style>

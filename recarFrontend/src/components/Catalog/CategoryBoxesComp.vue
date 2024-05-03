@@ -54,7 +54,7 @@ export default defineComponent({
         link: {
           name: 'catalog',
           params: {
-            brand: 'mercedes'
+            brand: 'mercedes-benz'
           }
         }
       },

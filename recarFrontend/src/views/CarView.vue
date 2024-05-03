@@ -3,7 +3,7 @@
     <v-col class="pb-0">
       <div class="car-header-wrapper position-relative">
         <div class="back-arrow position-absolute">
-          <a class="back-link" @click="$router.go(-1)">
+          <a class="back-link" @click="$router.push({path: '/catalog/'+this.$route.params.brand})">
           <font-awesome-icon
               icon="fa-solid fa-chevron-left"
               size="lg"
@@ -12,7 +12,7 @@
           </a>
         </div>
         <div class="text-center">
-          <h2 class="font-weight-medium">Toyota Land Cruiser</h2>
+          <h2 class="font-weight-medium">{{ capitalizeBrand(details.brand) + ' ' + details.name }}</h2>
         </div>
       </div>
     </v-col>
@@ -21,16 +21,16 @@
     <v-col class="pb-0 position-relative">
       <div class="img-wrapper position-relative">
         <v-img
-            src="../../src/assets/cars/03.png"
+            :src="'../../src/assets/cars/'+details.img"
             aspect-ratio="16/9"
             class="px-3"
         >
         </v-img>
         <div class="rating-block position-absolute text-center">
-          <p class="font-weight-medium">4.8</p>
+          <p class="font-weight-medium">X.X</p>
         </div>
         <div class="price-block position-absolute text-center">
-          <p class="font-weight-medium"><b class="font-weight-bold">$59</b>/день</p>
+          <p class="font-weight-medium"><b class="font-weight-bold">${{details.price}}</b>/день</p>
         </div>
           <a class="favorite-block position-absolute pa-2" href="#">
           <font-awesome-icon
@@ -49,23 +49,15 @@
         <div class="car-specs pa-3">
           <div class="car-spec-col mb-1">
             <small class="label">Категория</small>
-            <p class="text">Внедорожник</p>
+            <p class="text">{{details.category}}</p>
           </div>
           <div class="car-spec-col mb-1">
             <small class="label">Тип</small>
-            <p class="text">SUV</p>
+            <p class="text">{{details.type}}</p>
           </div>
           <div class="car-spec-col mb-1">
             <small class="label">Год выпуска</small>
-            <p class="text">2017</p>
-          </div>
-          <div class="car-spec-col mb-1">
-            <small class="label">Мощность</small>
-            <p class="text">245 л.с.</p>
-          </div>
-          <div class="car-spec-col mb-1">
-            <small class="label">Тип топлива</small>
-            <p class="text">АИ-95</p>
+            <p class="text">{{details.year}}</p>
           </div>
         </div>
       </div>
@@ -82,17 +74,17 @@
             <td class="px-0 pb-3">
               <div class="d-flex align-center">
                 <img class="country-flag" src="../../src/assets/flags/czech.png" alt="flag">
-                Япония
+                {{details.country}}
               </div>
             </td>
           </tr>
           <tr>
             <td class="px-0 py-3">Объем бака, л</td>
-            <td class="px-0 py-3">30</td>
+            <td class="px-0 py-3">{{ details.tank }}</td>
           </tr>
           <tr>
             <td class="px-0 py-3">Масса, кг</td>
-            <td class="px-0 py-3">1400</td>
+            <td class="px-0 py-3">{{ details.weight }}</td>
           </tr>
         </tbody>
       </v-table>
@@ -118,23 +110,23 @@
           >
             <v-card-text>
               <div class="radio-tile-group">
-                <div class="input-container position-relative" v-for="i in 3">
+                <div class="input-container position-relative" v-for="row in getCarEquipments">
                   <input class="position-absolute" type="radio" name="radio" checked>
                   <v-sheet rounded class="radio-tile px-3 py-2">
-                    <p class="text-body-1 font-weight-bold">2.0 45 TFSI Quattro S Tronic</p>
+                    <p class="text-body-1 font-weight-bold">{{ row.name }}</p>
                     <div class="equip_specs d-flex">
                       <div class="spec-item d-flex align-center me-4">
                         <img src="../../src/assets/transmission.png" alt="transmission" class="equip-spec-icon me-2">
                         <div class="equip-spec-col mb-1">
                           <small class="label">Трансмиссия</small>
-                          <p class="text">Вариатор</p>
+                          <p class="text">{{ row.transmission }}</p>
                         </div>
                       </div>
                       <div class="spec-item d-flex align-center">
                         <img src="../../src/assets/drive.png" alt="drive" class="equip-spec-icon me-2">
                         <div class="equip-spec-col mb-1">
                           <small class="label">Привод</small>
-                          <p class="text">Передний</p>
+                          <p class="text">XXX</p>
                         </div>
                       </div>
                     </div>
@@ -142,7 +134,7 @@
                       <p class="ms-7 text">
                         Мощность:
                         <a class="engine-link text-decoration-underline">
-                          250 л.с (2.0)
+                          {{ row.engine.HP }} л.с ({{row.engine.volume}})
                         </a>
                       </p>
                     </div>
@@ -179,13 +171,47 @@
 import TitleComponent from "@/components/Title/TitleComp.vue";
 import { defineComponent } from "vue";
 import CommentInputComponent from "@/components/Comments/CommentInputComp.vue";
+import type {CarType} from "@/types/ICarData";
+import Api from '@/common/cars'
+import {mapActions, mapGetters} from "vuex";
+import {de} from "vuetify/locale";
+
+interface State {
+  details: Object
+}
 
 export default defineComponent({
   name: "CarView",
   components: {
     CommentInputComponent,
     TitleComponent
-  }
+  },
+  data: (): State => ({
+    details: {
+      brand: '',
+      name: ''
+    }
+  }),
+  computed: {
+    ...mapGetters(['getCarEquipments'])
+  },
+  methods: {
+    ...mapActions(['uploadCarEquipments']),
+    capitalizeBrand(brand: string) {
+      switch (brand) {
+        case 'bmw': return 'BMW'
+        case 'mercedes-benz': return 'Mercedes-Benz'
+        default: return brand.charAt(0).toUpperCase() + brand.slice(1)
+      }
+    }
+  },
+  created() {
+    this.uploadCarEquipments({id: this.$route.params.slug})
+
+    Api.getCarById({id: this.$route.params.slug}, (res: Response) => {
+      this.details = res.data
+    })
+  },
 })
 </script>
 

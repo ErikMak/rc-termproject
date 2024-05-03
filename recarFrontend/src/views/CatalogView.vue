@@ -20,7 +20,8 @@
     </v-col>
   </v-row>
   <div class="wrapper pt-3">
-    <CardComponent v-for="n in 4"/>
+    <CardPreloadComponent v-if="getCatalogPreloader" v-for="n in 2"></CardPreloadComponent>
+    <CardComponent v-else v-for="row in getCatalogCars" :data=row />
   </div>
 </template>
 
@@ -30,13 +31,36 @@ import CardComponent from "@/components/Catalog/CardComp.vue";
 import SearchComponent from "@/components/Catalog/SearchComp.vue";
 import TitleComponent from "@/components/Title/TitleComp.vue";
 import CategoryBoxesComponent from "@/components/Catalog/CategoryBoxesComp.vue";
+import {mapActions, mapGetters} from "vuex";
+import CardPreloadComponent from "@/components/Catalog/CardPreloadComp.vue";
 export default defineComponent({
   name: 'CatalogView',
   components: {
+    CardPreloadComponent,
     CategoryBoxesComponent,
     TitleComponent,
     SearchComponent,
     CardComponent
+  },
+  methods: {
+    ...mapActions(["uploadCatalogCars"])
+  },
+  computed: {
+    ...mapGetters(["getCatalogCars", "getCatalogPreloader"])
+  },
+  created() {
+    const brand = this.$route.params.brand
+
+    this.uploadCatalogCars({brand: brand})
+
+    this.$watch(
+        () => this.$route.params,
+        (toParams, previousParams) => {
+          if(toParams.brand) {
+            this.uploadCatalogCars({brand: toParams.brand})
+          }
+        }
+    )
   }
 })
 </script>
