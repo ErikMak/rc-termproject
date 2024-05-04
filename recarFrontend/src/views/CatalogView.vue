@@ -6,7 +6,7 @@
   </v-row>
   <v-row>
     <v-col class="py-0">
-      <SearchComponent/>
+      <SearchComponent label="Поиск" v-on:car_name="getValueFromChild"/>
     </v-col>
   </v-row>
   <v-row>
@@ -33,6 +33,12 @@ import TitleComponent from "@/components/Title/TitleComp.vue";
 import CategoryBoxesComponent from "@/components/Catalog/CategoryBoxesComp.vue";
 import {mapActions, mapGetters} from "vuex";
 import CardPreloadComponent from "@/components/Catalog/CardPreloadComp.vue";
+import Api from '@/common/cars'
+
+interface State {
+  car_name: string
+}
+
 export default defineComponent({
   name: 'CatalogView',
   components: {
@@ -42,8 +48,14 @@ export default defineComponent({
     SearchComponent,
     CardComponent
   },
+  data: (): State => ({
+    car_name: ''
+  }),
   methods: {
-    ...mapActions(["uploadCatalogCars"])
+    ...mapActions(["uploadCatalogCars", "findCatalogCars"]),
+    getValueFromChild(val: string) : void {
+      this.car_name = val
+    }
   },
   computed: {
     ...mapGetters(["getCatalogCars", "getCatalogPreloader"])
@@ -70,6 +82,12 @@ export default defineComponent({
           }
         }
     )
+  },
+  watch: {
+    car_name() {
+      const car_name = this.car_name
+      this.findCatalogCars({name: car_name})
+    }
   }
 })
 </script>

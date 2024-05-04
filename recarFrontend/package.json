@@ -21,7 +21,8 @@
     "vue": "^3.4.15",
     "vue-router": "^4.2.5",
     "vuetify": "^3.6.0",
-    "vuex": "^4.0.2"
+    "vuex": "^4.0.2",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.2",

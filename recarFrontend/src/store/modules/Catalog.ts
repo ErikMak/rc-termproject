@@ -25,6 +25,12 @@ export default {
             Api.getAllCars(sample, (res: ResponseType) => {
                 ctx.commit('updateCatalogCars', res["data"])
             })
+        },
+        findCatalogCars(ctx: any, sample: {name: string}) : void {
+            ctx.commit('activatePreloaders')
+            Api.getCarByName(sample, (res: ResponseType) => {
+                ctx.commit('updateCatalogCars', res["data"])
+            })
         }
     },
     getters: {

@@ -10,6 +10,8 @@ import type { UserStateType } from "@/store/interfaces/IUsers";
 import type { CarStateType} from "@/store/interfaces/ICar";
 import type { ReservationStateType } from "@/store/interfaces/IReservation";
 
+import createPersistedState from 'vuex-persistedstate'
+
 interface State {
   user: UserStateType
   catalog: CarsStateType
@@ -17,11 +19,16 @@ interface State {
   reservation: ReservationStateType
 }
 
+const dataState = createPersistedState({
+  paths: ['reservation']
+})
+
 export default new Vuex.Store<State>({
   modules: {
     user: User,
     catalog: Catalog,
     car: Car,
     reservation: Reservation
-  }
+  },
+  plugins: [dataState]
 })

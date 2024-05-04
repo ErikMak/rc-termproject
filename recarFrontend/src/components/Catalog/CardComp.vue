@@ -38,6 +38,7 @@
 
 <script lang="ts">
 import { defineComponent} from "vue";
+import {capitalizeBrand} from "@/services/CapitalizeService";
 
 export default defineComponent({
   name: 'CardComponent',
@@ -49,12 +50,7 @@ export default defineComponent({
   },
   methods: {
     capitalizeBrand(brand: string) {
-      switch (brand) {
-        case 'bmw': return 'BMW'
-        case 'mercedes-benz': return 'Mercedes-Benz'
-        case 'land rover': return 'Land Rover'
-        default: return brand.charAt(0).toUpperCase() + brand.slice(1)
-      }
+      return capitalizeBrand(brand)
     }
   }
 })

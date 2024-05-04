@@ -178,10 +178,9 @@
 import TitleComponent from "@/components/Title/TitleComp.vue";
 import { defineComponent } from "vue";
 import CommentInputComponent from "@/components/Comments/CommentInputComp.vue";
-import type {CarType} from "@/types/ICarData";
 import Api from '@/common/cars'
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import {de} from "vuetify/locale";
+import { capitalizeBrand } from "@/services/CapitalizeService";
 
 interface State {
   details: Object,
@@ -207,13 +206,8 @@ export default defineComponent({
   methods: {
     ...mapMutations(['createReservation']),
     ...mapActions(['uploadCarEquipments', 'checkLoggedStatus']),
-    capitalizeBrand(brand: string) {
-      switch (brand) {
-        case 'bmw': return 'BMW'
-        case 'mercedes-benz': return 'Mercedes-Benz'
-        case 'land rover': return 'Land Rover'
-        default: return brand.charAt(0).toUpperCase() + brand.slice(1)
-      }
+    capitalizeBrand(brand: string) : string {
+      return capitalizeBrand(brand)
     },
     bookingAction() {
       if(this.equip_id == 0) {
