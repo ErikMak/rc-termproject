@@ -2,7 +2,7 @@
   <TitleComponent title="Профиль"/>
   <div class="d-flex align-center mt-3">
     <p class="text-h6 me-1">{{ getUserLogin }}</p>
-    <a class="text-subtitle-1 text-decoration-underline text-blue" @click.prevent="logout()">выйти</a>
+    <a class="text-subtitle-1 text-decoration-underline" @click.prevent="logout()">выйти</a>
   </div>
   <v-sheet class="bg-black pa-4 rounded mt-3">
     <p>Баланс</p>
@@ -41,9 +41,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/theme';
 
 a {
   pointer-events: all;
   cursor: pointer;
+  color: $blue;
 }
 </style>

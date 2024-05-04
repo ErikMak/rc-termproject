@@ -214,6 +214,8 @@ export default defineComponent({
       }).then(() => {
         this.checkLoggedStatus()
         this.$router.push('/')
+      }).catch(err => {
+        alert(err)
       })
     },
     register() {
@@ -242,7 +244,7 @@ export default defineComponent({
 }
 
 .background {
-  background-image: url("../src/assets/back-auth.jpg");
+  background-image: url("@/assets/back-auth.jpg");
   background-size: cover;
 }
 

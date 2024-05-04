@@ -27,7 +27,7 @@
         <router-link :to="{name: 'car', params: { brand: data.brand, slug: data.model_id}}" class="pa-0">
           <div class="d-flex flex-column" id="links">
             <b class="font-weight-medium">{{ capitalizeBrand(data.brand) + ' ' + data.name }}</b>
-            <small style="margin-top: -3px;">{{ data.category }}; МКПП</small>
+            <small style="margin-top: -3px;">{{ data.category }}; {{ data.type }}</small>
           </div>
         </router-link>
         <p class="mt-1"><strong>${{ data.price }}</strong>/день</p>
@@ -52,6 +52,7 @@ export default defineComponent({
       switch (brand) {
         case 'bmw': return 'BMW'
         case 'mercedes-benz': return 'Mercedes-Benz'
+        case 'land rover': return 'Land Rover'
         default: return brand.charAt(0).toUpperCase() + brand.slice(1)
       }
     }

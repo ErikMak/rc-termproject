@@ -10,6 +10,7 @@
           path="/catalog"
           icon="fa-solid fa-house"
           name="catalog"
+          alias_name="catalog_all"
       />
       <NavLinkComponent
           title="Бронь"

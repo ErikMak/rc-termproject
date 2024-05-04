@@ -4,6 +4,7 @@ import HomeView from '@/views/HomeView.vue'
 import CatalogView from "@/views/CatalogView.vue";
 import AuthView from "@/views/AuthView.vue";
 import guard from "@/router/middleware";
+import WelcomeView from "@/views/WelcomeView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -11,6 +12,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'home',
     component: HomeView,
     children: [
+      {
+        path: '/',
+        name: 'welcome',
+        component: WelcomeView
+      },
       {
         path: '/catalog',
         name: 'catalog_all',

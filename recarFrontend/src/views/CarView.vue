@@ -111,9 +111,16 @@
             <v-card-text>
               <div class="radio-tile-group">
                 <div class="input-container position-relative" v-for="row in getCarEquipments">
-                  <input class="position-absolute" type="radio" name="radio" checked>
+                  <input
+                      class="position-absolute"
+                      type="radio"
+                      name="radio"
+                      :value="row.equip_id"
+                      v-model="equip_id"
+                      :disabled="!row.is_exist"
+                  >
                   <v-sheet rounded class="radio-tile px-3 py-2">
-                    <p class="text-body-1 font-weight-bold">{{ row.name }}</p>
+                      <p class="text-body-1 font-weight-bold">{{ row.name }}<small v-show="!row.is_exist" class="text-red ms-1">нет в наличии</small></p>
                     <div class="equip_specs d-flex">
                       <div class="spec-item d-flex align-center me-4">
                         <img src="../../src/assets/transmission.png" alt="transmission" class="equip-spec-icon me-2">
@@ -173,11 +180,12 @@ import { defineComponent } from "vue";
 import CommentInputComponent from "@/components/Comments/CommentInputComp.vue";
 import type {CarType} from "@/types/ICarData";
 import Api from '@/common/cars'
-import {mapActions, mapGetters} from "vuex";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 import {de} from "vuetify/locale";
 
 interface State {
-  details: Object
+  details: Object,
+  equip_id: number
 }
 
 export default defineComponent({
@@ -190,30 +198,46 @@ export default defineComponent({
     details: {
       brand: '',
       name: ''
-    }
+    },
+    equip_id: 0
   }),
   computed: {
-    ...mapGetters(['getCarEquipments'])
+    ...mapGetters(['getCarEquipments', 'getLoggedStatus'])
   },
   methods: {
-    ...mapActions(['uploadCarEquipments']),
+    ...mapMutations(['createReservation']),
+    ...mapActions(['uploadCarEquipments', 'checkLoggedStatus']),
     capitalizeBrand(brand: string) {
       switch (brand) {
         case 'bmw': return 'BMW'
         case 'mercedes-benz': return 'Mercedes-Benz'
+        case 'land rover': return 'Land Rover'
         default: return brand.charAt(0).toUpperCase() + brand.slice(1)
       }
     },
     bookingAction() {
-      this.$router.push('/booking')
+      if(this.equip_id == 0) {
+        return
+      }
+
+      if(this.getLoggedStatus) {
+        this.createReservation({
+          equip_id: this.equip_id.toString(),
+          model_id: this.$route.params.slug
+        })
+        this.$router.push('/booking')
+      } else {
+        this.$router.push('/auth')
+      }
     }
   },
   created() {
     this.uploadCarEquipments({id: this.$route.params.slug})
-
     Api.getCarById({id: this.$route.params.slug}, (res: Response) => {
       this.details = res.data
     })
+
+    this.checkLoggedStatus()
   },
 })
 </script>

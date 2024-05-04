@@ -8,7 +8,7 @@ class AuthService {
             password: data.password
         }).then(response => {
             if(response.data.status == false) {
-                alert(response.data.error)
+                throw response.data.error
             }
             if(response.headers.authorization) {
                 localStorage.setItem('user', JSON.stringify(response.headers.authorization));
