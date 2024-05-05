@@ -21,7 +21,8 @@ class EquipAutoparkResource extends JsonResource
             'transmission' => $this->transmission,
             'engine' => new EngineResource($this->car_engine),
             'is_exist' => $this->autopark->is_exist,
-            'fuel' => $this->autopark->fuel
+            'fuel' => $this->autopark->fuel,
+            'drive' => $this->drive
         ];
     }
 }

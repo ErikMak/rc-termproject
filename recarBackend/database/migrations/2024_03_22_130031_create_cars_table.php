@@ -23,6 +23,7 @@ return new class extends Migration
             $table->double('tank', 3, 1)->unsigned();
             $table->integer('year')->unsigned();
             $table->text('img');
+            $table->text('flag');
         });
     }
 

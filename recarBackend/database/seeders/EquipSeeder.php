@@ -181,5 +181,28 @@ class EquipSeeder extends Seeder
             'drive' => 'Полный'
         ]);
 
+        DB::table('equipment')->insert([
+            'model_id' => 11,
+            'name' => '3.0 PDK Carrera S',
+            'transmission' => 'Робот',
+            'engine' => 19,
+            'drive' => 'Полный'
+        ]);
+
+        DB::table('equipment')->insert([
+            'model_id' => 12,
+            'name' => '216 RWD MT L2H1',
+            'transmission' => 'МКПП',
+            'engine' => 20,
+            'drive' => 'Задний'
+        ]);
+
+        DB::table('equipment')->insert([
+            'model_id' => 13,
+            'name' => '6x4 Actros LS Air 3250',
+            'transmission' => 'Робот',
+            'engine' => 21,
+            'drive' => 'Задний'
+        ]);
     }
 }

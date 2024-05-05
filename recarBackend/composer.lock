@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9e778913576610d034334afcf2cf7d5a",
+    "content-hash": "1355766d64dca6450b5f0491ed4abd0b",
     "packages": [
         {
             "name": "brick/math",
@@ -3482,6 +3482,65 @@
                 }
             ],
             "time": "2023-11-08T05:53:05+00:00"
+        },
+        {
+            "name": "staudenmeir/laravel-migration-views",
+            "version": "v1.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/staudenmeir/laravel-migration-views.git",
+                "reference": "b0865cf99ff19da1a8ec4080aff191f6de60db2c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/staudenmeir/laravel-migration-views/zipball/b0865cf99ff19da1a8ec4080aff191f6de60db2c",
+                "reference": "b0865cf99ff19da1a8ec4080aff191f6de60db2c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^10.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0",
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^10.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Staudenmeir\\LaravelMigrationViews\\DatabaseServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Staudenmeir\\LaravelMigrationViews\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonas Staudenmeir",
+                    "email": "mail@jonas-staudenmeir.de"
+                }
+            ],
+            "description": "Laravel database migrations with SQL views",
+            "support": {
+                "issues": "https://github.com/staudenmeir/laravel-migration-views/issues",
+                "source": "https://github.com/staudenmeir/laravel-migration-views/tree/v1.8"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/JonasStaudenmeir",
+                    "type": "custom"
+                }
+            ],
+            "time": "2024-02-05T14:00:53+00:00"
         },
         {
             "name": "symfony/console",

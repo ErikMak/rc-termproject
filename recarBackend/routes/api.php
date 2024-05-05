@@ -25,6 +25,13 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
     Route::get('equipments/{model_id}', 'EquipController@show');
     // Все комплектации
     Route::get('equipments', 'EquipController@index');
+    // Вся бронь конкретного пользователя
+    Route::get('reservation', 'ReservationController@index');
+    // Удалить бронь
+    Route::delete('reservation/{reservation_id}', 'ReservationController@destroy');
+    // Забронировать машину
+    Route::post('reservation', 'ReservationController@store');
+
 
 
     Route::prefix('auth')->group(function () {
