@@ -24,7 +24,6 @@ return new class extends Migration
             $table->foreign('engine', 'engines_equip_fk')->on('engines')
                 ->references('id');
             $table->string('drive', 15);
-
         });
     }
 

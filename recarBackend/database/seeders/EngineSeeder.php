@@ -175,5 +175,31 @@ class EngineSeeder extends Seeder
             'type' => 'Рядный, 4-цилиндровый'
         ]);
 
+        DB::table('engines')->insert([
+            'id' => 19,
+            'mark' => 'MDC.JA',
+            'HP' => 450,
+            'volume' => 3.0,
+            'fuel' => 'АИ-98',
+            'type' => 'Оппозитный, 6-цилиндровый'
+        ]);
+
+        DB::table('engines')->insert([
+            'id' => 20,
+            'mark' => 'M 271 E 18 ML',
+            'HP' => 156,
+            'volume' => 1.8,
+            'fuel' => 'АИ-92',
+            'type' => 'Рядный, 4-цилиндровый'
+        ]);
+
+        DB::table('engines')->insert([
+            'id' => 21,
+            'mark' => 'OM 470',
+            'HP' => 326,
+            'volume' => 10.7,
+            'fuel' => 'Дизель',
+            'type' => 'Рядный, 6-цилиндровый'
+        ]);
     }
 }

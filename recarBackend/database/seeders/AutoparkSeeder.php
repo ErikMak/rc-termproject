@@ -159,5 +159,26 @@ class AutoparkSeeder extends Seeder
             'is_exist' => 1,
             'fuel' => 18,
         ]);
+
+        DB::table('autopark')->insert([
+            'equip_id' => 22,
+            'parking_id' => 3,
+            'is_exist' => 0,
+            'fuel' => 0,
+        ]);
+
+        DB::table('autopark')->insert([
+            'equip_id' => 23,
+            'parking_id' => 2,
+            'is_exist' => 1,
+            'fuel' => 100,
+        ]);
+
+        DB::table('autopark')->insert([
+            'equip_id' => 24,
+            'parking_id' => 2,
+            'is_exist' => 1,
+            'fuel' => 100,
+        ]);
     }
 }

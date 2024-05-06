@@ -25,6 +25,27 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
     Route::get('equipments/{model_id}', 'EquipController@show');
     // Все комплектации
     Route::get('equipments', 'EquipController@index');
+    // Вся бронь конкретного пользователя
+    Route::get('reservation', 'ReservationController@index');
+    // Удалить бронь
+    Route::delete('reservation/{reservation_id}', 'ReservationController@destroy');
+    // Забронировать машину
+    Route::post('reservation', 'ReservationController@store');
+    // Добавить комментарий
+    Route::post('comments', 'CommentController@store');
+    // Все комментарии под конкретной машиной
+    Route::get('comments/{model_id}', 'CommentController@show');
+    // Рейтинг машины
+    Route::get('cars/rating/{model_id}', 'CommentController@rating');
+    // Добавить в избранное машину
+    Route::post('favorites', 'FavoriteController@store');
+    // Список избранных машин
+    Route::get('favorites', 'FavoriteController@index');
+    // Удалить комментарий
+    Route::delete('comments/{comment_id}', 'CommentController@destroy');
+    // Удалить машину из избранного
+    Route::delete('favorites/{favorite_id}', 'FavoriteController@destroy');
+
 
 
     Route::prefix('auth')->group(function () {

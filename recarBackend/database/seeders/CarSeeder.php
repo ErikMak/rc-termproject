@@ -25,6 +25,7 @@ class CarSeeder extends Seeder
             'tank' => 62,
             'year' => 2016,
             'img' => '01.png',
+            'flag' => 'japan.png'
         ]);
 
         DB::table('cars')->insert([
@@ -39,6 +40,7 @@ class CarSeeder extends Seeder
             'tank' => 85,
             'year' => 2017,
             'img' => '02.png',
+            'flag' => 'germany.png'
         ]);
 
         DB::table('cars')->insert([
@@ -53,6 +55,7 @@ class CarSeeder extends Seeder
             'tank' => 93,
             'year' => 2017,
             'img' => '03.png',
+            'flag' => 'japan.png'
         ]);
 
         DB::table('cars')->insert([
@@ -67,6 +70,7 @@ class CarSeeder extends Seeder
             'tank' => 54,
             'year' => 2019,
             'img' => '04.png',
+            'flag' => 'germany.png'
         ]);
 
         DB::table('cars')->insert([
@@ -81,6 +85,7 @@ class CarSeeder extends Seeder
             'tank' => 47,
             'year' => 2019,
             'img' => '05.png',
+            'flag' => 'japan.png'
         ]);
 
         DB::table('cars')->insert([
@@ -95,6 +100,7 @@ class CarSeeder extends Seeder
             'tank' => 62,
             'year' => 2017,
             'img' => '06.png',
+            'flag' => 'czech.png'
         ]);
 
         DB::table('cars')->insert([
@@ -109,6 +115,7 @@ class CarSeeder extends Seeder
             'tank' => 64,
             'year' => 2015,
             'img' => '07.png',
+            'flag' => 'south-korea.png'
         ]);
 
         DB::table('cars')->insert([
@@ -123,6 +130,7 @@ class CarSeeder extends Seeder
             'tank' => 80,
             'year' => 2016,
             'img' => '08.png',
+            'flag' => 'germany.png'
         ]);
 
         DB::table('cars')->insert([
@@ -137,6 +145,7 @@ class CarSeeder extends Seeder
             'tank' => 85,
             'year' => 2014,
             'img' => '09.png',
+            'flag' => 'germany.png'
         ]);
 
         DB::table('cars')->insert([
@@ -151,6 +160,52 @@ class CarSeeder extends Seeder
             'tank' => 68,
             'year' => 2018,
             'img' => '10.png',
+            'flag' => 'uk.png'
+        ]);
+
+        DB::table('cars')->insert([
+            'model_id' => 11,
+            'name' => '911',
+            'category' => 'Премиум',
+            'brand' => 'Porsche',
+            'type' => 'Купе',
+            'price' => 80,
+            'country' => 'Германия',
+            'weight' => 1555,
+            'tank' => 67,
+            'year' => 2018,
+            'img' => '12.png',
+            'flag' => 'germany.png'
+        ]);
+
+        DB::table('cars')->insert([
+            'model_id' => 12,
+            'name' => 'Sprinter',
+            'category' => 'Грузовая',
+            'brand' => 'Mercedes-Benz',
+            'type' => 'Фургон',
+            'price' => 18,
+            'country' => 'Германия',
+            'weight' => 2030,
+            'tank' => 100,
+            'year' => 2013,
+            'img' => '20.png',
+            'flag' => 'germany.png'
+        ]);
+
+        DB::table('cars')->insert([
+            'model_id' => 13,
+            'name' => 'Actros',
+            'category' => 'Грузовая',
+            'brand' => 'Mercedes-Benz',
+            'type' => 'Самосвал',
+            'price' => 70,
+            'country' => 'Германия',
+            'weight' => 16500,
+            'tank' => 100,
+            'year' => 2015,
+            'img' => '24.png',
+            'flag' => 'germany.png'
         ]);
     }
 }
