@@ -27,7 +27,11 @@
         <router-link :to="{name: 'car', params: { brand: data.brand, slug: data.model_id}}" class="pa-0">
           <div class="d-flex flex-column" id="links">
             <b class="font-weight-medium">{{ capitalizeBrand(data.brand) + ' ' + data.name }}</b>
-            <small style="margin-top: -3px;">{{ data.category }}; {{ data.type }}</small>
+            <small style="margin-top: -3px;">
+              <b
+                class="font-weight-regular"
+                :class="{'text-deep-orange-darken-2': data.category === 'Грузовая'}"
+            >{{ data.category }};</b> {{ data.type }}</small>
           </div>
         </router-link>
         <p class="mt-1"><strong>${{ data.price }}</strong>/день</p>

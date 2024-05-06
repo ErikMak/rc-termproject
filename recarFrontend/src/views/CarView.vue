@@ -11,7 +11,9 @@
           />
           </a>
         </div>
-        <div class="text-center">
+<!--    Header Preloader    -->
+        <div v-if="preloaderShow" class="header-text mx-auto effect-shine rounded-1"></div>
+        <div v-else class="text-center">
           <h2 class="font-weight-medium">{{ capitalizeBrand(details.brand) + ' ' + details.name }}</h2>
         </div>
       </div>
@@ -20,7 +22,10 @@
   <v-row>
     <v-col class="pb-0 position-relative">
       <div class="img-wrapper position-relative">
+        <!--   Image Preloader   -->
+        <div v-if="preloaderShow" class="loader position-absolute"></div>
         <v-img
+            v-else
             :src="'../../src/assets/cars/'+details.img"
             aspect-ratio="16/9"
             class="px-3"
@@ -49,15 +54,18 @@
         <div class="car-specs pa-3">
           <div class="car-spec-col mb-1">
             <small class="label">Категория</small>
-            <p class="text">{{details.category}}</p>
+            <div v-if="preloaderShow" class="small-text effect-shine rounded-1"></div>
+            <p v-else class="text">{{details.category}}</p>
           </div>
           <div class="car-spec-col mb-1">
             <small class="label">Тип</small>
-            <p class="text">{{details.type}}</p>
+            <div v-if="preloaderShow" class="small-text effect-shine rounded-1"></div>
+            <p v-else class="text">{{details.type}}</p>
           </div>
           <div class="car-spec-col mb-1">
             <small class="label">Год выпуска</small>
-            <p class="text">{{details.year}}</p>
+            <div v-if="preloaderShow" class="small-text effect-shine rounded-1"></div>
+            <p v-else class="text">{{details.year}}</p>
           </div>
         </div>
       </div>
@@ -73,18 +81,29 @@
             <td class="px-0 pb-3">Страна</td>
             <td class="px-0 pb-3">
               <div class="d-flex align-center">
-                <img class="country-flag" src="../../src/assets/flags/czech.png" alt="flag">
-                {{details.country}}
+                <img class="country-flag" :src="'../../src/assets/flags/'+details.flag" alt="flag">
+                <div v-if="preloaderShow" class="small-text effect-shine rounded-1"></div>
+                <p v-else>{{details.country}}</p>
               </div>
             </td>
           </tr>
           <tr>
-            <td class="px-0 py-3">Объем бака, л</td>
-            <td class="px-0 py-3">{{ details.tank }}</td>
+            <td class="px-0 py-3">
+              <p>Объем бака, л</p>
+            </td>
+            <td class="px-0 py-3">
+              <div v-if="preloaderShow" class="small-text effect-shine rounded-1"></div>
+              <p v-else>{{ details.tank }}</p>
+            </td>
           </tr>
           <tr>
-            <td class="px-0 py-3">Масса, кг</td>
-            <td class="px-0 py-3">{{ details.weight }}</td>
+            <td class="px-0 py-3">
+              <p>Масса, кг</p>
+            </td>
+            <td class="px-0 py-3">
+              <div v-if="preloaderShow" class="small-text effect-shine rounded-1"></div>
+              <p v-else>{{ details.weight }}</p>
+            </td>
           </tr>
         </tbody>
       </v-table>
@@ -172,6 +191,11 @@
       <CommentInputComponent />
     </v-col>
   </v-row>
+  <v-row>
+    <v-col>
+      <CommentsBlockComponent />
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="ts">
@@ -181,15 +205,18 @@ import CommentInputComponent from "@/components/Comments/CommentInputComp.vue";
 import Api from '@/common/cars'
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import { capitalizeBrand } from "@/services/CapitalizeService";
+import CommentsBlockComponent from "@/components/Comments/CommentsBlockComp.vue";
 
 interface State {
   details: Object,
-  equip_id: number
+  equip_id: number,
+  preloaderShow: boolean
 }
 
 export default defineComponent({
   name: "CarView",
   components: {
+    CommentsBlockComponent,
     CommentInputComponent,
     TitleComponent
   },
@@ -198,7 +225,8 @@ export default defineComponent({
       brand: '',
       name: ''
     },
-    equip_id: 0
+    equip_id: 0,
+    preloaderShow: true
   }),
   computed: {
     ...mapGetters(['getCarEquipments', 'getLoggedStatus'])
@@ -229,6 +257,7 @@ export default defineComponent({
     this.uploadCarEquipments({id: this.$route.params.slug})
     Api.getCarById({id: this.$route.params.slug}, (res: Response) => {
       this.details = res.data
+      this.preloaderShow = false
     })
 
     this.checkLoggedStatus()
@@ -238,10 +267,28 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/theme';
+@import '@/assets/mixins';
+
+@include loader;
+@include shine-animation;
 
 .radio-tile-group {
   display: grid;
   gap: 1em;
+}
+
+.header-text {
+  background-color: rgb(222, 221, 221);
+  width: 200px;
+  height: 26px;
+  margin-bottom: 10px;
+}
+
+.small-text {
+  margin-top: 4px;
+  background-color: rgb(236, 236, 236);
+  width: 70px;
+  height: 12px;
 }
 
 .input-container {

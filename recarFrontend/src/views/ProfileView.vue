@@ -6,7 +6,7 @@
   </div>
   <v-sheet class="bg-black pa-4 rounded mt-3">
     <p>Баланс</p>
-    <b class="text-h5">300.00$</b>
+    <b class="text-h5">{{ getUserBalance }}$</b>
   </v-sheet>
   <v-divider class="my-4"></v-divider>
 </template>
@@ -32,7 +32,7 @@ export default defineComponent({
       }
   },
   computed: {
-    ...mapGetters(["getLoggedStatus", "getUserLogin"])
+    ...mapGetters(["getLoggedStatus", "getUserLogin", "getUserBalance"])
   },
   created() {
     this.checkLoggedStatus()

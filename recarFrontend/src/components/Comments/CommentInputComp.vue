@@ -11,10 +11,27 @@
                     rows="6"
                     placeholder="Введите текст комментария..."
                     name="comment__text"
+                    v-model="text"
           >
           </textarea>
         </span>
-    <button class="comment-send-button text-subtitle-1 mt-2 text-white">
+    <div v-if="errorText" style="margin-top: -5px;" class="mb-2">
+      <small class="text-red">{{ errorText }}</small>
+    </div>
+    <div class="d-flex">
+      <v-rating
+          class="my-1"
+          v-model="rating"
+          empty-icon="fa-regular fa-star"
+          full-icon="fa-solid fa-star"
+          half-icon="fa-solid fa-star-half-stroke"
+          half-increments
+          density="comfortable"
+          active-color="deep-orange-lighten-2"
+          color="#8d8a8a"
+      ></v-rating>
+    </div>
+    <button @click="sendComment" class="comment-send-button text-subtitle-1 mt-2 text-white">
       Добавить комментарий
     </button>
   </v-sheet>
@@ -23,8 +40,43 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 
+interface State {
+  text: string,
+  rating: number,
+  errorText: string
+}
+
 export default defineComponent({
-  name: 'CommentInputComponent'
+  name: 'CommentInputComponent',
+  data: (): State => ({
+    text: '',
+    rating: 0,
+    errorText: ''
+  }),
+  methods: {
+    checkCommentText() {
+      const rv_text = /^[a-zA-Zа-яА-Я0-9\s\.,!?()-]{1,500}$/;
+      let valid = false
+
+      if(this.text == '') {
+        this.errorText = 'Комментарий не может быть пустым'
+      } else if (!rv_text.test(this.text)) {
+        this.errorText = 'Присутсвуют недоспутимые символы или длина комментария превышает 500 символов'
+      } else {
+        valid = true
+        this.errorText = ''
+      }
+
+      return valid
+    },
+    sendComment() {
+      let isCommentValid = this.checkCommentText();
+
+      if(isCommentValid) {
+        console.log(this.text)
+      }
+    },
+  }
 })
 </script>
 
