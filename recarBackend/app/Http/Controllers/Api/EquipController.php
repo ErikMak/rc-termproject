@@ -44,7 +44,13 @@ class EquipController extends BaseController
             ->with('autopark')
             ->get();
 
-        return $this->sendResponse(EquipAutoparkResource::collection($equipments));
+        $collection = EquipAutoparkResource::collection($equipments);
+
+        if($collection->count() == 0) {
+            return $this->sendError('Комплектации на машину не найдены');
+        }
+
+        return $this->sendResponse($collection);
     }
 
     /**

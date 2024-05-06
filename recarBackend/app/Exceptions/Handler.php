@@ -35,6 +35,11 @@ class Handler extends ExceptionHandler
             return $e->response;
         }
 
-        return response()->json($e->validator->errors()->getMessages(), 422);
+        $response = [
+            'status' => false,
+            'error' => $e->validator->errors()->getMessages()
+        ];
+
+        return response()->json($response, 422);
     }
 }

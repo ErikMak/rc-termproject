@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Services\PermissionService;
 use App\Http\Filters\Filterable;
 use App\Http\Filters\ReservationFilter;
 use App\Http\Requests\StoreReservationRequest;
@@ -64,6 +65,15 @@ class ReservationController extends BaseController
     {
         $reservation = Reservation::find($reservation_id);
 
+        if(is_null($reservation)) {
+            return $this->sendError('Брони с таким ID не существует');
+        }
+
+        if(!PermissionService::getInstance()->canDelete($reservation)) {
+            return $this->sendError('У вас нет прав на удаление этой записи');
+        }
+
         $reservation->delete();
+        $this->sendResponse([]);
     }
 }

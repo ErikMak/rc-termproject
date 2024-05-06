@@ -11,7 +11,10 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends BaseController
 {
     public function login(Request $request) {
-        $data = $request->only('login', 'password');
+        $data = $request->validate([
+                'login' => 'required',
+                'password' => 'required'
+            ]);
 
         // Создание токена
         if($token = Auth::attempt($data)) {
@@ -22,9 +25,20 @@ class AuthController extends BaseController
     }
 
     public function register(Request $request) {
+        $data = $request->validate([
+           'login' => [
+                'required', 'unique:users', 'string',
+                'regex:/^(?=.{1,30}$)[a-zA-Z][a-zA-Z0-9]*(?: [a-zA-Z0-9]+)*$/'
+           ],
+           'password' => [
+               'required', 'string',
+               'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,30}$/'
+            ]
+        ]);
+
         $user = User::create([
-            'login' => $request->login,
-            'password' => Hash::make($request->password),
+            'login' => $data['login'],
+            'password' => Hash::make($data['password']),
         ]);
 
         Auth::login($user);
