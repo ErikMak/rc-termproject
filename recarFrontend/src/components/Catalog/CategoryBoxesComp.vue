@@ -19,6 +19,9 @@
       </router-link>
     </div>
   </div>
+  <div class="text-right mt-2">
+    <router-link to='/catalog' class="show-all-link text-right">показать все</router-link>
+  </div>
 </template>
 
 <script lang="ts">
@@ -54,7 +57,7 @@ export default defineComponent({
         link: {
           name: 'catalog',
           params: {
-            brand: 'mercedes'
+            brand: 'mercedes-benz'
           }
         }
       },
@@ -132,5 +135,10 @@ export default defineComponent({
     cursor: default;
     border-bottom: 2px solid $red;
   }
+}
+
+.show-all-link {
+  color: $blue;
+  text-decoration: underline;
 }
 </style>

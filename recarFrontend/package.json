@@ -17,10 +17,12 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/vue-fontawesome": "^3.0.6",
     "axios": "^1.6.7",
+    "toastr": "^2.1.4",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5",
-    "vuetify": "^3.5.8",
-    "vuex": "^4.0.2"
+    "vuetify": "^3.6.0",
+    "vuex": "^4.0.2",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.2",

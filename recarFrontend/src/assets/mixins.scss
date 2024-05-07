@@ -1,0 +1,40 @@
+// SCSS MIXINS
+
+@mixin loader {
+  .loader {
+    top: 50%;
+    left: 50%;
+    margin: -25px 0 0 -25px; /* Apply negative top and left margins to truly center the element */
+    width: 45px;
+    padding: 8px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #6c6b6b;
+    --_m:
+            conic-gradient(#0000 10%,#000),
+            linear-gradient(#000 0 0) content-box;
+    -webkit-mask: var(--_m);
+    mask: var(--_m);
+    -webkit-mask-composite: source-out;
+    mask-composite: subtract;
+    animation: l3 1s infinite linear;
+  }
+  @keyframes l3 {to{transform: rotate(1turn)}}
+}
+
+@mixin shine-animation {
+  .effect-shine {
+    -webkit-mask-image: linear-gradient(-75deg, rgba(0,0,0,.6) 30%, #000 50%, rgba(0,0,0,.6) 70%);
+    -webkit-mask-size: 200%;
+    animation: shine 2s infinite;
+  }
+
+  @keyframes shine {
+    0% {
+      -webkit-mask-position: 150%;
+    }
+    100% {
+      -webkit-mask-position: -50%;
+    }
+  }
+}

@@ -1,5 +1,6 @@
 interface UserState {
     login: string
+    balance: string
     loggedIn: boolean
 }
 

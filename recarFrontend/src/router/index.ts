@@ -3,6 +3,8 @@ import type { RouteRecordRaw } from "vue-router";
 import HomeView from '@/views/HomeView.vue'
 import CatalogView from "@/views/CatalogView.vue";
 import AuthView from "@/views/AuthView.vue";
+import guard from "@/router/middleware";
+import WelcomeView from "@/views/WelcomeView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -10,6 +12,16 @@ const routes: Array<RouteRecordRaw> = [
     name: 'home',
     component: HomeView,
     children: [
+      {
+        path: '/',
+        name: 'welcome',
+        component: WelcomeView
+      },
+      {
+        path: '/catalog',
+        name: 'catalog_all',
+        component: CatalogView
+      },
       {
         path: '/catalog/:brand',
         name: 'catalog',
@@ -23,18 +35,35 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/reservations',
         name: 'reservations',
+        beforeEnter: (to, from, next) => {
+          guard(next)
+        },
         component: () => import('../views/ReservationsView.vue'),
       },
       {
         path: '/profile',
         name: 'profile',
+        beforeEnter: (to, from, next) => {
+          guard(next)
+        },
         component: () => import('../views/ProfileView.vue'),
       },
       {
         path: '/favorites',
         name: 'favorites',
+        beforeEnter: (to, from, next) => {
+          guard(next)
+        },
         component: () => import('../views/FavoritesView.vue'),
-      }
+      },
+      {
+        path: '/booking',
+        name: 'booking',
+        beforeEnter: (to, from, next) => {
+          guard(next)
+        },
+        component: () => import('../views/BookView.vue'),
+      },
     ],
   },
   {

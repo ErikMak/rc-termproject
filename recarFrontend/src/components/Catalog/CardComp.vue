@@ -15,7 +15,7 @@
     <v-img
         id="car-preview"
         class="mt-2 mb-1"
-        src="../src/assets/cars/15.png"
+        :src="'../src/assets/cars/'+data.img"
     >
     </v-img>
     <v-sheet
@@ -24,13 +24,17 @@
         class="bg-white px-2 py-1"
     >
       <div class="d-flex flex-column">
-        <router-link :to="{name: 'car', params: { brand: 'bmw', slug: '1'}}" class="pa-0">
+        <router-link :to="{name: 'car', params: { brand: data.brand, slug: data.model_id}}" class="pa-0">
           <div class="d-flex flex-column" id="links">
-            <b class="font-weight-medium">Mazda 6 2017</b>
-            <small style="margin-top: -3px;">Легковая; МКПП</small>
+            <b class="font-weight-medium">{{ capitalizeBrand(data.brand) + ' ' + data.name }}</b>
+            <small style="margin-top: -3px;">
+              <b
+                class="font-weight-regular"
+                :class="{'text-deep-orange-darken-2': data.category === 'Грузовая'}"
+            >{{ data.category }};</b> {{ data.type }}</small>
           </div>
         </router-link>
-        <p class="mt-1"><strong>$59</strong>/день</p>
+        <p class="mt-1"><strong>${{ data.price }}</strong>/день</p>
       </div>
     </v-sheet>
   </v-sheet>
@@ -38,9 +42,21 @@
 
 <script lang="ts">
 import { defineComponent} from "vue";
+import {capitalizeBrand} from "@/services/CapitalizeService";
 
 export default defineComponent({
   name: 'CardComponent',
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
+  methods: {
+    capitalizeBrand(brand: string) {
+      return capitalizeBrand(brand)
+    }
+  }
 })
 </script>
 
@@ -62,6 +78,9 @@ export default defineComponent({
     height: 35px;
     border-radius: 5px;
     text-align: center;
+  }
+  #car-preview {
+    min-height: 112px;
   }
   strong {
     color: $green;

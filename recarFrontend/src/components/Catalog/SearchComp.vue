@@ -1,7 +1,9 @@
 <template>
   <v-text-field
+      v-model="value"
+      @keyup="emitToParent"
       density="compact"
-      label="Поиск"
+      :label="label"
       variant="solo"
       hide-details
       single-line
@@ -22,5 +24,20 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'SearchComponent',
+  props: {
+    label: {
+      type: String,
+      required: true
+    },
+  },
+  data: () => ({
+    value: ''
+  }),
+  emits: ['car_name'],
+  methods: {
+    emitToParent() : any {
+      this.$emit('car_name', this.value)
+    },
+  }
 })
 </script>

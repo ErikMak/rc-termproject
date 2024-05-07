@@ -23,9 +23,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import gradient from "@/assets/gradient.jpg"
+import gradient from "@/assets/gradient.webp"
 import logo from "@/assets/logo2.png"
-import avatar from "@/assets/img_avatar.png"
+import avatar from "@/assets/img_avatar.webp"
 export default defineComponent({
   name: 'HeaderComponent',
   data: () => ({
