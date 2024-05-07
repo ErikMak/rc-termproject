@@ -20,8 +20,8 @@
     </v-col>
   </v-row>
   <div class="wrapper pt-3">
-    <CardPreloadComponent v-if="getCatalogPreloader" v-for="n in 2"></CardPreloadComponent>
-    <CardComponent v-else v-for="row in getCatalogCars" :data=row />
+      <CardPreloadComponent v-if="getCatalogPreloader" v-for="n in 2"></CardPreloadComponent>
+      <CardComponent v-else v-for="row in getCatalogCars" :data=row />
   </div>
 </template>
 

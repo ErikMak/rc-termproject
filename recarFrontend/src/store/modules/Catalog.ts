@@ -11,9 +11,7 @@ export default {
     mutations: {
         updateCatalogCars(state: CarsStateType, data: CarType[]) : void {
             state.cars = data
-            if(data.length > 0) {
-                state.preloaderShow = false
-            }
+            state.preloaderShow = false
         },
         activatePreloaders(state: CarsStateType) : void {
             state.preloaderShow = true

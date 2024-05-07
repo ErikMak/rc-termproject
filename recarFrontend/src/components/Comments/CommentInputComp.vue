@@ -1,7 +1,7 @@
 <template>
   <v-sheet class="comments-block">
     <div class="comment-label mb-3" for="comment__text">
-      <b class="font-weight-medium">Текст комментария</b>
+      <b class="font-weight-medium">Оцените автомобиль</b>
       <p style="line-height: 1.5">
         (Внимание! Грубые и нецензурные комментарии будут удалены)
       </p>
@@ -9,7 +9,7 @@
     <span class="input-box">
           <textarea id="comment-text"
                     rows="6"
-                    placeholder="Введите текст комментария..."
+                    placeholder="Комментарий к отзыву..."
                     name="comment__text"
                     v-model="text"
           >
@@ -32,7 +32,7 @@
       ></v-rating>
     </div>
     <button @click="sendComment" class="comment-send-button text-subtitle-1 mt-2 text-white">
-      Добавить комментарий
+      Добавить отзыв
     </button>
   </v-sheet>
 </template>
