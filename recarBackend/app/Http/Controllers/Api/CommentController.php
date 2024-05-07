@@ -7,6 +7,7 @@ use App\Http\Resources\Comment\CommentResource;
 use App\Http\Services\PermissionService;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Number;
 
 class CommentController extends BaseController
@@ -26,14 +27,21 @@ class CommentController extends BaseController
     {
         $validated = $request->validated();
 
-        $comment = Comment::create([
-            'car_id' => $validated['car_id'],
-            'user_id' => $validated['user_id'],
-            'text' => $validated['text'],
-            'rating' => $validated['rating']
-        ]);
+        $user = Auth::user();
+        $comment = Comment::where('user_id', $user->id)->get();
 
-        return $this->sendResponse($validated, 'Комментарий добавлен!');
+        if($comment->count() == 0) {
+            $comment = Comment::create([
+                'car_id' => $validated['car_id'],
+                'user_id' => $validated['user_id'],
+                'text' => $validated['text'],
+                'rating' => $validated['rating']
+            ]);
+
+            return $this->sendResponse($validated, 'Отзыв добавлен!');
+        }
+
+        return $this->sendError('Отзыв уже добавлен!');
     }
 
     /**

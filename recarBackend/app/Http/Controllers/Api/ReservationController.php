@@ -7,6 +7,7 @@ use App\Http\Filters\Filterable;
 use App\Http\Filters\ReservationFilter;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Resources\Reservation\ReservationResource;
+use App\Models\Equipment;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 
@@ -29,6 +30,12 @@ class ReservationController extends BaseController
     public function store(StoreReservationRequest $request)
     {
         $validated = $request->validated();
+
+        $equipment = Equipment::find($validated['equip_id'])->with('autopark')->get();
+
+        if($equipment->only('is_exist')) {
+            return $this->sendError('Комплектация не доступна для аренды!');
+        }
 
         $reservation = Reservation::create([
             'user_id' => $validated['user_id'],
