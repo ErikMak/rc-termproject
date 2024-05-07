@@ -4,6 +4,7 @@ namespace App\Http\Resources\Engine;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Number;
 
 class EngineResource extends JsonResource
 {
@@ -18,7 +19,7 @@ class EngineResource extends JsonResource
             'engine_id' => $this->id,
             'mark' => $this->mark,
             'HP' => $this->HP,
-            'volume' => $this->volume,
+            'volume' => Number::format($this->volume, precision: 1),
             'fuel' => $this->fuel,
             'type' => $this->type
         ];
