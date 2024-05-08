@@ -7,7 +7,6 @@ use App\Http\Resources\Comment\CommentResource;
 use App\Http\Services\PermissionService;
 use App\Models\Comment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Number;
 
 class CommentController extends BaseController
@@ -27,8 +26,9 @@ class CommentController extends BaseController
     {
         $validated = $request->validated();
 
-        $user = Auth::user();
-        $comment = Comment::where('user_id', $user->id)->get();
+        $comment = Comment::where('user_id', $validated['user_id'])
+        ->where('car_id', $validated['car_id'])
+        ->get();
 
         if($comment->count() == 0) {
             $comment = Comment::create([
@@ -49,7 +49,7 @@ class CommentController extends BaseController
      */
     public function show(string $model_id)
     {
-        $comments = Comment::where('car_id', $model_id)->get();
+        $comments = Comment::where('car_id', $model_id)->with('user')->get();
 
         return $this->sendResponse(CommentResource::collection($comments));
     }
@@ -88,8 +88,12 @@ class CommentController extends BaseController
         foreach ($comments as $comment) {
             $rating += $comment['rating'];
         }
-        $rating = Number::format($rating/$comments->count(), maxPrecision: 1);
 
+        if($rating == 0) {
+          return $this->sendResponse(Number::format($rating, precision: 1));
+        }
+
+        $rating = Number::format($rating/$comments->count(), precision: 1, maxPrecision: 1);
         return $this->sendResponse($rating);
     }
 }

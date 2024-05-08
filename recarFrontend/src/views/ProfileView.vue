@@ -23,7 +23,6 @@ export default defineComponent({
     TitleComponent
   },
   methods: {
-      ...mapActions(["checkLoggedStatus"]),
       logout() {
         UserService.logout().then(() => {
           this.checkLoggedStatus()
@@ -34,9 +33,6 @@ export default defineComponent({
   computed: {
     ...mapGetters(["getLoggedStatus", "getUserLogin", "getUserBalance"])
   },
-  created() {
-    this.checkLoggedStatus()
-  }
 })
 </script>
 

@@ -3,13 +3,16 @@
       :image="gradient"
       class="app-bar"
   >
-    <!--  Логотип компании  -->
-    <v-img
-        class="ms-4"
-        position="left"
-        :height="25"
-        :src="logo"
-    ></v-img>
+    <div class="logo position-relative">
+      <!--  Логотип компании  -->
+      <v-img
+          class="ms-4"
+          position="left"
+          :height="25"
+          :src="logo"
+      ></v-img>
+      <router-link to="/" class="ms-4 logo-link position-absolute"></router-link>
+    </div>
     <!--  Аватарка  -->
     <template v-slot:append>
       <v-avatar class="me-1">
@@ -35,3 +38,15 @@ export default defineComponent({
   })
 });
 </script>
+
+<style lang="scss" scoped>
+.logo {
+  width: 100%;
+}
+.logo-link {
+  top: 0;
+  max-width: 86px;
+  width: 100%;
+  height: 100%;
+}
+</style>

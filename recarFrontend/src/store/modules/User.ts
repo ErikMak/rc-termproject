@@ -2,6 +2,7 @@ import type { UserStateType } from "@/store/interfaces/IUsers";
 import UserService from "@/services/UserService";
 export default {
     state: (): UserStateType => ({
+        user_id: null,
         login: '',
         balance: '',
         loggedIn: false
@@ -15,6 +16,9 @@ export default {
         },
         updateBalance(state: UserStateType, balance: string) : void {
             state.balance = balance
+        },
+        updateUserID(state: UserStateType, id: number) : void {
+            state.user_id = id
         }
     },
     actions: {
@@ -25,6 +29,7 @@ export default {
                         ctx.commit('updateLoggedStatus', true)
                         ctx.commit('updateLogin', response.data.data.login)
                         ctx.commit('updateBalance', response.data.data.balance)
+                        ctx.commit('updateUserID', response.data.data.id)
                     } else {
                         ctx.commit('updateLoggedStatus', false)
                     }
@@ -41,6 +46,9 @@ export default {
         },
         getLoggedStatus(state: UserStateType) : boolean {
             return state.loggedIn
+        },
+        getUserID(state: UserStateType) : number | null {
+            return state.user_id
         }
     }
 }

@@ -2,7 +2,7 @@
   <HeaderComponent></HeaderComponent>
 
   <v-main>
-    <v-container fluid>
+    <v-container fluid style="min-height: 493px">
       <router-view />
     </v-container>
     <v-footer style="background-color: #efedf0; height: 110px;">

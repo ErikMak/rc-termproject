@@ -30,6 +30,27 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
     // Рейтинг машины
     Route::get('cars/rating/{model_id}', 'CommentController@rating');
 
+     // Добавить в избранное машину
+    Route::post('favorites', 'FavoriteController@store');
+    // Список избранных машин
+    Route::get('favorites', 'FavoriteController@index');
+    // Вся бронь конкретного пользователя
+    Route::get('reservation', 'ReservationController@index');
+    // Забронировать машину
+    Route::post('reservation', 'ReservationController@store');
+    // Добавить комментарий
+    Route::post('comments', 'CommentController@store');
+
+
+    // Маршруты с требованием user_id
+    Route::middleware('auth:api')->group(function () {
+        // Удалить комментарий
+        Route::delete('comments/{comment_id}', 'CommentController@destroy');
+        // Удалить машину из избранного
+        Route::delete('favorites/{favorite_id}', 'FavoriteController@destroy');
+        // Удалить бронь
+        Route::delete('reservation/{reservation_id}', 'ReservationController@destroy');
+    });
 
     Route::prefix('auth')->group(function () {
         // Регистрация
@@ -46,22 +67,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
             Route::get('user', 'AuthController@user');
             // Выход из аккаунта
             Route::get('logout', 'AuthController@logout');
-            // Добавить в избранное машину
-            Route::post('favorites', 'FavoriteController@store');
-            // Список избранных машин
-            Route::get('favorites', 'FavoriteController@index');
-            // Удалить комментарий
-            Route::delete('comments/{comment_id}', 'CommentController@destroy');
-            // Удалить машину из избранного
-            Route::delete('favorites/{favorite_id}', 'FavoriteController@destroy');
-            // Вся бронь конкретного пользователя
-            Route::get('reservation', 'ReservationController@index');
-            // Удалить бронь
-            Route::delete('reservation/{reservation_id}', 'ReservationController@destroy');
-            // Добавить комментарий
-            Route::post('comments', 'CommentController@store');
-            // Забронировать машину
-            Route::post('reservation', 'ReservationController@store');
         });
     });
 });

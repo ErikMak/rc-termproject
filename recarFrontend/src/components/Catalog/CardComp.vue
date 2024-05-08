@@ -5,13 +5,7 @@
       rounded
       position="relative"
   >
-      <a class="favorite pa-2" href="#">
-        <font-awesome-icon
-            icon="fa-regular fa-bookmark"
-            size="lg"
-            style="color: black; margin-bottom: 1px"
-        />
-      </a>
+    <FavoriteComponent :catalog="true" :car_id="data.model_id"/>
     <v-img
         id="car-preview"
         class="mt-2 mb-1"
@@ -24,9 +18,9 @@
         class="bg-white px-2 py-1"
     >
       <div class="d-flex flex-column">
-        <router-link :to="{name: 'car', params: { brand: data.brand, slug: data.model_id}}" class="pa-0">
+        <router-link :to="{name: 'car', params: { brand: data.brand.toLowerCase(), slug: data.model_id}}" class="pa-0">
           <div class="d-flex flex-column" id="links">
-            <b class="font-weight-medium">{{ capitalizeBrand(data.brand) + ' ' + data.name }}</b>
+            <b class="font-weight-medium">{{ data.brand + ' ' + data.name }}</b>
             <small style="margin-top: -3px;">
               <b
                 class="font-weight-regular"
@@ -42,19 +36,15 @@
 
 <script lang="ts">
 import { defineComponent} from "vue";
-import {capitalizeBrand} from "@/services/CapitalizeService";
+import FavoriteComponent from "@/components/Favorite/FavoriteComp.vue";
 
 export default defineComponent({
   name: 'CardComponent',
+  components: {FavoriteComponent},
   props: {
     data: {
       type: Object,
       required: true
-    }
-  },
-  methods: {
-    capitalizeBrand(brand: string) {
-      return capitalizeBrand(brand)
     }
   }
 })
@@ -69,29 +59,12 @@ export default defineComponent({
 #car-card {
   background: $light;
   transition: box-shadow .3s ease-in-out;
-  .favorite {
-    background-color: $yellow;
-    position: absolute;
-    right: 10px;
-    z-index: 10;
-    width: 35px;
-    height: 35px;
-    border-radius: 5px;
-    text-align: center;
-  }
   #car-preview {
     min-height: 112px;
   }
   strong {
     color: $green;
   }
-  .favorite:hover {
-    background-color: $yellow-dirt;
-  }
-  .favorite:active {
-    background-color: $yellow-dirt;
-  }
-
   b, small {
     color: black;
   }

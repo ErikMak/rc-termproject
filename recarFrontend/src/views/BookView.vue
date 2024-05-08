@@ -66,8 +66,6 @@ import { defineComponent} from "vue";
 import {ReservationCoupleType} from "@/types/IReservationCouple";
 import ApiCar from '@/common/cars'
 import ApiEquip from '@/common/equipments'
-import toasts from "toastr";
-import { capitalizeBrand } from "@/services/CapitalizeService";
 import {mapMutations} from "vuex";
 
 interface State {
@@ -108,7 +106,7 @@ export default defineComponent({
         const car = res.data
 
         this.cost = parseFloat(car.price)
-        this.car_name = capitalizeBrand(car.brand) + ' ' + car.name
+        this.car_name = car.brand + ' ' + car.name
       })
       ApiEquip.getEquipmentsById({id: this.car.model_id}, (res: Response) => {
         const equipments = res.data
@@ -208,7 +206,6 @@ export default defineComponent({
 <style lang="scss">
 @import '@/assets/theme';
 @import 'toastr';
-
 
 #book-page {
   .car-name {
