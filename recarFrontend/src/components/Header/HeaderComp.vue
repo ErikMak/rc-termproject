@@ -46,24 +46,15 @@ export default defineComponent({
     avatar: avatar,
     logo: logo
   }),
-<<<<<<< HEAD
-=======
   created() {
     this.checkLoggedStatus()
   },
->>>>>>> 850e030d9597d031cb0ff56167b412887c30162e
   methods: {
     ...mapActions(["checkLoggedStatus"])
   },
   computed: {
     ...mapGetters(["getLoggedStatus"])
-<<<<<<< HEAD
   },
-  created() {
-    this.checkLoggedStatus()
-=======
->>>>>>> 850e030d9597d031cb0ff56167b412887c30162e
-  }
 });
 </script>
 
