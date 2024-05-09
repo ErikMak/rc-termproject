@@ -207,5 +207,65 @@ class CarSeeder extends Seeder
             'img' => '24.png',
             'flag' => 'germany.png'
         ]);
+
+        DB::table('cars')->insert([
+            'model_id' => 14,
+            'name' => 'Q7',
+            'category' => 'Внедорожник',
+            'brand' => 'Audi',
+            'type' => 'SUV',
+            'price' => 40,
+            'country' => 'Словакия',
+            'weight' => 1985,
+            'tank' => 75,
+            'year' => 2017,
+            'img' => '15.png',
+            'flag' => 'slovakia.png'
+        ]);
+
+        DB::table('cars')->insert([
+            'model_id' => 15,
+            'name' => 'Accent',
+            'category' => 'Легковая',
+            'brand' => 'Hyundai',
+            'type' => 'Седан',
+            'price' => 12,
+            'country' => 'Южная Корея',
+            'weight' => 1070,
+            'tank' => 43,
+            'year' => 2017,
+            'img' => '19.png',
+            'flag' => 'south-korea.png'
+        ]);
+
+        DB::table('cars')->insert([
+            'model_id' => 16,
+            'name' => 'M3 F80',
+            'category' => 'Премиум',
+            'brand' => 'BMW',
+            'type' => 'Седан',
+            'price' => 42,
+            'country' => 'Германия',
+            'weight' => 1520,
+            'tank' => 60,
+            'year' => 2018,
+            'img' => '16.png',
+            'flag' => 'germany.png'
+        ]);
+
+        DB::table('cars')->insert([
+            'model_id' => 17,
+            'name' => 'Q5',
+            'category' => 'Внедорожник',
+            'brand' => 'Audi',
+            'type' => 'SUV',
+            'price' => 25,
+            'country' => 'Германия',
+            'weight' => 1795,
+            'tank' => 75,
+            'year' => 2017,
+            'img' => '26.png',
+            'flag' => 'germany.png'
+        ]);
     }
 }

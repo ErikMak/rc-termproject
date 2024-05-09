@@ -23,6 +23,7 @@ export default defineComponent({
     TitleComponent
   },
   methods: {
+      ...mapActions(["checkLoggedStatus"]),
       logout() {
         UserService.logout().then(() => {
           this.checkLoggedStatus()
