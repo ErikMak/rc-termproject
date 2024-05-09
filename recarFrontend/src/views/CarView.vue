@@ -14,7 +14,7 @@
 <!--    Header Preloader    -->
         <div v-if="preloaderShow" class="header-text mx-auto effect-shine rounded-1"></div>
         <div v-else class="text-center">
-          <h2 class="font-weight-medium">{{ capitalizeBrand(details.brand) + ' ' + details.name }}</h2>
+          <h2 class="font-weight-medium">{{ details.brand + ' ' + details.name }}</h2>
         </div>
       </div>
     </v-col>
@@ -31,19 +31,11 @@
             class="px-3"
         >
         </v-img>
-        <div class="rating-block position-absolute text-center">
-          <p class="font-weight-medium">X.X</p>
-        </div>
+        <RatingComponent/>
         <div class="price-block position-absolute text-center">
           <p class="font-weight-medium"><b class="font-weight-bold">${{details.price}}</b>/день</p>
         </div>
-          <a class="favorite-block position-absolute pa-2" href="#">
-          <font-awesome-icon
-              icon="fa-regular fa-bookmark"
-              size="lg"
-              style="color: black; margin-bottom: 1px"
-          />
-          </a>
+        <FavoriteComponent :car-view="true" :car_id="details.model_id"/>
       </div>
     </v-col>
   </v-row>
@@ -152,7 +144,7 @@
                         <img src="../../src/assets/drive.png" alt="drive" class="equip-spec-icon me-2">
                         <div class="equip-spec-col mb-1">
                           <small class="label">Привод</small>
-                          <p class="text">XXX</p>
+                          <p class="text">{{ row.drive }}</p>
                         </div>
                       </div>
                     </div>
@@ -188,7 +180,7 @@
   </v-row>
   <v-row>
     <v-col>
-      <CommentInputComponent />
+      <CommentInputComponent :car_id="details.model_id"/>
     </v-col>
   </v-row>
   <v-row>
@@ -204,18 +196,22 @@ import { defineComponent } from "vue";
 import CommentInputComponent from "@/components/Comments/CommentInputComp.vue";
 import Api from '@/common/cars'
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import { capitalizeBrand } from "@/services/CapitalizeService";
 import CommentsBlockComponent from "@/components/Comments/CommentsBlockComp.vue";
+import RatingComponent from "@/components/Car/RatingComp.vue";
+import FavoriteComponent from "@/components/Favorite/FavoriteComp.vue";
 
 interface State {
   details: Object,
   equip_id: number,
-  preloaderShow: boolean
+  preloaderShow: boolean,
+  rating: ''
 }
 
 export default defineComponent({
   name: "CarView",
   components: {
+    FavoriteComponent,
+    RatingComponent,
     CommentsBlockComponent,
     CommentInputComponent,
     TitleComponent
@@ -223,9 +219,12 @@ export default defineComponent({
   data: (): State => ({
     details: {
       brand: '',
-      name: ''
+      name: '',
+      car_id: '',
+      model_id: 0
     },
     equip_id: 0,
+    rating: '',
     preloaderShow: true
   }),
   computed: {
@@ -234,9 +233,6 @@ export default defineComponent({
   methods: {
     ...mapMutations(['createReservation']),
     ...mapActions(['uploadCarEquipments', 'checkLoggedStatus']),
-    capitalizeBrand(brand: string) : string {
-      return capitalizeBrand(brand)
-    },
     bookingAction() {
       if(this.equip_id == 0) {
         return
@@ -254,11 +250,12 @@ export default defineComponent({
     }
   },
   created() {
-    this.uploadCarEquipments({id: this.$route.params.slug})
     Api.getCarById({id: this.$route.params.slug}, (res: Response) => {
       this.details = res.data
       this.preloaderShow = false
     })
+
+    this.uploadCarEquipments({id: this.$route.params.slug})
 
     this.checkLoggedStatus()
   },
@@ -361,22 +358,6 @@ export default defineComponent({
   min-height: 203px;
 }
 
-.rating-block {
-  height: 40px;
-  width: 40px;
-  bottom: 0;
-  left: 0;
-  border-radius: 5px;
-  background-color: $red;
-  line-height: 40px;
-  p {
-    color: white;
-    vertical-align: middle;
-    display: inline-block;
-    line-height: 1.5;
-  }
-}
-
 .price-block {
   height: 40px;
   top: 0;
@@ -390,21 +371,6 @@ export default defineComponent({
     display: inline-block;
     line-height: 1.5;
   }
-}
-
-.favorite-block {
-  background-color: $yellow;
-  top: 0;
-  right: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 5px;
-  text-align: center;
-  transition: all .3s;
-}
-
-.favorite-block:hover {
-  background-color: $yellow-dirt;
 }
 
 .car-specs-wrapper {

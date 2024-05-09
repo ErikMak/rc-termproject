@@ -4,6 +4,7 @@ namespace App\Http\Resources\Comment;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Number;
 
 class CommentResource extends JsonResource
 {
@@ -16,9 +17,9 @@ class CommentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
+            'user' => $this->user->login,
             'text' => $this->text,
-            'rating' => $this->rating,
+            'rating' => Number::format($this->rating, precision: 1),
             'created_at' => $this->created_at
         ];
     }

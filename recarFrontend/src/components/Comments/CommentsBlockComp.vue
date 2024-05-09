@@ -1,13 +1,13 @@
 <template>
-  <div class="comments-item py-3 px-4 rounded mb-3">
+  <div v-for="row in getComments" class="comments-item py-3 px-4 rounded mb-3">
     <v-row>
       <v-col>
         <div class="d-flex align-center">
-          <b class="me-2 text-decoration-underline">ErikMak</b>
-          <small class="text-deep-orange-darken-2">23.02.33 18:00:00</small>
+          <b class="me-2 text-decoration-underline">{{ row.user }}</b>
+          <small class="text-deep-orange-darken-2">{{ timestamp(row.created_at) }}</small>
         </div>
-        <i>Оценка: <strong>2.3</strong></i>
-        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  </p>
+        <i>Оценка: <strong>{{ row.rating }}</strong></i>
+        <p class="mb-0">{{ row.text }}</p>
       </v-col>
     </v-row>
   </div>
@@ -15,9 +15,30 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
+import {mapActions, mapGetters} from "vuex";
+
 
 export default defineComponent({
-  name: 'CommentsBlockComponent'
+  name: 'CommentsBlockComponent',
+  created() {
+    this.uploadComments(this.$route.params.slug)
+  },
+  computed: {
+    ...mapGetters(["getComments"])
+  },
+  methods: {
+    ...mapActions(["uploadComments"]),
+    timestamp(timestamp: string) {
+      let t = new Date(timestamp)
+
+      let date = t.toLocaleDateString();
+      let time = t.toLocaleTimeString('en-US', { hour12: false,
+        hour: "numeric",
+        minute: "numeric"});
+
+      return date + ' ' + time
+    }
+  }
 })
 </script>
 

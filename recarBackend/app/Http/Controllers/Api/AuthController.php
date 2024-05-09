@@ -21,7 +21,7 @@ class AuthController extends BaseController
             return $this->sendOK()->header('Authorization', $token);
         }
 
-        return $this->sendError('Отказ входа!');
+        return $this->sendError('Отказ входа!', 422);
     }
 
     public function register(Request $request) {

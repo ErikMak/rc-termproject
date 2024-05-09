@@ -39,6 +39,10 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
+import UserService from "@/services/UserService";
+import toasts from "toastr";
+import Api from "@/common/comments"
+import {mapMutations} from "vuex";
 
 interface State {
   text: string,
@@ -48,12 +52,18 @@ interface State {
 
 export default defineComponent({
   name: 'CommentInputComponent',
+  props: {
+    car_id: {
+      required: true
+    }
+  },
   data: (): State => ({
     text: '',
     rating: 0,
     errorText: ''
   }),
   methods: {
+    ...mapMutations(["pushComment"]),
     checkCommentText() {
       const rv_text = /^[a-zA-Zа-яА-Я0-9\s\.,!?()-]{1,500}$/;
       let valid = false
@@ -73,7 +83,36 @@ export default defineComponent({
       let isCommentValid = this.checkCommentText();
 
       if(isCommentValid) {
-        console.log(this.text)
+        UserService.loginStatus().then(
+            response => {
+              if(response.data.status == true) {
+                const user_id = response.data.data.id
+                const user_name = response.data.data.login
+                const rating = parseFloat(this.rating).toFixed(1)
+
+                Api.addComment({
+                  car_id: this.car_id,
+                  user_id: user_id,
+                  text: this.text,
+                  rating: rating,
+                }, (res: Response) => {
+                  this.pushComment({
+                    created_at: res.data.created_at,
+                    id: res.data.id,
+                    rating: res.data.rating,
+                    text: res.data.text,
+                    user: user_name
+                  })
+
+                  toasts.success(res.message)
+                }, (err: any) => {
+                  toasts.error(err.error)
+                })
+              } else {
+                toasts.error('Войдите, чтобы оставлять отзывы')
+              }
+            }
+        )
       }
     },
   }

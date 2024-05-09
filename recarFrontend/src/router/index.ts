@@ -69,7 +69,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/auth',
     name: 'auth',
-    component: AuthView
+    component: AuthView,
   }
 ]
 

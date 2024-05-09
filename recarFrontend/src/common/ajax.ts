@@ -1,4 +1,5 @@
 import axios from '../plugins/axios'
+import authHeader from "@/services/AuthHeader";
 export default class Ajax {
     static get(url: any, data: any = {}, success: any, failure: any) {
         const param = this.createParameter(data)
@@ -40,8 +41,8 @@ export default class Ajax {
             });
     }
 
-    static delete(url: any, success: any, failure: any) {
-        axios.delete(url)
+    static delete(url: any, success: any, failure: any, header: any = {}) {
+        axios.delete(url, { headers: header })
             .then(response => {
                 if(response.data["status"]) success(response.data)
                 else {

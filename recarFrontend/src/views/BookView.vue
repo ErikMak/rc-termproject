@@ -28,6 +28,7 @@
               v-model="date_issue"
               label="Начало аренды"
               prepend-icon=""
+              :min="new Date(Date.now() - (24*60*60*1000)).toISOString()"
               :error-messages="date_issue_error"
               @update:modelValue="calculate"
           >
@@ -38,6 +39,7 @@
               v-model="date_return"
               label="Конец аренды"
               prepend-icon=""
+              :min="new Date(Date.now() - (24*60*60*1000)).toISOString()"
               :error-messages="date_return_error"
               @update:modelValue="calculate"
           >
@@ -65,10 +67,10 @@
 import { defineComponent} from "vue";
 import {ReservationCoupleType} from "@/types/IReservationCouple";
 import ApiCar from '@/common/cars'
-import ApiEquip from '@/common/equipments'
 import toasts from "toastr";
-import { capitalizeBrand } from "@/services/CapitalizeService";
-import {mapMutations} from "vuex";
+import ApiEquip from '@/common/equipments'
+import {mapGetters, mapMutations} from "vuex";
+import Api from "@/common/reservation"
 
 interface State {
   car: ReservationCoupleType
@@ -108,7 +110,7 @@ export default defineComponent({
         const car = res.data
 
         this.cost = parseFloat(car.price)
-        this.car_name = capitalizeBrand(car.brand) + ' ' + car.name
+        this.car_name = car.brand + ' ' + car.name
       })
       ApiEquip.getEquipmentsById({id: this.car.model_id}, (res: Response) => {
         const equipments = res.data
@@ -120,8 +122,27 @@ export default defineComponent({
       this.$router.push('/catalog')
     }
   },
+  computed: {
+    ...mapGetters(["getUserID"])
+  },
   methods: {
     ...mapMutations(['createReservation']),
+    toIsoString(date: any) {
+      var tzo = -date.getTimezoneOffset(),
+          dif = tzo >= 0 ? '+' : '-',
+          pad = function(num: any) {
+            return (num < 10 ? '0' : '') + num;
+          };
+
+      return date.getFullYear() +
+          '-' + pad(date.getMonth() + 1) +
+          '-' + pad(date.getDate()) +
+          'T' + pad(date.getHours()) +
+          ':' + pad(date.getMinutes()) +
+          ':' + pad(date.getSeconds()) +
+          dif + pad(Math.floor(Math.abs(tzo) / 60)) +
+          ':' + pad(Math.abs(tzo) % 60);
+    },
     checkDateIssue() {
       let valid = false
 
@@ -149,7 +170,7 @@ export default defineComponent({
     checkInterval() {
       let valid = false
 
-      if(this.date_return - this.date_issue < 0) {
+      if(this.date_return - this.date_issue <= 0) {
         this.date_issue_error = 'Некорректный диапазон'
         this.date_return_error = 'Некорректный диапазон'
       } else {
@@ -169,7 +190,21 @@ export default defineComponent({
       if(isBookValid) {
         let isIntervalValid = this.checkInterval()
         if(isIntervalValid) {
-          console.log(this.total_cost)
+          const user_id = this.getUserID
+
+          Api.createReservation({
+            user_id: user_id,
+            model_id: this.car.model_id,
+            equip_id: this.car.equip_id,
+            date_issue: this.toIsoString(this.date_issue),
+            date_return: this.toIsoString(this.date_return),
+            total_cost: this.total_cost
+          }, (res: Response) => {
+            toasts.success(res.message)
+            this.$router.push('/catalog')
+          }, (err: any) => {
+            toasts.error(err.error)
+          })
         }
       }
     },
@@ -208,7 +243,6 @@ export default defineComponent({
 <style lang="scss">
 @import '@/assets/theme';
 @import 'toastr';
-
 
 #book-page {
   .car-name {

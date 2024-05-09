@@ -8,6 +8,7 @@ use App\Http\Requests\StoreFavorite;
 use App\Models\Favorite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class FavoriteController extends BaseController
 {
@@ -41,7 +42,7 @@ class FavoriteController extends BaseController
             ]);
             return $this->sendResponse($validated, 'Машина добавлена в избранное!');
         } else {
-            return $this->sendResponse($validated, 'Машина уже добавлена в избранное!');
+            return $this->sendError('Машина уже добавлена в избранное!');
         }
     }
 
@@ -68,11 +69,10 @@ class FavoriteController extends BaseController
     {
         $user_id = Auth::user()->id;
 
-        $favorite = Favorite::where([
-            ['car_id', '=', $car_id],
-            ['user_id', '=', $user_id],
-        ])->delete();
+        DB::select('call delete_car_from_favorites(?, ?)', array(
+            $car_id, $user_id
+        ));
 
-        $this->sendResponse([]);
+        return $this->sendResponse('Машина удалена из избранного!');
     }
 }

@@ -1,5 +1,5 @@
 import axios from '@/plugins/axios'
-import {ApiLogin} from "@/const";
+import {ApiLogin, ApiRegister} from "@/const";
 
 class AuthService {
     login(data: any) : Promise<void> {
@@ -12,6 +12,19 @@ class AuthService {
             }
             if(response.headers.authorization) {
                 localStorage.setItem('user', JSON.stringify(response.headers.authorization));
+            }
+        }).catch(error => {
+            throw error
+        })
+    }
+
+    register(data: any) : Promise<void> {
+        return axios.post(ApiRegister, {
+            login: data.login,
+            password: data.password
+        }).then(response => {
+            if(response.data.status == false) {
+                throw response.data.error
             }
         }).catch(error => {
             throw error

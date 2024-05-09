@@ -25,7 +25,7 @@ class BaseController extends Controller {
 
         return response()->json($response, 200);
     }
-    public function sendError($msg, $code = 422) {
+    public function sendError($msg, $code = 200) {
         $response = [
             'status' => false,
             'error' => $msg

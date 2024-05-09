@@ -204,5 +204,54 @@ class EquipSeeder extends Seeder
             'engine' => 21,
             'drive' => 'Задний'
         ]);
+
+        DB::table('equipment')->insert([
+            'model_id' => 14,
+            'name' => '2.0 45 TFSI Quattro Tiptronic',
+            'transmission' => 'АКПП',
+            'engine' => 22,
+            'drive' => 'Полный'
+        ]);
+
+        DB::table('equipment')->insert([
+            'model_id' => 15,
+            'name' => '1.4 VVT MT 2WD Style',
+            'transmission' => 'МКПП',
+            'engine' => 23,
+            'drive' => 'Передний'
+        ]);
+
+        DB::table('equipment')->insert([
+            'model_id' => 15,
+            'name' => '1.4 VVT CVT 2WD',
+            'transmission' => 'Вариатор',
+            'engine' => 23,
+            'drive' => 'Передний'
+        ]);
+
+        DB::table('equipment')->insert([
+            'model_id' => 15,
+            'name' => '1.4 VVT AT 2WD Styl',
+            'transmission' => 'АКПП',
+            'engine' => 24,
+            'drive' => 'Передний'
+        ]);
+
+        DB::table('equipment')->insert([
+            'model_id' => 16,
+            'name' => '3.0 MT',
+            'transmission' => 'МКПП',
+            'engine' => 25,
+            'drive' => 'Задний'
+        ]);
+
+        DB::table('equipment')->insert([
+            'model_id' => 17,
+            'name' => '2.0 TFSI quattro MT',
+            'transmission' => 'МКПП',
+            'engine' => 26,
+            'drive' => 'Полный'
+        ]);
+
     }
 }

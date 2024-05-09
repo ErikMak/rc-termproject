@@ -1,5 +1,5 @@
 <template>
-  <div class="background w-100">
+  <div class="auth-background w-100">
     <div class="logo position-relative">
       <!--  Логотип компании  -->
       <v-img
@@ -21,6 +21,7 @@
               variant="outlined"
               placeholder="username"
               v-model="signinForm.login"
+              :error-messages="signinForm.loginError"
               required
           >
             <template v-slot:prepend-inner>
@@ -37,6 +38,7 @@
               variant="outlined"
               placeholder="***"
               v-model="signinForm.password"
+              :error-messages="signinForm.passwordError"
               required
           >
             <template v-slot:prepend-inner>
@@ -49,7 +51,8 @@
           <p class="text-center mb-4">Нету аккаунта?<a class="text-blue" @click.prevent="(form = 0)" href="#">Зарегистрироваться</a></p>
           <v-btn
               type="submit"
-              class="mb-3 auth-button"
+              id="auth-button"
+              class="mb-3"
               size="large"
               variant="flat"
               block
@@ -67,7 +70,7 @@
               density="compact"
               variant="outlined"
               placeholder="username"
-              :error-messages="loginError"
+              :error-messages="signupForm.loginError"
               v-model="signupForm.login"
               required
           >
@@ -84,7 +87,7 @@
               density="compact"
               variant="outlined"
               placeholder="***"
-              :error-messages="passwordError"
+              :error-messages="signupForm.passwordError"
               v-model="signupForm.password"
               required
           >
@@ -102,7 +105,7 @@
               variant="outlined"
               placeholder="***"
               required
-              :error-messages="repeatPasswordError"
+              :error-messages="signupForm.repeatPasswordError"
               v-model="signupForm.repeat_password"
           >
             <template v-slot:prepend-inner>
@@ -114,7 +117,8 @@
           </v-text-field>
           <p class="text-center mb-4">Уже есть аккаунт?<a class="text-blue" href="#" @click.prevent="(form = 1)">Войти</a></p>
           <v-btn
-              class="mb-3 auth-button"
+              id="auth-button"
+              class="mb-3"
               size="large"
               type="submit"
               variant="flat"
@@ -132,21 +136,24 @@
 import { defineComponent } from "vue";
 import AuthService from "@/services/AuthService";
 import {mapActions} from "vuex";
+import toasts from "toastr";
 
 interface State {
   form: number,
   signupForm: {
-    login: string,
-    password: string,
+    login: string
+    password: string
     repeat_password: string
+    loginError: string
+    passwordError: string
+    repeatPasswordError: string
   },
   signinForm: {
-    login: string,
-    password: string,
+    login: string
+    password: string
+    loginError: string
+    passwordError: string
   },
-  loginError: string,
-  passwordError: string,
-  repeatPasswordError: string
 }
 export default defineComponent({
   name: "AuthView",
@@ -155,42 +162,42 @@ export default defineComponent({
     signupForm: {
       login: '',
       password: '',
-      repeat_password: ''
+      repeat_password: '',
+      repeatPasswordError: '',
+      loginError: '',
+      passwordError: ''
     },
     signinForm: {
       login: '',
       password: '',
+      loginError: '',
+      passwordError: ''
     },
-    repeatPasswordError: '',
-    loginError: '',
-    passwordError: ''
   }),
   methods: {
     ...mapActions(["checkLoggedStatus"]),
     checkLogin() {
-      // const rv_username = /^(?=.{1,30}$)[a-zA-Z][a-zA-Z0-9]*(?: [a-zA-Z0-9]+)*$/;
-      const rv_username = /$/
+      const rv_username = /^(?=.{1,30}$)[a-zA-Z][a-zA-Z0-9]*(?: [a-zA-Z0-9]+)*$/;
       let valid = false
 
       if(this.signupForm.login != '' && rv_username.test(this.signupForm.login)) {
-        this.loginError = ''
+        this.signupForm.loginError = ''
         valid = true
       } else {
-        this.loginError = 'Некорректный логин'
+        this.signupForm.loginError = 'Некорректный логин'
       }
 
       return valid
     },
     checkPassword() {
-      // const rv_password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,30}$/;
-      const rv_password = /$/
+      const rv_password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,30}$/;
       let valid = false
 
       if(this.signupForm.password != '' && rv_password.test(this.signupForm.password)) {
-        this.passwordError = ''
+        this.signupForm.passwordError = ''
         valid = true
       } else {
-        this.passwordError = 'Некорректный пароль'
+        this.signupForm.passwordError = 'Некорректный пароль'
       }
 
       return valid
@@ -199,24 +206,55 @@ export default defineComponent({
       let valid = false
 
       if(this.signupForm.password == this.signupForm.repeat_password && this.signupForm.password) {
-        this.repeatPasswordError = ''
+        this.signupForm.repeatPasswordError = ''
         valid = true
       } else {
-        this.repeatPasswordError = 'Повторите пароль'
+        this.signupForm.repeatPasswordError = 'Повторите пароль'
+      }
+
+      return valid
+    },
+    checkLoginIsNull() {
+      let valid = false
+
+      if(this.signinForm.login != '') {
+        this.signinForm.loginError = ''
+        valid = true
+      } else {
+        this.signinForm.loginError = 'Поле не может быть пустым'
+      }
+
+      return valid
+    },
+    checkPasswordIsNull() {
+      let valid = false
+
+      if(this.signinForm.password != '') {
+        this.signinForm.passwordError = ''
+        valid = true
+      } else {
+        this.signinForm.passwordError = 'Поле не может быть пустым'
       }
 
       return valid
     },
     auth() {
-      AuthService.login({
-        login: this.signinForm.login,
-        password: this.signinForm.password
-      }).then(() => {
-        this.checkLoggedStatus()
-        this.$router.push('/')
-      }).catch(err => {
-        alert(err)
-      })
+      let isPasswordValid = this.checkPasswordIsNull(),
+          isLoginValid = this.checkLoginIsNull();
+
+      let isFormValid = isPasswordValid && isLoginValid;
+
+      if(isFormValid) {
+        AuthService.login({
+          login: this.signinForm.login,
+          password: this.signinForm.password
+        }).then(() => {
+          this.checkLoggedStatus()
+          this.$router.push('/')
+        }).catch(err => {
+          toasts.error(err.response.data.error);
+        })
+      }
     },
     register() {
       let isPasswordValid = this.checkPassword(),
@@ -226,38 +264,52 @@ export default defineComponent({
       let isFormValid = isLoginValid && isPasswordValid && isRepeatPasswordValid
 
       if(isFormValid) {
-      //   РЕГИСТРАЦИЯ
+        AuthService.register({
+          login: this.signupForm.login,
+          password: this.signupForm.password
+        }).then(() => {
+          this.form = 1
+          toasts.success('Успешная регистрация!');
+        }).catch(err => {
+
+          if(Object.hasOwn(err.response.data.error, 'login')) {
+            const loginError = err.response.data.error.login
+            toasts.error(loginError.pop())
+            return
+          }
+
+          toasts.error(err.response.data.error);
+        })
       }
     }
   }
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '@/assets/theme';
+@import 'toastr';
 
-.auth-button {
+#auth-button {
   min-height: 46px;
   text-align: center;
   width: 100%;
   background-color: $yellow;
 }
 
-.background {
+.auth-background {
   background-image: url("@/assets/back-auth.jpg");
   background-size: cover;
-}
-
-.logo {
-  top: 5%;
-  left: 7%;
-}
-
-.logo-link {
-  top: 0;
-  max-width: 86px;
-  width: 100%;
-  height: 100%;
+  .logo {
+    top: 5%;
+    left: 7%;
+  }
+  .logo-link {
+    top: 0;
+    max-width: 86px;
+    width: 100%;
+    height: 100%;
+  }
 }
 
 </style>

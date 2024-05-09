@@ -34,9 +34,6 @@ export default defineComponent({
   computed: {
     ...mapGetters(["getLoggedStatus", "getUserLogin", "getUserBalance"])
   },
-  created() {
-    this.checkLoggedStatus()
-  }
 })
 </script>
 

@@ -10,6 +10,8 @@ const guard = function (next: NavigationGuardNext) {
             if(response.data.status == true) {
                 store.commit('updateLoggedStatus', true)
                 store.commit('updateLogin', response.data.data.login)
+                store.commit('updateBalance', response.data.data.balance)
+                store.commit('updateUserID', response.data.data.id)
                 next()
             } else {
                 store.commit('updateLoggedStatus', false)
@@ -18,4 +20,5 @@ const guard = function (next: NavigationGuardNext) {
         }
     )
 }
+
 export default guard;
