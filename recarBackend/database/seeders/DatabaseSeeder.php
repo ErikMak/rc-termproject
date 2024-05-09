@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             OfficeSeeder::class,
             ManagerSeeder::class,
             MechanicSeeder::class,
+            CommentSeeder::class,
         ]);
     }
 }

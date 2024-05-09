@@ -201,5 +201,50 @@ class EngineSeeder extends Seeder
             'fuel' => 'Дизель',
             'type' => 'Рядный, 6-цилиндровый'
         ]);
+
+        DB::table('engines')->insert([
+            'id' => 22,
+            'mark' => 'CYMC',
+            'HP' => 256,
+            'volume' => 2.0,
+            'fuel' => 'АИ-95',
+            'type' => 'Рядный, 4-цилиндровый'
+        ]);
+
+        DB::table('engines')->insert([
+            'id' => 23,
+            'mark' => 'G4LC',
+            'HP' => 100,
+            'volume' => 1.4,
+            'fuel' => 'АИ-95',
+            'type' => 'Рядный, 4-цилиндровый'
+        ]);
+
+        DB::table('engines')->insert([
+            'id' => 24,
+            'mark' => 'G4FA',
+            'HP' => 108,
+            'volume' => 1.4,
+            'fuel' => 'АИ-95',
+            'type' => 'Рядный, 4-цилиндровый'
+        ]);
+
+        DB::table('engines')->insert([
+            'id' => 25,
+            'mark' => 'S55B30',
+            'HP' => 460,
+            'volume' => 3.0,
+            'fuel' => 'АИ-95',
+            'type' => 'Рядный, 6-цилиндровый'
+        ]);
+
+        DB::table('engines')->insert([
+            'id' => 26,
+            'mark' => 'CDNB',
+            'HP' => 180,
+            'volume' => 2.0,
+            'fuel' => 'АИ-95',
+            'type' => 'Рядный, 4-цилиндровый'
+        ]);
     }
 }

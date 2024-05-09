@@ -15,16 +15,17 @@
     </div>
     <!--  Аватарка  -->
     <template v-slot:append>
-      <v-avatar v-if="getLoggedStatus" class="me-1">
+      <v-avatar v-if="getLoggedStatus" class="me-2">
         <v-img
             :src="avatar"
         ></v-img>
       </v-avatar>
       <v-btn v-else
-          to="auth"
-         color="white"
-         variant="tonal"
+             color="white"
+             variant="tonal"
              size="small"
+             class="me-2"
+             to="auth"
       >
         Войти
       </v-btn>
@@ -45,14 +46,23 @@ export default defineComponent({
     avatar: avatar,
     logo: logo
   }),
+<<<<<<< HEAD
+=======
+  created() {
+    this.checkLoggedStatus()
+  },
+>>>>>>> 850e030d9597d031cb0ff56167b412887c30162e
   methods: {
     ...mapActions(["checkLoggedStatus"])
   },
   computed: {
     ...mapGetters(["getLoggedStatus"])
+<<<<<<< HEAD
   },
   created() {
     this.checkLoggedStatus()
+=======
+>>>>>>> 850e030d9597d031cb0ff56167b412887c30162e
   }
 });
 </script>
