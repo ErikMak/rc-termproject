@@ -38,7 +38,7 @@ class CommentController extends BaseController
                 'rating' => $validated['rating']
             ]);
 
-            return $this->sendResponse($validated, 'Отзыв добавлен!');
+            return $this->sendResponse($comment, 'Отзыв добавлен!');
         }
 
         return $this->sendError('Отзыв уже добавлен!');
@@ -93,7 +93,7 @@ class CommentController extends BaseController
           return $this->sendResponse(Number::format($rating, precision: 1));
         }
 
-        $rating = Number::format($rating/$comments->count(), precision: 1, maxPrecision: 1);
+        $rating = Number::format($rating/$comments->count(), precision: 1);
         return $this->sendResponse($rating);
     }
 }

@@ -264,7 +264,22 @@ export default defineComponent({
       let isFormValid = isLoginValid && isPasswordValid && isRepeatPasswordValid
 
       if(isFormValid) {
-      //   РЕГИСТРАЦИЯ
+        AuthService.register({
+          login: this.signupForm.login,
+          password: this.signupForm.password
+        }).then(() => {
+          this.form = 1
+          toasts.success('Успешная регистрация!');
+        }).catch(err => {
+
+          if(Object.hasOwn(err.response.data.error, 'login')) {
+            const loginError = err.response.data.error.login
+            toasts.error(loginError.pop())
+            return
+          }
+
+          toasts.error(err.response.data.error);
+        })
       }
     }
   }

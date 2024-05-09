@@ -9,6 +9,7 @@ use App\Http\Requests\StoreReservationRequest;
 use App\Http\Resources\Reservation\ReservationResource;
 use App\Models\Equipment;
 use App\Models\Reservation;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ReservationController extends BaseController
@@ -19,7 +20,7 @@ class ReservationController extends BaseController
      */
     public function index(ReservationFilter $filter)
     {
-        $reservations = Reservation::filter($filter)->get();
+        $reservations = Reservation::filter($filter)->with('car')->with('equipment')->get();
 
         return $this->sendResponse(ReservationResource::collection($reservations));
     }
@@ -31,10 +32,18 @@ class ReservationController extends BaseController
     {
         $validated = $request->validated();
 
-        $equipment = Equipment::find($validated['equip_id'])->with('autopark')->get();
+        $equipment = Equipment::where('equip_id', $validated['equip_id'])->with('autopark')->get();
 
-        if($equipment->only('is_exist')) {
-            return $this->sendError('Комплектация не доступна для аренды!');
+        foreach ($equipment as $item) {
+            $autopark = $item->autopark;
+            if (!$autopark->is_exist) {
+               return $this->sendError('Комплектация не доступна для аренды!');
+            }
+        }
+
+        $user = User::find($validated['user_id']);
+        if(floatval($user['balance']) < floatval($validated['total_cost'])) {
+            return $this->sendError('Недостаточно средств!');
         }
 
         $reservation = Reservation::create([
@@ -45,6 +54,10 @@ class ReservationController extends BaseController
             'date_return' => $validated['date_return'],
             'total_cost' => $validated['total_cost'],
         ]);
+
+        $user->balance = floatval($user['balance']) - floatval($validated['total_cost']);
+        $user->save();
+
 
         return $this->sendResponse($validated, 'Машина успешно забронирована!');
     }

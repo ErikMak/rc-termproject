@@ -80,6 +80,7 @@ export default defineComponent({
 
 <style lang="scss">
 @import '@/assets/theme';
+@import 'toastr';
 
 .favorites-grid {
   display: grid;
@@ -103,8 +104,4 @@ export default defineComponent({
     }
   }
 }
-</style>
-
-<style lang="scss" scoped>
-@import 'toastr';
 </style>

@@ -19,4 +19,12 @@ class Reservation extends Model
         'date_return',
         'total_cost',
     ];
+
+    public function car() {
+        return $this->belongsTo(Car::class, 'model_id', 'model_id');
+    }
+
+    public function equipment() {
+        return $this->belongsTo(Equipment::class, 'equip_id', 'equip_id');
+    }
 }

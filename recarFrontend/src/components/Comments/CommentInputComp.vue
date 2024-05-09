@@ -97,10 +97,10 @@ export default defineComponent({
                   rating: rating,
                 }, (res: Response) => {
                   this.pushComment({
-                    created_at: +new Date(),
-                    id: 0,
-                    rating: rating,
-                    text: this.text,
+                    created_at: res.data.created_at,
+                    id: res.data.id,
+                    rating: res.data.rating,
+                    text: res.data.text,
                     user: user_name
                   })
 
