@@ -4,7 +4,7 @@
     <p class="text-h6 me-1">{{ getUserLogin }}</p>
     <a class="text-subtitle-1 text-decoration-underline" @click.prevent="logout()">выйти</a>
   </div>
-  <v-sheet class="bg-black pa-4 rounded mt-3">
+  <v-sheet class="bg-balance pa-4 rounded mt-3">
     <p>Баланс</p>
     <b class="text-h5">{{ getUserBalance }}$</b>
   </v-sheet>
@@ -44,5 +44,12 @@ a {
   pointer-events: all;
   cursor: pointer;
   color: $blue;
+}
+
+.bg-balance {
+  color: white;
+  background-image: url("@/assets/noise-back.jpg");
+  background-position-y: 80%;
+  background-size: cover;
 }
 </style>
