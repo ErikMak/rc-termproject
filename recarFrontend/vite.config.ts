@@ -18,10 +18,13 @@ export default defineConfig({
   server: {
     proxy: {
       '^/api/': {
-        target: 'http://127.0.0.1:8000',
+        target: 'http://77.232.129.179',
         changeOrigin: true,
         secure: false,
       }
     }
+  },
+  build: {
+    chunkSizeWarningLimit: 5000
   }
 })

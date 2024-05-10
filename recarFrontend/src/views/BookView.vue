@@ -65,7 +65,7 @@
 
 <script lang="ts">
 import { defineComponent} from "vue";
-import {ReservationCoupleType} from "@/types/IReservationCouple";
+import type {ReservationCoupleType} from "@/types/IReservationCouple";
 import ApiCar from '@/common/cars'
 import toasts from "toastr";
 import ApiEquip from '@/common/equipments'

@@ -55,7 +55,7 @@ export default defineComponent({
     ...mapActions(["uploadCatalogCars", "findCatalogCars"]),
     getValueFromChild(val: string) : void {
       this.car_name = val
-    }
+    },
   },
   computed: {
     ...mapGetters(["getCatalogCars", "getCatalogPreloader"])
