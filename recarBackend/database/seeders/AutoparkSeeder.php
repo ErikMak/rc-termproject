@@ -18,6 +18,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 1,
             'is_exist' => 0,
             'fuel' => 0,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -25,6 +27,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 1,
             'is_exist' => 1,
             'fuel' => 32,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -32,6 +36,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 2,
             'is_exist' => 1,
             'fuel' => 63,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -39,6 +45,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 2,
             'is_exist' => 1,
             'fuel' => 70,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -46,6 +54,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 3,
             'is_exist' => 1,
             'fuel' => 44,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -53,6 +63,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 2,
             'is_exist' => 0,
             'fuel' => 0,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -60,6 +72,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 3,
             'is_exist' => 0,
             'fuel' => 0,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -67,6 +81,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 1,
             'is_exist' => 1,
             'fuel' => 35,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -74,6 +90,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 3,
             'is_exist' => 1,
             'fuel' => 54,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -81,6 +99,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 1,
             'is_exist' => 1,
             'fuel' => 47,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -88,6 +108,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 3,
             'is_exist' => 1,
             'fuel' => 12,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -95,6 +117,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 3,
             'is_exist' => 0,
             'fuel' => 0,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -102,6 +126,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 3,
             'is_exist' => 0,
             'fuel' => 0,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -109,6 +135,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 1,
             'is_exist' => 1,
             'fuel' => 61,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -116,6 +144,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 1,
             'is_exist' => 1,
             'fuel' => 24,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -123,6 +153,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 2,
             'is_exist' => 1,
             'fuel' => 80,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -130,6 +162,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 2,
             'is_exist' => 0,
             'fuel' => 0,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -137,6 +171,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 2,
             'is_exist' => 1,
             'fuel' => 38,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -144,6 +180,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 3,
             'is_exist' => 1,
             'fuel' => 80,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -151,6 +189,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 1,
             'is_exist' => 1,
             'fuel' => 46,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -158,6 +198,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 3,
             'is_exist' => 1,
             'fuel' => 18,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -165,6 +207,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 3,
             'is_exist' => 0,
             'fuel' => 0,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -172,6 +216,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 2,
             'is_exist' => 1,
             'fuel' => 100,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -179,6 +225,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 2,
             'is_exist' => 1,
             'fuel' => 33,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -186,6 +234,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 1,
             'is_exist' => 0,
             'fuel' => 0,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -193,6 +243,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 2,
             'is_exist' => 1,
             'fuel' => 22,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -200,6 +252,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 2,
             'is_exist' => 1,
             'fuel' => 40,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -207,6 +261,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 3,
             'is_exist' => 0,
             'fuel' => 20,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -214,6 +270,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 3,
             'is_exist' => 1,
             'fuel' => 30,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
 
         DB::table('autopark')->insert([
@@ -221,6 +279,8 @@ class AutoparkSeeder extends Seeder
             'parking_id' => 1,
             'is_exist' => 1,
             'fuel' => 75,
+            'lat' => 58.206988,
+            'long' => 30.723095
         ]);
     }
 }

@@ -19,7 +19,7 @@ class CommentResource extends JsonResource
             'id' => $this->id,
             'user' => $this->user->login,
             'text' => $this->text,
-            'rating' => Number::format($this->rating, precision: 1),
+            'rating' => round($this->rating, 1),
             'created_at' => $this->created_at
         ];
     }

@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Services;
+namespace app\Services;
 
 interface PermissionCheckable {
     public function canDelete($object) : bool;

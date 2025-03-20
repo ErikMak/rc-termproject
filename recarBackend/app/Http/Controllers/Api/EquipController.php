@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\Equipment\EquipAutoparkResource;
 use App\Http\Resources\Equipment\EquipResource;
 use App\Models\Equipment;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class EquipController extends BaseController
@@ -12,9 +12,9 @@ class EquipController extends BaseController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index() : JsonResponse
     {
-        $equipments = Equipment::all();
+        $equipments = Equipment::with('car_engine')->with('autopark')->get();
 
         return $this->sendResponse(EquipResource::collection($equipments));
     }
@@ -38,16 +38,16 @@ class EquipController extends BaseController
     /**
      * Display the specified resource.
      */
-    public function show(string $model_id) {
+    public function show(int $model_id) : JsonResponse {
         $equipments = Equipment::where('model_id', $model_id)
             ->with('car_engine')
             ->with('autopark')
             ->get();
 
-        $collection = EquipAutoparkResource::collection($equipments);
+        $collection = EquipResource::collection($equipments);
 
         if($collection->count() == 0) {
-            return $this->sendError('Комплектации на машину не найдены');
+            return $this->sendError('Комплектации на машину не найдены', 404);
         }
 
         return $this->sendResponse($collection);

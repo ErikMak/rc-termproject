@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class StoreReservationRequest extends FormRequest
+class StoreReservationRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -12,6 +10,23 @@ class StoreReservationRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
+    }
+
+    public function messages(): array
+    {
+        return [
+            'model_id.required' => 'Не указан ID машины',
+            'model_id.exists' => 'Машины с таким ID не существует',
+            'equip_id.required' => 'Не указан ID комплектации',
+            'equip_id.exists' => 'Комплектации с таким ID не существует',
+            'date_issue.required' => 'Не указана дата начала аренды',
+            'date_issue.date' => 'Дата начала аренды должна быть выражена строкой, совместимой с функцией strtotime',
+            'date_return.required' => 'Не указана дата конца аренды',
+            'date_return.date' => 'Дата конца аренды должна быть выражена строкой, совместимой с функцией strtotime',
+            'total_cost.required' => 'Не указана итоговая цена',
+            'total_cost.numeric' => 'Итоговая цена должна быть числом',
+            'total_cost.min' => 'Итоговая цена должна быть положительной',
+        ];
     }
 
     /**
@@ -22,10 +37,6 @@ class StoreReservationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => [
-                'required',
-                'exists:users,id'
-            ],
             'model_id' => [
                 'required',
                 'exists:cars,model_id'

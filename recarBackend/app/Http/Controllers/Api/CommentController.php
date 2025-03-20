@@ -4,13 +4,20 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Resources\Comment\CommentResource;
-use App\Http\Services\PermissionService;
 use App\Models\Comment;
+use App\Services\CommentService;
+use app\Services\PermissionService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Number;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends BaseController
 {
+    protected CommentService $commentService;
+    public function __construct() {
+        $this->commentService = new CommentService();
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -22,18 +29,18 @@ class CommentController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCommentRequest $request)
+    public function store(StoreCommentRequest $request) : JsonResponse
     {
         $validated = $request->validated();
-
-        $comment = Comment::where('user_id', $validated['user_id'])
+        $user_id = Auth::user()->id;
+        $comment = Comment::where('user_id', $user_id)
         ->where('car_id', $validated['car_id'])
         ->get();
 
         if($comment->count() == 0) {
             $comment = Comment::create([
                 'car_id' => $validated['car_id'],
-                'user_id' => $validated['user_id'],
+                'user_id' => $user_id,
                 'text' => $validated['text'],
                 'rating' => $validated['rating']
             ]);
@@ -47,7 +54,7 @@ class CommentController extends BaseController
     /**
      * Display the specified resource.
      */
-    public function show(string $model_id)
+    public function show(int $model_id) : JsonResponse
     {
         $comments = Comment::where('car_id', $model_id)->with('user')->get();
 
@@ -65,7 +72,7 @@ class CommentController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $comment_id)
+    public function destroy(int $comment_id) : JsonResponse
     {
         $comment = Comment::find($comment_id);
 
@@ -78,22 +85,11 @@ class CommentController extends BaseController
         }
 
         $comment->delete();
-        $this->sendResponse([]);
+        return $this->sendResponse([]);
     }
 
-    public function rating(string $model_id) {
-        $comments = Comment::where('car_id', $model_id)->get();
-
-        $rating = 0;
-        foreach ($comments as $comment) {
-            $rating += $comment['rating'];
-        }
-
-        if($rating == 0) {
-          return $this->sendResponse(Number::format($rating, precision: 1));
-        }
-
-        $rating = Number::format($rating/$comments->count(), precision: 1);
+    public function rating(int $model_id) : JsonResponse {
+        $rating = $this->commentService->calculateRatingForCar($model_id);
         return $this->sendResponse($rating);
     }
 }

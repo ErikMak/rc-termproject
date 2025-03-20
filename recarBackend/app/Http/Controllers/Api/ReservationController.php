@@ -2,38 +2,44 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Services\PermissionService;
-use App\Http\Filters\Filterable;
-use App\Http\Filters\ReservationFilter;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Resources\Reservation\ReservationResource;
 use App\Models\Equipment;
 use App\Models\Reservation;
 use App\Models\User;
+use app\Services\PermissionService;
+use App\Services\ReservationService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends BaseController
 {
-    use Filterable;
+    protected ReservationService $reservationService;
+    public function __construct() {
+        $this->reservationService = new ReservationService();
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index(ReservationFilter $filter)
+    public function index(Request $request) : JsonResponse
     {
-        $reservations = Reservation::filter($filter)->with('car')->with('equipment')->get();
-
+        $reservations = $this->reservationService->getAllUserReservations();
         return $this->sendResponse(ReservationResource::collection($reservations));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreReservationRequest $request)
+    public function store(StoreReservationRequest $request) : JsonResponse
     {
         $validated = $request->validated();
-
+        $user = Auth::user();
         $equipment = Equipment::where('equip_id', $validated['equip_id'])->with('autopark')->get();
 
+
+        // ??? заменить процедурой
         foreach ($equipment as $item) {
             $autopark = $item->autopark;
             if (!$autopark->is_exist) {
@@ -41,10 +47,13 @@ class ReservationController extends BaseController
             }
         }
 
-        $user = User::find($validated['user_id']);
-        if(floatval($user['balance']) < floatval($validated['total_cost'])) {
+        if(floatval($user->balance) < floatval($validated['total_cost'])) {
             return $this->sendError('Недостаточно средств!');
         }
+
+        /*
+         * модуль AI (нужно собрать данные, отправить запрос, обработать ответы)
+         */
 
         $reservation = Reservation::create([
             'user_id' => $validated['user_id'],
@@ -55,7 +64,7 @@ class ReservationController extends BaseController
             'total_cost' => $validated['total_cost'],
         ]);
 
-        $user->balance = floatval($user['balance']) - floatval($validated['total_cost']);
+        $user->balance = floatval($user->balance) - floatval($validated['total_cost']);
         $user->save();
 
 
@@ -81,7 +90,7 @@ class ReservationController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $reservation_id)
+    public function destroy(int $reservation_id) : JsonResponse
     {
         $reservation = Reservation::find($reservation_id);
 
@@ -94,6 +103,6 @@ class ReservationController extends BaseController
         }
 
         $reservation->delete();
-        $this->sendResponse([]);
+        return $this->sendResponse([]);
     }
 }

@@ -11,6 +11,8 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "php-open-source-saver/jwt-auth": "^2.2",
+        "predis/predis": "^2.3",
+        "spatie/laravel-permission": "^6.16",
         "staudenmeir/laravel-migration-views": "^1.0"
     },
     "require-dev": {

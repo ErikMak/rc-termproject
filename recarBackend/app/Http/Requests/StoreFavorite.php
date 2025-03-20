@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class StoreFavorite extends FormRequest
+class StoreFavorite extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -12,6 +10,14 @@ class StoreFavorite extends FormRequest
     public function authorize(): bool
     {
         return true;
+    }
+
+    public function messages(): array
+    {
+        return [
+            'car_id.required' => 'Не указан ID машины',
+            'car_id.exists' => 'Машины с таким ID не существует',
+        ];
     }
 
     /**
@@ -25,11 +31,7 @@ class StoreFavorite extends FormRequest
             'car_id' => [
                 'required',
                 'exists:cars,model_id'
-            ],
-            'user_id' => [
-                'required',
-                'exists:users,id'
-            ],
+            ]
         ];
     }
 }

@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class StoreCommentRequest extends FormRequest
+class StoreCommentRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -12,6 +10,18 @@ class StoreCommentRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
+    }
+
+    public function messages(): array
+    {
+        return [
+            'car_id.required' => 'ID машины не может быть пустым',
+            'car_id.exists' => 'Машины с таким ID не существует',
+            'text.required' => 'Текст комментария не может быть пустым',
+            'text.regex' => 'Присутствуют недопустимые символы или длина комментария превышает 500 символов',
+            'rating.required' => 'Не указана оценка',
+            'rating.decimal' => 'Оценка должна быть числом с плавающей точкой и одним знаком после запятой'
+        ];
     }
 
     /**
@@ -25,10 +35,6 @@ class StoreCommentRequest extends FormRequest
             'car_id' => [
                 'required',
                 'exists:cars,model_id'
-            ],
-            'user_id' => [
-                'required',
-                'exists:users,id'
             ],
             'text' => [
                 'required',

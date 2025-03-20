@@ -3,15 +3,18 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\MessageBag;
 
-class UpdateCarRequest extends FormRequest
+class BaseRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,5 +27,13 @@ class UpdateCarRequest extends FormRequest
         return [
             //
         ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'status'   => false,
+            'error'      => $validator->errors()
+        ]));
     }
 }
