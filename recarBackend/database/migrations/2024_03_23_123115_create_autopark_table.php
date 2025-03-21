@@ -20,7 +20,7 @@ return new class extends Migration
            $table->index('parking_id', 'parking_idx');
            $table->foreign('parking_id', 'parking_autopark_fk')->on('parking')
                ->references('parking_id')->onDelete('cascade');
-           $table->tinyInteger('is_exist')->default('0');
+           $table->unsignedTinyInteger('is_exist')->default('0');
            $table->integer('fuel')->unsigned()->default('0');
            $table->double('lat', 3, 6);
            $table->double('long', 3, 6);

@@ -26,6 +26,9 @@ class StoreReservationRequest extends BaseRequest
             'total_cost.required' => 'Не указана итоговая цена',
             'total_cost.numeric' => 'Итоговая цена должна быть числом',
             'total_cost.min' => 'Итоговая цена должна быть положительной',
+            'peop_in_car.required' => 'Не указано количество людей в машине',
+            'peop_in_car.numeric' => 'Количество людей в машине должно быть числом',
+            'peop_in_car.min' => 'Количество людей в машине должно быть не менее 1',
         ];
     }
 
@@ -40,6 +43,11 @@ class StoreReservationRequest extends BaseRequest
             'model_id' => [
                 'required',
                 'exists:cars,model_id'
+            ],
+            'peop_in_car' => [
+              'required',
+              'numeric',
+                'min:1'
             ],
             'equip_id' => [
                 'required',

@@ -4,21 +4,24 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Resources\Reservation\ReservationResource;
-use App\Models\Equipment;
 use App\Models\Reservation;
-use App\Models\User;
+use App\Services\IntegrationAIService;
 use app\Services\PermissionService;
 use App\Services\ReservationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ReservationController extends BaseController
 {
     protected ReservationService $reservationService;
+    protected IntegrationAIService $integrationAIService;
     public function __construct() {
         $this->reservationService = new ReservationService();
+        $this->integrationAIService = new IntegrationAIService();
     }
+
 
     /**
      * Display a listing of the resource.
@@ -36,15 +39,11 @@ class ReservationController extends BaseController
     {
         $validated = $request->validated();
         $user = Auth::user();
-        $equipment = Equipment::where('equip_id', $validated['equip_id'])->with('autopark')->get();
 
+        $equipment_exists = DB::table('exists_cars_view')->where('equip_id', $validated['equip_id'])->count();
 
-        // ??? заменить процедурой
-        foreach ($equipment as $item) {
-            $autopark = $item->autopark;
-            if (!$autopark->is_exist) {
-               return $this->sendError('Комплектация не доступна для аренды!');
-            }
+        if(!$equipment_exists) {
+            return $this->sendError('Комплектация не доступна для аренды!');
         }
 
         if(floatval($user->balance) < floatval($validated['total_cost'])) {
@@ -52,11 +51,24 @@ class ReservationController extends BaseController
         }
 
         /*
-         * модуль AI (нужно собрать данные, отправить запрос, обработать ответы)
+         * Модуль DTP PREDICTION AI
          */
 
+        $allowance = $this->integrationAIService->isCarAccidentPossible(
+            $validated['equip_id'],
+            $validated['peop_in_car'],
+            $user
+        );
+
+        if(!$allowance)
+            return $this->sendError('На основе анализа системой предупреждения ДТП
+            текущих условий, характеристик авто и вашего опыта, мы рекомендуем вам воздержаться
+            от управления выбранным автомобилем в данный момент.
+            Пожалуйста, рассмотрите возможность использования альтернативного
+            транспорта или подождите, пока ситуация улучшится.', 103);
+
         $reservation = Reservation::create([
-            'user_id' => $validated['user_id'],
+            'user_id' => $user->id,
             'model_id' => $validated['model_id'],
             'equip_id' => $validated['equip_id'],
             'date_issue' => $validated['date_issue'],

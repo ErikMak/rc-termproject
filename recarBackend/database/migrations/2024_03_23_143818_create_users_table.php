@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('password', 255);
             $table->double('balance')->default(0);
             $table->integer('exp')->unsigned()->nullable();
-            $table->boolean('gender')->nullable();
+            $table->unsignedTinyInteger('gender')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

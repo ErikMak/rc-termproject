@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('engines', function (Blueprint $table) {
             $table->increments('id');
             $table->text('mark');
-            $table->integer('HP');
-            $table->double('volume', 3, 1);
+            $table->unsignedInteger('HP');
+            $table->unsignedDouble('volume', 3, 1);
             $table->string('fuel', 8);
             $table->text('type');
         });
