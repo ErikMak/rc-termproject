@@ -1,11 +1,11 @@
 <template>
   <li
-      class="pa-2 me-2 d-flex align-center justify-center position-relative mobile-nav-item"
+      class="pa-2 d-flex align-center justify-center position-relative mobile-nav-item"
       :class="classObject"
   >
       <font-awesome-icon :icon="icon" />
       <p class="title ms-2 font-weight-medium">{{ title }}</p>
-      <router-link :to="path" class="mobile-nav-link pa-0"></router-link>
+      <router-link :to="obj" class="mobile-nav-link pa-0"></router-link>
   </li>
 </template>
 
@@ -23,23 +23,15 @@ export default defineComponent({
       type: String,
       required: true
     },
-    path: {
-      type: String,
+    obj: {
+      type: Object,
       required: true
     },
-    name: {
-      type: String,
-      required: true
-    },
-    alias_name: {
-      type: String,
-      required: false
-    }
   },
   computed: {
-    classObject() {
+    classObject() : any {
       return {
-        'router-link-exact-active': this.$route.name === this.name || this.$route.name === this.alias_name,
+        'router-link-exact-active': this.$route.name === this.obj.name,
       }
     }
   },

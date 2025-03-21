@@ -15,8 +15,8 @@
           >
           </textarea>
         </span>
-    <div v-if="errorText" style="margin-top: -5px;" class="mb-2">
-      <small class="text-red">{{ errorText }}</small>
+    <div v-show="errors.text" style="margin-top: -5px;" class="mb-2">
+      <small class="text-red v-messages__message">{{ errors.text }}</small>
     </div>
     <div class="d-flex">
       <v-rating
@@ -43,11 +43,12 @@ import UserService from "@/services/UserService";
 import toasts from "toastr";
 import Api from "@/common/comments"
 import {mapMutations} from "vuex";
+import type {ResponseType} from '@/types/IResponse'
+import {UseCommentValidation} from "@/mixins/CommentValidationMixins";
 
 interface State {
   text: string,
   rating: number,
-  errorText: string
 }
 
 export default defineComponent({
@@ -60,27 +61,11 @@ export default defineComponent({
   data: (): State => ({
     text: '',
     rating: 0,
-    errorText: ''
   }),
   methods: {
     ...mapMutations(["pushComment"]),
-    checkCommentText() {
-      const rv_text = /^[a-zA-Zа-яА-Я0-9\s\.,!?()-]{1,500}$/;
-      let valid = false
-
-      if(this.text == '') {
-        this.errorText = 'Комментарий не может быть пустым'
-      } else if (!rv_text.test(this.text)) {
-        this.errorText = 'Присутсвуют недоспутимые символы или длина комментария превышает 500 символов'
-      } else {
-        valid = true
-        this.errorText = ''
-      }
-
-      return valid
-    },
     sendComment() {
-      let isCommentValid = this.checkCommentText();
+      let isCommentValid = this.commentValidation.checkCommentText(this);
 
       if(isCommentValid) {
         UserService.loginStatus().then(
@@ -88,14 +73,14 @@ export default defineComponent({
               if(response.data.status == true) {
                 const user_id = response.data.data.id
                 const user_name = response.data.data.login
-                const rating = parseFloat(this.rating).toFixed(1)
+                const rating = this.rating.toFixed(1)
 
                 Api.addComment({
                   car_id: this.car_id,
                   user_id: user_id,
                   text: this.text,
                   rating: rating,
-                }, (res: Response) => {
+                }, (res: ResponseType) => {
                   this.pushComment({
                     created_at: res.data.created_at,
                     id: res.data.id,
@@ -115,6 +100,14 @@ export default defineComponent({
         )
       }
     },
+  },
+  setup() {
+    const commentValidation = new UseCommentValidation()
+
+    return {
+      commentValidation,
+      errors: commentValidation.getErrors()
+    }
   }
 })
 </script>

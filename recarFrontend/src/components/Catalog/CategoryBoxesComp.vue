@@ -3,7 +3,7 @@
     <div
         class="category-box"
         :class="{'router-link-exact-active': this.$route.params.brand === item.link.params.brand}"
-        v-for="(item, i) in items"
+        v-for="(item, i) in categories"
         :key="i"
     >
         <v-img
@@ -20,79 +20,17 @@
     </div>
   </div>
   <div class="text-right mt-2">
-    <router-link to='/catalog' class="show-all-link text-right">показать все</router-link>
+    <router-link :to="{name: 'catalog_all'}" class="show-all-link text-right">показать все</router-link>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent} from "vue";
+import CategoriesMixins from "@/data/CategoriesMixins";
 
 export default defineComponent({
   name: "CategoryBoxesComponent",
-  data: () => ({
-    items: [
-      {
-        src: '../src/assets/logos/bmw.png',
-        alt: 'bmw',
-        link: {
-          name: 'catalog',
-          params: {
-            brand: 'bmw'
-          }
-        }
-      },
-      {
-        src: '../src/assets/logos/audi.png',
-        alt: 'audi',
-        link: {
-          name: 'catalog',
-          params: {
-            brand: 'audi'
-          }
-        }
-      },
-      {
-        src: '../src/assets/logos/mercedes.png',
-        alt: 'mercedes',
-        link: {
-          name: 'catalog',
-          params: {
-            brand: 'mercedes-benz'
-          }
-        }
-      },
-      {
-        src: '../src/assets/logos/porsche.png',
-        alt: 'porsche',
-        link: {
-          name: 'catalog',
-          params: {
-            brand: 'porsche'
-          }
-        }
-      },
-      {
-        src: '../src/assets/logos/hyundai.png',
-        alt: 'hyundai',
-        link: {
-          name: 'catalog',
-          params: {
-            brand: 'hyundai'
-          }
-        }
-      },
-      {
-        src: '../src/assets/logos/honda.png',
-        alt: 'honda',
-        link: {
-          name: 'catalog',
-          params: {
-            brand: 'honda'
-          }
-        }
-      }
-    ],
-  }),
+  mixins: [CategoriesMixins],
 })
 </script>
 

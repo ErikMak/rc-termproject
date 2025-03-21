@@ -7,6 +7,8 @@
 <script lang="ts">
 import { defineComponent} from "vue";
 import Api from '@/common/comments';
+import {ResponseType} from '@/types/IResponse'
+
 interface State {
   rating: string
 }
@@ -17,7 +19,7 @@ export default defineComponent({
     rating: '-.-'
   }),
   created() {
-    Api.getCarRating({model_id: this.$route.params.slug}, (res: Response) => {
+    Api.getCarRating({model_id: this.$route.params.slug}, (res: ResponseType) => {
       this.rating = res.data
     })
   }

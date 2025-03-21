@@ -27,7 +27,7 @@ export default defineComponent({
       logout() {
         UserService.logout().then(() => {
           this.checkLoggedStatus()
-          this.$router.push('/')
+          this.$router.push({name: 'welcome'})
         })
       }
   },

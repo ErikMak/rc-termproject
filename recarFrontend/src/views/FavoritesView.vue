@@ -10,7 +10,11 @@
           color="#f5f5f5"
       >
         <template v-slot:title>
-          <router-link :to="{name: 'car', params: { brand: row.car.brand.toLowerCase(), slug: row.car.model_id}}" class="pa-0">
+          <router-link :to="
+            {name: 'car',
+            params: { brand: row.car.brand.toLowerCase(),
+            slug: row.car.model_id}}
+          " class="pa-0">
             <div id="link">
               <p class="link-b font-weight-medium">{{ row.car.brand + ' ' + row.car.name }}</p>
             </div>
@@ -39,11 +43,11 @@ import TitleComponent from "@/components/Title/TitleComp.vue";
 import { defineComponent } from "vue";
 import Api from '@/common/favorites'
 import {mapGetters} from "vuex";
-import type {CarType} from "@/types/ICarData";
-import toasts from "toastr";
+import type {ResponseType} from "@/types/IResponse";
+import {FavoriteCarType} from "@/types/IFavoriteCarData";
 
 interface State {
-  favorites: Array<CarType>
+  favorites: Array<FavoriteCarType>
 }
 
 export default defineComponent({
@@ -57,12 +61,19 @@ export default defineComponent({
   methods: {
     deleteFromFavorites(index: number) {
       const idx = index.toString()
-      const model_id = this.favorites.at(index).car.model_id
 
-      Api.deleteFromFavorites({favorite_id: model_id}, (res: Response) => {
-        toasts.info(res.data)
-        document.getElementById(idx)?.remove()
-      })
+      const favoriteCar : FavoriteCarType | undefined = this.favorites.at(index)
+
+      if(favoriteCar) {
+        const model_id = favoriteCar.car.model_id.toString()
+
+        Api.deleteFromFavorites({favorite_id: model_id}, (res: ResponseType) => {
+          this.$toastr.info(res.data)
+          document.getElementById(idx)?.remove()
+        })
+      } else {
+        this.$toastr.error('Не удалось удалить авто из избранного!')
+      }
     }
   },
   computed: {
@@ -71,7 +82,7 @@ export default defineComponent({
   created() {
     const user_id = this.getUserID
 
-    Api.getFavorites({user: user_id}, (res: Response)  => {
+    Api.getFavorites({user: user_id}, (res: ResponseType)  => {
       this.favorites = res.data
     })
   }
@@ -80,7 +91,6 @@ export default defineComponent({
 
 <style lang="scss">
 @import '@/assets/theme';
-@import 'toastr';
 
 .favorites-grid {
   display: grid;

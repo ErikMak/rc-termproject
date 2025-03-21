@@ -21,7 +21,7 @@
   </v-row>
   <div class="wrapper pt-3">
       <CardPreloadComponent v-if="getCatalogPreloader" v-for="n in 2"></CardPreloadComponent>
-      <CardComponent v-else v-for="row in getCatalogCars" :data=row />
+      <CardComponent v-else v-for="row in getCatalogCars" :data=row data-testid="card"/>
   </div>
 </template>
 
@@ -33,7 +33,6 @@ import TitleComponent from "@/components/Title/TitleComp.vue";
 import CategoryBoxesComponent from "@/components/Catalog/CategoryBoxesComp.vue";
 import {mapActions, mapGetters} from "vuex";
 import CardPreloadComponent from "@/components/Catalog/CardPreloadComp.vue";
-import Api from '@/common/cars'
 
 interface State {
   car_name: string
@@ -56,14 +55,46 @@ export default defineComponent({
     getValueFromChild(val: string) : void {
       this.car_name = val
     },
+    uploadCars(brand: string) {
+      return new Promise((resolve: any) => {
+        this.uploadCatalogCars({brand: brand})
+
+        resolve()
+      })
+    }
   },
   computed: {
-    ...mapGetters(["getCatalogCars", "getCatalogPreloader"])
+    ...mapGetters(["getCatalogCars", "getCatalogPreloader"]),
+    page() : string {
+      return this.$route.query.page as string
+    },
+    brand() : string {
+      return this.$route.params.brand as string
+    }
+  },
+  beforeRouteUpdate(to: any, from: any, next: any) {
+    const page = this.page as string
+
+    // /*
+    //   Обработка перехода по страницам
+    //  */
+    // if(to.query.page !== from.query.page
+    //   && to.params.brand == from.params.brand
+    // ) {
+    //   this.uploadCatalogCars({
+    //     brand: to.params.brand
+    //   }).then(() => {
+    //
+    //   })
+    //
+      next()
+    //   return
+    // }
   },
   created() {
-    const brand = this.$route.params.brand
+    const brand = this.brand
 
-    this.uploadCatalogCars({brand: brand})
+    this.uploadCars(brand)
 
     this.$watch(
         () => this.$route.params,

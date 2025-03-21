@@ -18,7 +18,8 @@ export default defineConfig({
   server: {
     proxy: {
       '^/api/': {
-        target: 'http://77.232.129.179',
+        target: "http://127.0.0.1:8000/",
+        // target: "http://recar.ru",
         changeOrigin: true,
         secure: false,
       }
@@ -26,5 +27,14 @@ export default defineConfig({
   },
   build: {
     chunkSizeWarningLimit: 5000
-  }
+  },
+  test: {
+    environment: 'happy-dom',
+    globals: true,
+    server: {
+      deps: {
+        inline: ['vuetify'],
+      },
+    },
+  },
 })

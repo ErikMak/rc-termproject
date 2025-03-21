@@ -3,17 +3,17 @@
     <v-col class="pb-0">
       <div class="car-header-wrapper position-relative">
         <div class="back-arrow position-absolute">
-          <a class="back-link" @click="$router.push({path: '/catalog/'+this.$route.params.brand})">
+          <router-link class="back-link" :to="{name: 'catalog', params: {brand: this.$route.params.brand}}">
           <font-awesome-icon
               icon="fa-solid fa-chevron-left"
               size="lg"
-              style=""
           />
-          </a>
+          </router-link>
         </div>
-<!--    Header Preloader    -->
-        <div v-if="preloaderShow" class="header-text mx-auto effect-shine rounded-1"></div>
-        <div v-else class="text-center">
+        <CarHeaderPreloaderComponent
+            v-show="preloaderShow"
+        />
+        <div v-show="!preloaderShow" class="text-center">
           <h2 class="font-weight-medium">{{ details.brand + ' ' + details.name }}</h2>
         </div>
       </div>
@@ -23,10 +23,10 @@
     <v-col class="pb-0 position-relative">
       <div class="img-wrapper position-relative">
         <!--   Image Preloader   -->
-        <div v-if="preloaderShow" class="loader position-absolute"></div>
+        <div v-show="preloaderShow" class="loader position-absolute"></div>
         <v-img
-            v-else
-            :src="'../../src/assets/cars/'+details.img"
+            v-show="!preloaderShow"
+            :src="previewPic(details.img)"
             aspect-ratio="16/9"
             class="px-3"
         >
@@ -46,18 +46,18 @@
         <div class="car-specs pa-3">
           <div class="car-spec-col mb-1">
             <small class="label">Категория</small>
-            <div v-if="preloaderShow" class="small-text effect-shine rounded-1"></div>
-            <p v-else class="text">{{details.category}}</p>
+            <div v-show="preloaderShow" class="small-text effect-shine rounded-1"></div>
+            <p v-show="!preloaderShow" class="text">{{details.category}}</p>
           </div>
           <div class="car-spec-col mb-1">
             <small class="label">Тип</small>
-            <div v-if="preloaderShow" class="small-text effect-shine rounded-1"></div>
-            <p v-else class="text">{{details.type}}</p>
+            <div v-show="preloaderShow" class="small-text effect-shine rounded-1"></div>
+            <p v-show="!preloaderShow" class="text">{{details.type}}</p>
           </div>
           <div class="car-spec-col mb-1">
             <small class="label">Год выпуска</small>
-            <div v-if="preloaderShow" class="small-text effect-shine rounded-1"></div>
-            <p v-else class="text">{{details.year}}</p>
+            <div v-show="preloaderShow" class="small-text effect-shine rounded-1"></div>
+            <p v-show="!preloaderShow" class="text">{{details.year}}</p>
           </div>
         </div>
       </div>
@@ -73,9 +73,9 @@
             <td class="px-0 pb-3">Страна</td>
             <td class="px-0 pb-3">
               <div class="d-flex align-center">
-                <img class="country-flag" :src="'../../src/assets/flags/'+details.flag" alt="flag">
-                <div v-if="preloaderShow" class="small-text effect-shine rounded-1"></div>
-                <p v-else>{{details.country}}</p>
+                <img class="country-flag" :src="itemFlag(details.flag)" alt="flag">
+                <div v-show="preloaderShow" class="small-text effect-shine rounded-1"></div>
+                <p v-show="!preloaderShow">{{details.country}}</p>
               </div>
             </td>
           </tr>
@@ -84,8 +84,8 @@
               <p>Объем бака, л</p>
             </td>
             <td class="px-0 py-3">
-              <div v-if="preloaderShow" class="small-text effect-shine rounded-1"></div>
-              <p v-else>{{ details.tank }}</p>
+              <div v-show="preloaderShow" class="small-text effect-shine rounded-1"></div>
+              <p v-show="!preloaderShow">{{ details.tank }}</p>
             </td>
           </tr>
           <tr>
@@ -93,8 +93,8 @@
               <p>Масса, кг</p>
             </td>
             <td class="px-0 py-3">
-              <div v-if="preloaderShow" class="small-text effect-shine rounded-1"></div>
-              <p v-else>{{ details.weight }}</p>
+              <div v-show="preloaderShow" class="small-text effect-shine rounded-1"></div>
+              <p v-show="!preloaderShow">{{ details.weight }}</p>
             </td>
           </tr>
         </tbody>
@@ -103,79 +103,7 @@
   </v-row>
   <v-row>
     <v-col>
-
-      <v-dialog max-width="340">
-        <template v-slot:activator="{ props: activatorProps }">
-          <v-btn
-              v-bind="activatorProps"
-              flat
-              class="rent-car-button mt-2 text-subtitle-1"
-          >
-            Арендовать машину
-          </v-btn>
-        </template>
-
-        <template v-slot:default="{ isActive }">
-          <v-card
-              title="Выбор комплектации"
-          >
-            <v-card-text>
-              <div class="radio-tile-group">
-                <div class="input-container position-relative" v-for="row in getCarEquipments">
-                  <input
-                      class="position-absolute"
-                      type="radio"
-                      name="radio"
-                      :value="row.equip_id"
-                      v-model="equip_id"
-                      :disabled="!row.is_exist"
-                  >
-                  <v-sheet rounded class="radio-tile px-3 py-2">
-                      <p class="text-body-1 font-weight-bold">{{ row.name }}<small v-show="!row.is_exist" class="text-red ms-1">нет в наличии</small></p>
-                    <div class="equip_specs d-flex">
-                      <div class="spec-item d-flex align-center me-4">
-                        <img src="../../src/assets/transmission.png" alt="transmission" class="equip-spec-icon me-2">
-                        <div class="equip-spec-col mb-1">
-                          <small class="label">Трансмиссия</small>
-                          <p class="text">{{ row.transmission }}</p>
-                        </div>
-                      </div>
-                      <div class="spec-item d-flex align-center">
-                        <img src="../../src/assets/drive.png" alt="drive" class="equip-spec-icon me-2">
-                        <div class="equip-spec-col mb-1">
-                          <small class="label">Привод</small>
-                          <p class="text">{{ row.drive }}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="equip_specs d-flex mt-1">
-                      <p class="ms-7 text">
-                        Мощность:
-                        <a class="engine-link text-decoration-underline">
-                          {{ row.engine.HP }} л.с ({{row.engine.volume}})
-                        </a>
-                      </p>
-                    </div>
-                  </v-sheet>
-                </div>
-              </div>
-            </v-card-text>
-
-            <template v-slot:actions>
-              <div class="ml-auto">
-                <v-btn variant="text" @click="bookingAction()">
-                  Продолжить
-                </v-btn>
-                <v-btn
-                    variant="flat"
-                    text="Закрыть"
-                    @click="isActive.value = false"
-                ></v-btn>
-              </div>
-            </template>
-          </v-card>
-        </template>
-      </v-dialog>
+      <CarBookModalComponent :id="this.$route.params.slug" />
     </v-col>
   </v-row>
   <v-row>
@@ -185,79 +113,98 @@
   </v-row>
   <v-row>
     <v-col>
-      <CommentsBlockComponent />
+      <!-- Динамическая загрузка компонента CommentsBlockComponent -->
+      <component v-if="CommentsBlock" :is="CommentsBlock" />
     </v-col>
   </v-row>
 </template>
 
 <script lang="ts">
 import TitleComponent from "@/components/Title/TitleComp.vue";
-import { defineComponent } from "vue";
+import { defineComponent, defineAsyncComponent, markRaw } from "vue";
 import CommentInputComponent from "@/components/Comments/CommentInputComp.vue";
 import Api from '@/common/cars'
-import {mapActions, mapGetters, mapMutations} from "vuex";
-import CommentsBlockComponent from "@/components/Comments/CommentsBlockComp.vue";
 import RatingComponent from "@/components/Car/RatingComp.vue";
 import FavoriteComponent from "@/components/Favorite/FavoriteComp.vue";
+import CarHeaderPreloaderComponent from "@/components/Car/CarHeaderPreloaderComp.vue";
+import type ResponseType from '@/types/IResponse';
+import {CarType} from "@/types/ICarData";
+import CarBookModalComponent from "@/components/Modal/CarBookModalComp.vue";
+import DataMixins from "@/mixins/DataMixins";
 
 interface State {
-  details: Object,
-  equip_id: number,
+  details: CarType,
   preloaderShow: boolean,
-  rating: ''
+  rating: string,
+  CommentsBlock: any
 }
 
 export default defineComponent({
   name: "CarView",
   components: {
+    CarBookModalComponent,
+    CarHeaderPreloaderComponent,
     FavoriteComponent,
     RatingComponent,
-    CommentsBlockComponent,
     CommentInputComponent,
     TitleComponent
   },
   data: (): State => ({
     details: {
-      brand: '',
+      model_id: 0,
       name: '',
-      car_id: '',
-      model_id: 0
+      category: '',
+      brand: '',
+      type: '',
+      price: '',
+      country: '',
+      weight: '',
+      tank: '',
+      year: 0,
+      flag: '',
+      img: ''
     },
-    equip_id: 0,
     rating: '',
-    preloaderShow: true
+    preloaderShow: true,
+    CommentsBlock: null
   }),
-  computed: {
-    ...mapGetters(['getCarEquipments', 'getLoggedStatus'])
-  },
+  mixins: [DataMixins],
   methods: {
-    ...mapMutations(['createReservation']),
-    ...mapActions(['uploadCarEquipments', 'checkLoggedStatus']),
-    bookingAction() {
-      if(this.equip_id == 0) {
-        return
-      }
-
-      if(this.getLoggedStatus) {
-        this.createReservation({
-          equip_id: this.equip_id.toString(),
-          model_id: this.$route.params.slug
+    async loadCommentsBlock() {
+      // Динамически импортируемый компонент SimilarCardsComponent
+      this.CommentsBlock = markRaw(defineAsyncComponent(() =>
+          import("@/components/Comments/CommentsBlockComp.vue")
+      ));
+    },
+    uploadCar(slug: any) {
+      return new Promise((resolve: any) => {
+        Api.getCarById({id: slug}, (res: ResponseType) => {
+          this.details = res.data
+          this.loadCommentsBlock()
+          resolve()
+        }, (err: any) => {
+          if(err.response.status == 404) {
+            this.$router.push({name: '404'})
+          }
         })
-        this.$router.push('/booking')
-      } else {
-        this.$router.push('/auth')
-      }
-    }
+      })
+    },
   },
   created() {
-    Api.getCarById({id: this.$route.params.slug}, (res: Response) => {
-      this.details = res.data
-      this.preloaderShow = false
+    this.uploadCar(this.$route.params.slug).then(() => {
+      this.preloaderShow = false;
     })
-
-    this.uploadCarEquipments({id: this.$route.params.slug})
-
-    this.checkLoggedStatus()
+  },
+  beforeRouteUpdate(to: any, from: any, next: any) {
+    if (to.params.slug !== from.params.slug) {
+      this.preloaderShow = true;
+      this.uploadCar(to.params.slug).then(() => {
+        this.preloaderShow = false;
+        next();
+      });
+    } else {
+      next();
+    }
   },
 })
 </script>
@@ -269,78 +216,12 @@ export default defineComponent({
 @include loader;
 @include shine-animation;
 
-.radio-tile-group {
-  display: grid;
-  gap: 1em;
-}
-
-.header-text {
-  background-color: rgb(222, 221, 221);
-  width: 200px;
-  height: 26px;
-  margin-bottom: 10px;
-}
-
 .small-text {
   margin-top: 4px;
   background-color: rgb(236, 236, 236);
   width: 70px;
   height: 12px;
 }
-
-.input-container {
-  width: 100%;
-  input {
-    height: 100%;
-    width: 100%;
-    cursor: pointer;
-    margin: 0;
-    z-index: 2;
-    opacity: 0;
-  }
-
-  input:checked + .radio-tile {
-    border: 2px solid $red;
-    box-shadow: 0 0 12px rgba(219, 57, 57, .15);
-  }
-
-  input:hover:not(:checked) + .radio-tile {
-    box-shadow: 0 0 12px rgba(171, 174, 180, .2);
-  }
-
-  .radio-tile {
-    border: 2px solid $gray-550;
-    height: 100%;
-    .equip_specs .label {
-      font-size: 11px;
-      line-height: 1.2;
-      color: $gray-600;
-    }
-
-    .equip_specs .text {
-      margin-top: -4px;
-    }
-
-    .equip_specs .engine-link {
-      color: $blue;
-      z-index: 10;
-    }
-
-    .equip-spec-icon {
-      width: 20px;
-    }
-  }
-}
-
-
-
-.rent-car-button {
-  min-height: 46px;
-  text-align: center;
-  width: 100%;
-  background-color: $yellow;
-}
-
 
 .back-arrow {
   top: 6px;

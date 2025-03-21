@@ -38,3 +38,46 @@
     }
   }
 }
+
+@mixin vue-transition {
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s ease;
+  }
+
+  .fade-enter-from, .fade-leave-to {
+    opacity: 0;
+  }
+}
+
+@mixin vue-slide-up-transition {
+  .slide-up-enter-active,
+  .slide-up-leave-active {
+    transition: all 0.25s ease-out;
+  }
+
+  .slide-up-enter-from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .slide-up-leave-to {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+}
+
+@mixin vue-flip-transition {
+  .flip-enter-active {
+    transition: all 0.5s ease;
+  }
+
+  .flip-leave-active {
+    display: none;
+  }
+
+  .flip-enter, .flip-leave {
+    transform: rotateY(180deg);
+    opacity: 0;
+
+  }
+}

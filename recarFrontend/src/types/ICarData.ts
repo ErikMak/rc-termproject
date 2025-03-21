@@ -6,6 +6,7 @@ interface Car {
     type: string,
     price: string,
     country: string,
+    flag: string,
     weight: string,
     tank: string,
     year: number,
