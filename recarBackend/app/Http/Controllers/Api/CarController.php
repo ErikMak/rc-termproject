@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Filters\CarFilter;
 use App\Http\Filters\Filterable;
-use App\Http\Resources\Car\CarResource;
+use App\Http\Resources\Cars\CarFullResource;
+use App\Http\Resources\Cars\CarsCollection;
 use App\Models\Car;
-use App\Http\Requests\StoreCarRequest;
-use App\Http\Requests\UpdateCarRequest;
+use Illuminate\Http\JsonResponse;
 
 class CarController extends BaseController
 {
@@ -16,17 +16,17 @@ class CarController extends BaseController
     /**
      * Display a listing of the resource.
      */
-    public function index(CarFilter $filter)
+    public function index(CarFilter $filter) : JsonResponse
     {
-        $cars = Car::filter($filter)->get();
+        $cars = Car::filter($filter)->paginate(15);
 
-        return $this->sendResponse(CarResource::collection($cars));
+        return $this->sendResponse(new CarsCollection($cars));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCarRequest $request)
+    public function store()
     {
 
     }
@@ -34,21 +34,22 @@ class CarController extends BaseController
     /**
      * Display the specified resource.
      */
-    public function show(string $model_id)
+    public function show(string $slug) : JsonResponse
     {
-        $car = Car::find($model_id);
+        $car = Car::where('slug', $slug)
+            ->first();
 
         if(is_null($car)) {
-            return $this->sendError('Автомобиль не найден');
+            return $this->sendError('Автомобиль не найден', 404);
         }
 
-        return $this->sendResponse(new CarResource($car));
+        return $this->sendResponse(new CarFullResource($car));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCarRequest $request, Car $car)
+    public function update()
     {
         //
     }
@@ -61,9 +62,9 @@ class CarController extends BaseController
         //
     }
 
-    public function find(CarFilter $filter) {
-        $cars = Car::filter($filter)->get();
+    public function find(CarFilter $filter) : JsonResponse {
+        $cars = Car::filter($filter)->paginate(15);
 
-        return $this->sendResponse(CarResource::collection($cars));
+        return $this->sendResponse(new CarsCollection($cars));
     }
 }

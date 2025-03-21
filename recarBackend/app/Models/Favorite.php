@@ -5,11 +5,11 @@ namespace App\Models;
 use App\Http\Filters\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Favorite extends Model
 {
     use HasFactory;
-    use Filterable;
 
     protected $table = 'favorites';
     protected $primaryKey = null;
@@ -22,7 +22,7 @@ class Favorite extends Model
 
     public $timestamps = false;
 
-    public function car() {
+    public function car() : BelongsTo {
         return $this->belongsTo(Car::class, 'car_id', 'model_id');
     }
 }

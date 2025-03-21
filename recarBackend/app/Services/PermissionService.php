@@ -1,7 +1,8 @@
 <?php
-namespace App\Http\Services;
+namespace app\Services;
 
 use Illuminate\Support\Facades\Auth;
+
 class PermissionService implements PermissionCheckable {
     public static function getInstance(): self {
         return new static();

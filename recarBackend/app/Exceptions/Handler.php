@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\MessageBag;
 use Throwable;
 use Illuminate\Validation\ValidationException;
 
@@ -24,22 +25,28 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (\Spatie\Permission\Exceptions\UnauthorizedException $e, $request) {
+            $messageBag = new MessageBag();
+            $messageBag->add('server', 'У вас нет необходимых разрешений');
+
+            return response()->json([
+                'error' => $messageBag,
+                'status'  => false,
+            ]);
         });
     }
 
-    protected function convertValidationExceptionToResponse(ValidationException $e, $request)
-    {
-        if ($e->response) {
-            return $e->response;
-        }
-
-        $response = [
-            'status' => false,
-            'error' => $e->validator->errors()->getMessages()
-        ];
-
-        return response()->json($response, 422);
-    }
+//    protected function convertValidationExceptionToResponse(ValidationException $e, $request)
+//    {
+//        if ($e->response) {
+//            return $e->response;
+//        }
+//
+//        $response = [
+//            'status' => false,
+//            'error' => $e->validator->errors()->getMessages()
+//        ];
+//
+//        return response()->json($response, 422);
+//    }
 }

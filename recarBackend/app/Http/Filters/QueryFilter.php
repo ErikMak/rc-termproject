@@ -9,12 +9,12 @@ abstract class QueryFilter {
     /**
      * @var Request
      */
-    protected $request;
+    protected Request $request;
 
     /**
      * @var Builder
      */
-    protected $builder;
+    protected Builder $builder;
 
     /**
      * @param Request $request
@@ -27,7 +27,7 @@ abstract class QueryFilter {
     /**
      * @param Builder $builder
      */
-    public function apply(Builder $builder)
+    public function apply(Builder $builder): void
     {
         $this->builder = $builder;
 

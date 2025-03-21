@@ -17,12 +17,13 @@ return new class extends Migration
             $table->string('category', 20);
             $table->string('brand', 20);
             $table->string('type', 20);
-            $table->double('price', 10, 2)->unsigned();
+            $table->integer('veh_class')->unsigned();
             $table->string('country', 15);
             $table->double('weight', 5, 1)->unsigned();
             $table->double('tank', 3, 1)->unsigned();
             $table->integer('year')->unsigned();
-            $table->text('img');
+            $table->string('img', 255);
+            $table->text('slug')->unique();
             $table->text('flag');
         });
     }

@@ -20,7 +20,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
     // Поиск машины
     Route::get('cars/find', 'CarController@find');
     // Конкретная машина
-    Route::get('cars/{model_id}', 'CarController@show');
+    Route::get('cars/{slug}', 'CarController@show');
     // Комплектации конкретной машины
     Route::get('equipments/{model_id}', 'EquipController@show');
     // Все комплектации
@@ -30,26 +30,26 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
     // Рейтинг машины
     Route::get('cars/rating/{model_id}', 'CommentController@rating');
 
-     // Добавить в избранное машину
-    Route::post('favorites', 'FavoriteController@store');
-    // Список избранных машин
-    Route::get('favorites', 'FavoriteController@index');
-    // Вся бронь конкретного пользователя
-    Route::get('reservation', 'ReservationController@index');
-    // Забронировать машину
-    Route::post('reservation', 'ReservationController@store');
-    // Добавить комментарий
-    Route::post('comments', 'CommentController@store');
-
-
-    // Маршруты с требованием user_id
+    /*
+     *  Маршруты с требованием авторизации
+     */
     Route::middleware('auth:api')->group(function () {
+        // Добавить комментарий
+        Route::post('comments', 'CommentController@store');
+        // Вся бронь конкретного пользователя
+        Route::get('reservation', 'ReservationController@index');
+        // Забронировать машину
+        Route::post('reservation', 'ReservationController@store');
+        // Список избранных машин
+        Route::get('favorites', 'FavoriteController@index');
         // Удалить комментарий
         Route::delete('comments/{comment_id}', 'CommentController@destroy');
         // Удалить машину из избранного
         Route::delete('favorites/{favorite_id}', 'FavoriteController@destroy');
         // Удалить бронь
         Route::delete('reservation/{reservation_id}', 'ReservationController@destroy');
+        // Добавить в избранное машину
+        Route::post('favorites', 'FavoriteController@store');
     });
 
     Route::prefix('auth')->group(function () {
@@ -61,12 +61,23 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
         // Обновление токена
         Route::get('refresh', 'AuthController@refresh');
 
-        // Маршруты, доступные после авторизации
+        /*
+         *  Маршруты доступные после авторизации
+         */
         Route::middleware('auth:api')->group(function () {
+            // Проверка админ прав
+            Route::get('admin', 'AuthController@admin');
             // Данные пользователя
             Route::get('user', 'AuthController@user');
             // Выход из аккаунта
             Route::get('logout', 'AuthController@logout');
         });
+    });
+
+    /*
+     *  Маршруты доступные администрации
+     */
+    Route::group(['middleware' => ['auth:api', 'role:admin']], function () {
+
     });
 });

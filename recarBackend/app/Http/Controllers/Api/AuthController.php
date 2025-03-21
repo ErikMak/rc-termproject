@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\RegisterUserRequest;
+use App\Http\Resources\User\UserResource;
+use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -10,7 +14,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends BaseController
 {
-    public function login(Request $request) {
+    public function login(Request $request) : JsonResponse {
         $data = $request->validate([
                 'login' => 'required',
                 'password' => 'required'
@@ -21,25 +25,18 @@ class AuthController extends BaseController
             return $this->sendOK()->header('Authorization', $token);
         }
 
-        return $this->sendError('Отказ входа!', 422);
+        return $this->sendError('Неправильный логин или пароль!');
     }
 
-    public function register(Request $request) {
-        $data = $request->validate([
-           'login' => [
-                'required', 'unique:users', 'string',
-                'regex:/^(?=.{1,30}$)[a-zA-Z][a-zA-Z0-9]*(?: [a-zA-Z0-9]+)*$/'
-           ],
-           'password' => [
-               'required', 'string',
-               'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,30}$/'
-            ]
-        ]);
+    public function register(RegisterUserRequest $request) : JsonResponse {
+        $data = $request->validated();
 
         $user = User::create([
             'login' => $data['login'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $user->assignRole('user');
 
         Auth::login($user);
 
@@ -52,21 +49,31 @@ class AuthController extends BaseController
         return $this->sendOK();
     }
 
-    public function user(Request $request) {
+    public function user() : JsonResponse {
         $user = User::find(Auth::user()->id);
 
-        return $this->sendResponse($user);
+        return $this->sendResponse(new UserResource($user));
     }
 
-    public function refresh() {
+    public function admin() : JsonResponse {
+        $user = User::find(Auth::user()->id);
+
+        if($user->hasRole('admin')) {
+            return $this->sendResponse(new UserResource($user));
+        } else {
+            return $this->sendError('Locked', 423);
+        }
+    }
+
+    public function refresh() : JsonResponse {
         if($token = Auth::refresh()) {
             return $this->sendOK()->header('Authorization', $token);
         }
 
-        return $this->sendError('Ошибка обновления токена авторизации!', 401);
+        return $this->sendError('Ошибка обновления токена авторизации!');
     }
 
-    private function guard()
+    private function guard() : StatefulGuard
     {
         return Auth::guard();
     }

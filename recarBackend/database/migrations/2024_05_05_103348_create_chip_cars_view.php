@@ -13,9 +13,10 @@ return new class extends Migration
     public function up(): void
     {
         $query = DB::table('cars')
-            ->select('cars.model_id', 'brand', 'cars.price', 'cars.name')
-            ->where('cars.price' , '<', 20)
-            ->orderBy('cars.price')
+            ->select('cars.model_id', 'brand', 'equipment.price', 'cars.name')
+            ->join('equipment', 'equipment.equip_id', '=', 'cars.model_id')
+            ->where('equipment.price' , '<', 20)
+            ->orderBy('equipment.price')
             ->limit(4);
 
         Schema::createView('chip_cars_view', $query);

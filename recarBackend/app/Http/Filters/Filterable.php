@@ -9,7 +9,7 @@ trait Filterable {
      * @param Builder $builder
      * @param QueryFilter $filter
      */
-    public function scopeFilter(Builder $builder, QueryFilter $filter)
+    public function scopeFilter(Builder $builder, QueryFilter $filter): void
     {
         $filter->apply($builder);
     }

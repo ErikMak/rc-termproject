@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreign('engine', 'engines_equip_fk')->on('engines')
                 ->references('id');
             $table->string('drive', 15);
+            $table->double('price', 10, 2)->unsigned();
         });
     }
 

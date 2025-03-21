@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class CarSeeder extends Seeder
 {
@@ -19,13 +20,14 @@ class CarSeeder extends Seeder
             'category' => 'Легковая',
             'brand' => 'Mazda',
             'type' => 'седан',
-            'price' => 16,
             'country' => 'Япония',
             'weight' => 1400,
             'tank' => 62,
             'year' => 2016,
             'img' => '01.png',
-            'flag' => 'japan.png'
+            'flag' => 'japan.png',
+            'slug' => substr(strval(time()), 4, 5).'-'.Str::slug('Mazda Mazda6'),
+            'veh_class' => 0
         ]);
 
         DB::table('cars')->insert([
@@ -34,13 +36,14 @@ class CarSeeder extends Seeder
             'category' => 'Премиум',
             'brand' => 'Porsche',
             'type' => 'SUV',
-            'price' => 48,
             'country' => 'Германия',
             'weight' => 2110,
             'tank' => 85,
             'year' => 2017,
             'img' => '02.png',
-            'flag' => 'germany.png'
+            'flag' => 'germany.png',
+            'slug' => substr(strval(time()), 4, 5).'-'.Str::slug('Porsche Cayenne'),
+            'veh_class' => 0
         ]);
 
         DB::table('cars')->insert([
@@ -49,13 +52,14 @@ class CarSeeder extends Seeder
             'category' => 'Внедорожник',
             'brand' => 'Toyota',
             'type' => 'SUV',
-            'price' => 62,
             'country' => 'Япония',
             'weight' => 2510,
             'tank' => 93,
             'year' => 2017,
             'img' => '03.png',
-            'flag' => 'japan.png'
+            'flag' => 'japan.png',
+            'slug' => substr(strval(time()), 4, 5).'-'.Str::slug('Toyota Land Cruiser'),
+            'veh_class' => 0
         ]);
 
         DB::table('cars')->insert([
@@ -64,13 +68,14 @@ class CarSeeder extends Seeder
             'category' => 'Легковой',
             'brand' => 'Audi',
             'type' => 'седан',
-            'price' => 26,
             'country' => 'Германия',
             'weight' => 1540,
             'tank' => 54,
             'year' => 2019,
             'img' => '04.png',
-            'flag' => 'germany.png'
+            'flag' => 'germany.png',
+            'slug' => substr(strval(time()), 4, 5).'-'.Str::slug('Audi A4'),
+            'veh_class' => 0
         ]);
 
         DB::table('cars')->insert([
@@ -79,13 +84,14 @@ class CarSeeder extends Seeder
             'category' => 'Легковой',
             'brand' => 'Honda',
             'type' => 'седан',
-            'price' => 18,
             'country' => 'Япония',
             'weight' => 1540,
             'tank' => 47,
             'year' => 2019,
             'img' => '05.png',
-            'flag' => 'japan.png'
+            'flag' => 'japan.png',
+            'slug' => substr(strval(time()), 4, 5).'-'.Str::slug('Honda Civic'),
+            'veh_class' => 0
         ]);
 
         DB::table('cars')->insert([
@@ -94,13 +100,14 @@ class CarSeeder extends Seeder
             'category' => 'Внедорожник',
             'brand' => 'Hyundai',
             'type' => 'SUV',
-            'price' => 15,
             'country' => 'Чехия',
             'weight' => 1549,
             'tank' => 62,
             'year' => 2017,
             'img' => '06.png',
-            'flag' => 'czech.png'
+            'flag' => 'czech.png',
+            'slug' => substr(strval(time()), 4, 5).'-'.Str::slug('Hyundai Tucson'),
+            'veh_class' => 0
         ]);
 
         DB::table('cars')->insert([
@@ -109,13 +116,14 @@ class CarSeeder extends Seeder
             'category' => 'Внедорожник',
             'brand' => 'Hyundai',
             'type' => 'SUV',
-            'price' => 15,
             'country' => 'Южная Корея',
             'weight' => 1816,
             'tank' => 64,
             'year' => 2015,
             'img' => '07.png',
-            'flag' => 'south-korea.png'
+            'flag' => 'south-korea.png',
+            'slug' => substr(strval(time()), 4, 5).'-'.Str::slug('Hyundai Santa Fe'),
+            'veh_class' => 0
         ]);
 
         DB::table('cars')->insert([
@@ -124,13 +132,14 @@ class CarSeeder extends Seeder
             'category' => 'Премиум',
             'brand' => 'Mercedes-Benz',
             'type' => 'седан',
-            'price' => 36,
             'country' => 'Германия',
             'weight' => 1940,
             'tank' => 80,
             'year' => 2016,
             'img' => '08.png',
-            'flag' => 'germany.png'
+            'flag' => 'germany.png',
+            'slug' => substr(strval(time()), 4, 5).'-'.Str::slug('Mercedes-Benz E-Class'),
+            'veh_class' => 0
         ]);
 
         DB::table('cars')->insert([
@@ -139,13 +148,14 @@ class CarSeeder extends Seeder
             'category' => 'Внедорожник',
             'brand' => 'BMW',
             'type' => 'SUV',
-            'price' => 44,
             'country' => 'Германия',
             'weight' => 2145,
             'tank' => 85,
             'year' => 2014,
             'img' => '09.png',
-            'flag' => 'germany.png'
+            'flag' => 'germany.png',
+            'slug' => substr(strval(time()), 4, 5).'-'.Str::slug('BMW X6'),
+            'veh_class' => 0
         ]);
 
         DB::table('cars')->insert([
@@ -154,13 +164,14 @@ class CarSeeder extends Seeder
             'category' => 'Внедорожник',
             'brand' => 'Land Rover',
             'type' => 'SUV',
-            'price' => 39,
             'country' => 'Великобритания',
             'weight' => 1752,
             'tank' => 68,
             'year' => 2018,
             'img' => '10.png',
-            'flag' => 'uk.png'
+            'flag' => 'uk.png',
+            'slug' => substr(strval(time()), 4, 5).'-'.Str::slug('Land Rover Range Rover Evoque'),
+            'veh_class' => 0
         ]);
 
         DB::table('cars')->insert([
@@ -169,13 +180,14 @@ class CarSeeder extends Seeder
             'category' => 'Премиум',
             'brand' => 'Porsche',
             'type' => 'Купе',
-            'price' => 80,
             'country' => 'Германия',
             'weight' => 1555,
             'tank' => 67,
             'year' => 2018,
             'img' => '12.png',
-            'flag' => 'germany.png'
+            'flag' => 'germany.png',
+            'slug' => substr(strval(time()), 4, 5).'-'.Str::slug('Porsche 911'),
+            'veh_class' => 0
         ]);
 
         DB::table('cars')->insert([
@@ -184,13 +196,14 @@ class CarSeeder extends Seeder
             'category' => 'Грузовая',
             'brand' => 'Mercedes-Benz',
             'type' => 'Фургон',
-            'price' => 18,
             'country' => 'Германия',
             'weight' => 2030,
             'tank' => 100,
             'year' => 2013,
             'img' => '20.png',
-            'flag' => 'germany.png'
+            'flag' => 'germany.png',
+            'slug' => substr(strval(time()), 4, 5).'-'.Str::slug('Mercedes-Benz Sprinter'),
+            'veh_class' => 1
         ]);
 
         DB::table('cars')->insert([
@@ -199,13 +212,14 @@ class CarSeeder extends Seeder
             'category' => 'Грузовая',
             'brand' => 'Mercedes-Benz',
             'type' => 'Самосвал',
-            'price' => 70,
             'country' => 'Германия',
             'weight' => 16500,
             'tank' => 100,
             'year' => 2015,
             'img' => '24.png',
-            'flag' => 'germany.png'
+            'flag' => 'germany.png',
+            'slug' => substr(strval(time()), 4, 5).'-'.Str::slug('Mercedes-Benz Actros'),
+            'veh_class' => 1
         ]);
 
         DB::table('cars')->insert([
@@ -214,13 +228,14 @@ class CarSeeder extends Seeder
             'category' => 'Внедорожник',
             'brand' => 'Audi',
             'type' => 'SUV',
-            'price' => 40,
             'country' => 'Словакия',
             'weight' => 1985,
             'tank' => 75,
             'year' => 2017,
             'img' => '15.png',
-            'flag' => 'slovakia.png'
+            'flag' => 'slovakia.png',
+            'slug' => substr(strval(time()), 4, 5).'-'.Str::slug('Audi Q7'),
+            'veh_class' => 0
         ]);
 
         DB::table('cars')->insert([
@@ -229,13 +244,14 @@ class CarSeeder extends Seeder
             'category' => 'Легковая',
             'brand' => 'Hyundai',
             'type' => 'Седан',
-            'price' => 12,
             'country' => 'Южная Корея',
             'weight' => 1070,
             'tank' => 43,
             'year' => 2017,
             'img' => '19.png',
-            'flag' => 'south-korea.png'
+            'flag' => 'south-korea.png',
+            'slug' => substr(strval(time()), 4, 5).'-'.Str::slug('Hyundai Accent'),
+            'veh_class' => 0
         ]);
 
         DB::table('cars')->insert([
@@ -244,13 +260,14 @@ class CarSeeder extends Seeder
             'category' => 'Премиум',
             'brand' => 'BMW',
             'type' => 'Седан',
-            'price' => 42,
             'country' => 'Германия',
             'weight' => 1520,
             'tank' => 60,
             'year' => 2018,
             'img' => '16.png',
-            'flag' => 'germany.png'
+            'flag' => 'germany.png',
+            'slug' => substr(strval(time()), 4, 5).'-'.Str::slug('BMW M3 F80'),
+            'veh_class' => 0
         ]);
 
         DB::table('cars')->insert([
@@ -259,13 +276,14 @@ class CarSeeder extends Seeder
             'category' => 'Внедорожник',
             'brand' => 'Audi',
             'type' => 'SUV',
-            'price' => 25,
             'country' => 'Германия',
             'weight' => 1795,
             'tank' => 75,
             'year' => 2017,
             'img' => '26.png',
-            'flag' => 'germany.png'
+            'flag' => 'germany.png',
+            'slug' => substr(strval(time()), 4, 5).'-'.Str::slug('Audi Q5'),
+            'veh_class' => 0
         ]);
     }
 }
