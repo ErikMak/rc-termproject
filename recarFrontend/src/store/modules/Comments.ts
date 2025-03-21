@@ -1,5 +1,6 @@
 import type {CommentsStateType} from "@/store/interfaces/IComments";
 import type { CommentType } from "@/types/ICommentData";
+import type {ResponseType} from "@/types/IResponse";
 import Api from "@/common/comments"
 export default {
     state: (): CommentsStateType => ({
@@ -16,7 +17,7 @@ export default {
     actions: {
         uploadComments(ctx: any, model_id: string) : void {
             Api.getCarComments({model_id: model_id}, (res: ResponseType) => {
-                ctx.commit('updateComments', res["data"])
+                ctx.commit('updateComments', res.data)
             })
         }
     },

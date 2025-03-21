@@ -2,6 +2,7 @@ import type {ReservationStateType} from "@/store/interfaces/IReservation";
 import type {ReservationCoupleType} from "@/types/IReservationCouple";
 import Api from "@/common/reservation"
 import type {ResponseType} from "@/types/IResponse";
+import type {ReservationType} from "@/types/IReservationData";
 export default {
     state: (): ReservationStateType => ({
         reservations: [],
@@ -13,7 +14,7 @@ export default {
             state.model_id = obj.model_id
             state.equip_id = obj.equip_id
         },
-        updateUserReservations(state: ReservationStateType, data: Array<any>) : void {
+        updateUserReservations(state: ReservationStateType, data: Array<ReservationType>) : void {
             state.reservations = data
         }
     },
@@ -32,7 +33,7 @@ export default {
             }
         },
 
-        getUserReservations(state: ReservationStateType) : Array<any> {
+        getUserReservations(state: ReservationStateType) : Array<ReservationType> {
             return state.reservations
         }
     }

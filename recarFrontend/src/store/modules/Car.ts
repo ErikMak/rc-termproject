@@ -1,5 +1,6 @@
 import type {CarStateType} from "@/store/interfaces/ICar";
 import type {EquipmentType} from "@/types/IEquipData";
+import type {ResponseType} from "@/types/IResponse";
 import ApiEquip from '@/common/equipments'
 export default {
     state: (): CarStateType => ({
@@ -13,7 +14,7 @@ export default {
     actions: {
         uploadCarEquipments(ctx: any, sample: Object) : void {
             ApiEquip.getEquipmentsById(sample, (res: ResponseType) => {
-                ctx.commit('updateEquipments', res["data"])
+                ctx.commit('updateEquipments', res.data)
             })
         }
     },

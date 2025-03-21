@@ -1,5 +1,5 @@
 import axios from '../plugins/axios'
-import authHeader from "@/services/AuthHeader";
+
 export default class Ajax {
     static get(url: any, data: any = {}, success: any, failure: any) {
         const param = this.createParameter(data)
@@ -11,6 +11,7 @@ export default class Ajax {
                 }
             })
             .catch(error => {
+                failure(error)
                 throw error;
             });
     }
@@ -24,6 +25,7 @@ export default class Ajax {
                 }
             })
             .catch(error => {
+                failure(error)
                 throw error;
             });
     }
@@ -37,6 +39,7 @@ export default class Ajax {
                 }
             })
             .catch(error => {
+                failure(error)
                 throw error;
             });
     }
@@ -50,6 +53,7 @@ export default class Ajax {
                 }
             })
             .catch(error => {
+                failure(error)
                 throw error;
             });
     }

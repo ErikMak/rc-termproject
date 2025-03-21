@@ -3,7 +3,9 @@ import './assets/main.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import axios from './plugins/axios'
 import vuetify from './plugins/vuetify'
+import toastr from './plugins/toastr'
 import store from './store'
 
 // Font Awesome
@@ -23,4 +25,6 @@ app.use(router)
 app.use(vuetify)
 app.use(store)
 
+app.config.globalProperties.$axios = axios;
+app.config.globalProperties.$toastr = toastr;
 app.mount('#app')

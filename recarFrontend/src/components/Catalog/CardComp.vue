@@ -9,7 +9,7 @@
     <v-img
         id="car-preview"
         class="mt-2 mb-1"
-        :src="'../src/assets/cars/'+data.img"
+        :src="mainPic(data.img)"
     >
     </v-img>
     <v-sheet
@@ -35,18 +35,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent} from "vue";
+import {defineComponent, PropType} from "vue";
 import FavoriteComponent from "@/components/Favorite/FavoriteComp.vue";
+import {CarType} from "@/types/ICarData";
+import DataMixins from "@/mixins/DataMixins";
 
 export default defineComponent({
   name: 'CardComponent',
   components: {FavoriteComponent},
   props: {
     data: {
-      type: Object,
+      type: Object as PropType<CarType>,
       required: true
     }
   },
+  mixins: [DataMixins]
 })
 </script>
 

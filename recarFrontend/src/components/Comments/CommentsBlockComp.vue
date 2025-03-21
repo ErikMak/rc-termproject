@@ -1,5 +1,5 @@
 <template>
-  <div v-for="row in getComments" class="comments-item py-3 px-4 rounded mb-3">
+  <div v-for="row in comments" class="comments-item py-3 px-4 rounded mb-3">
     <v-row>
       <v-col>
         <div class="d-flex align-center">
@@ -16,6 +16,7 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import {mapActions, mapGetters} from "vuex";
+import {CommentType} from "@/types/ICommentData";
 
 
 export default defineComponent({
@@ -24,7 +25,10 @@ export default defineComponent({
     this.uploadComments(this.$route.params.slug)
   },
   computed: {
-    ...mapGetters(["getComments"])
+    ...mapGetters(["getComments"]),
+    comments() : CommentType[] {
+      return this.getComments
+    }
   },
   methods: {
     ...mapActions(["uploadComments"]),

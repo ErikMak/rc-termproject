@@ -2,7 +2,7 @@
   <TitleComponent title="Бронь"/>
   <div class="reservation-grid">
     <v-card
-        v-for="(row, index) in getUserReservations"
+        v-for="(row, index) in userReservations"
         :id="index"
         class="mx-auto w-100"
         flat
@@ -59,6 +59,7 @@
 import TitleComponent from "@/components/Title/TitleComp.vue";
 import { defineComponent } from "vue";
 import {mapActions, mapGetters} from "vuex";
+import {ReservationType} from "@/types/IReservationData";
 
 export default defineComponent({
   name: "CarView",
@@ -69,7 +70,10 @@ export default defineComponent({
     ...mapActions(["uploadAllUserReservations"]),
   },
   computed: {
-    ...mapGetters(["getUserReservations", "getUserID"])
+    ...mapGetters(["getUserReservations", "getUserID"]),
+    userReservations() : ReservationType[] {
+      return this.getUserReservations
+    }
   },
   created() {
     const user_id = this.getUserID

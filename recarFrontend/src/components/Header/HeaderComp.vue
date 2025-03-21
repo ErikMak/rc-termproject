@@ -11,7 +11,7 @@
           :height="25"
           :src="logo"
       ></v-img>
-      <router-link to="/" class="ms-4 logo-link position-absolute"></router-link>
+      <router-link :to="{name: 'welcome'}" class="ms-4 logo-link position-absolute"></router-link>
     </div>
     <!--  Аватарка  -->
     <template v-slot:append>
@@ -25,7 +25,7 @@
              variant="tonal"
              size="small"
              class="me-2"
-             to="auth"
+             :to="{name: 'auth'}"
       >
         Войти
       </v-btn>
