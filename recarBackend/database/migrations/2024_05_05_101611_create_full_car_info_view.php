@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         $query = DB::table('cars')
-            ->select('cars.model_id', 'veh_class', 'brand', 'cars.name', 'equipment.equip_id',
+            ->select('cars.model_id', 'veh_class', 'brand', 'cars.name', 'equipment.equip_id', 'weight', 'year',
             'equipment.name as equip_name', 'transmission', 'engines.id', 'mark', 'volume', 'engines.HP', 'engines.fuel as engine_fuel',
             'engines.type', 'is_exist', 'autopark.fuel', 'drive', 'autopark.long as long', 'autopark.lat as lat')
             ->join('equipment', 'equipment.equip_id', '=', 'cars.model_id')

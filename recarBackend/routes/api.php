@@ -50,6 +50,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function () {
         Route::delete('reservation/{reservation_id}', 'ReservationController@destroy');
         // Добавить в избранное машину
         Route::post('favorites', 'FavoriteController@store');
+        // Обновить водительские данные
+        Route::put('user', 'UserController@update');
     });
 
     Route::prefix('auth')->group(function () {

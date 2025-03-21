@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class StoreFavorite extends BaseRequest
+class StoreFavoriteRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.

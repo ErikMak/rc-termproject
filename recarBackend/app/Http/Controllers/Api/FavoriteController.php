@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\StoreFavorite;
+use App\Http\Requests\StoreFavoriteRequest;
 use App\Http\Resources\Favorite\FavoriteCollection;
 use App\Models\Favorite;
 use Illuminate\Http\JsonResponse;
@@ -27,7 +27,7 @@ class FavoriteController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreFavorite $request) : JsonResponse
+    public function store(StoreFavoriteRequest $request) : JsonResponse
     {
         $validated = $request->validated();
 

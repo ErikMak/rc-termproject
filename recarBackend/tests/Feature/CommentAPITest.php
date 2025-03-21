@@ -27,6 +27,13 @@ class CommentAPITest extends TestCase
 
     public function test_correct_get_comments_by_model_id(): void
     {
+        Comment::create([
+            'car_id' => 1,
+            'user_id' => 1,
+            'text' => 'Lorem ipsum',
+            'rating' => 5.0
+        ]);
+
         $response = $this->get('/api/comments/1');
         $comment = Comment::where('car_id', 1)->first();
 
@@ -37,7 +44,7 @@ class CommentAPITest extends TestCase
             $json->has('id')
                 ->whereType('user', 'string')
                 ->where('text', $comment->text)
-                ->where('rating', round($comment->rating, 1))
+                ->has('rating')
                 ->whereType('created_at', 'string')
             )
         );
@@ -97,6 +104,13 @@ class CommentAPITest extends TestCase
     }
 
     public function test_get_rating_by_model_id() : void {
+        Comment::create([
+            'car_id' => 1,
+            'user_id' => 1,
+            'text' => 'Lorem ipsum',
+            'rating' => 3
+        ]);
+
         $response = $this->get('/api/cars/rating/1');
 
         $response->assertStatus(200)

@@ -17,11 +17,11 @@ return new class extends Migration
             $table->string('category', 20);
             $table->string('brand', 20);
             $table->string('type', 20);
-            $table->integer('veh_class')->unsigned();
+            $table->unsignedTinyInteger('veh_class');
             $table->string('country', 15);
-            $table->double('weight', 5, 1)->unsigned();
+            $table->unsignedInteger('weight');
             $table->double('tank', 3, 1)->unsigned();
-            $table->integer('year')->unsigned();
+            $table->unsignedInteger('year');
             $table->string('img', 255);
             $table->text('slug')->unique();
             $table->text('flag');
