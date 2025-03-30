@@ -87,6 +87,8 @@
 import {defineComponent} from "vue";
 import type {SignupFormType} from "@/types/ISignupForm";
 import {UseSignupValidation} from "@/mixins/SignupValidationMixins";
+import AuthService from "@/services/AuthService";
+import {createErrorChain} from "@/services/ErrorHandler";
 
 export default defineComponent({
   name: 'SignupFormComponent',
@@ -104,7 +106,24 @@ export default defineComponent({
 
       let isFormValid = isLoginValid && isPassValid && isConfirmPassValid
 
-      console.log(isFormValid)
+      if(isFormValid) {
+        AuthService.register({
+          login: this.login,
+          password: this.pass
+        }).then(() => {
+          this.$emit('changeForm')
+          this.login = ''; this.pass = ''; this.confirm_pass = ''
+          this.$toastr.success('Успешная регистрация!')
+        }).catch(err => {
+          const properties = ['login', 'password']
+
+          const errorHandler = createErrorChain(properties, (msg: string[]) => {
+            this.$toastr.error(msg.pop())
+          })
+
+          errorHandler.handle(err)
+        })
+      }
     }
   },
   setup() {
@@ -117,6 +136,10 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="scss">
+@import '@/assets/toasts';
+</style>
 
 <style lang="scss" scoped>
 @use 'FormStyles';

@@ -25,9 +25,10 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
-import UserService from "@/services/UserService";
+import ResponseType from '@/types/IResponse';
 import toasts from "toastr";
 import Api from "@/common/favorites"
+import {createErrorChain} from "@/services/ErrorHandler";
 
 export default defineComponent({
   name: 'FavoriteComponent',
@@ -47,27 +48,34 @@ export default defineComponent({
   },
   methods: {
     addToFavorite() {
-      UserService.loginStatus().then(
-          response => {
-            if(response.data.status == true) {
-              const user_id = response.data.data.id
-              Api.addToFavorite({
-                car_id: this.car_id,
-                user_id: user_id
-              }, (res: Response) => {
-                toasts.success('Машина добавлена в избранное!')
-              }, (err: any) => {
-                toasts.error(err.error)
-              })
-            } else {
-              toasts.error('Войдите, чтобы добавлять в избранное!')
-            }
-          }
-      )
+      Api.addToFavorite({
+        car_id: this.car_id,
+      }, (res: ResponseType) => {
+        this.$toastr.success(res.message)
+      }, (err: any) => {
+        if(err.message === 'token_error') {
+          this.$toastr.error('Войдите в аккаунт, чтобы добавить в избранное!')
+        } else {
+          const properties = [
+            'car_id'
+          ]
+
+          const errorHandler = createErrorChain(properties, (msg: string[]) => {
+            this.$toastr.error(msg.pop())
+          })
+
+          errorHandler.handle(err)
+        }
+      })
     }
   }
 })
 </script>
+
+
+<style lang="scss">
+@import '@/assets/toasts';
+</style>
 
 <style lang="scss" scoped>
 @import '@/assets/theme';

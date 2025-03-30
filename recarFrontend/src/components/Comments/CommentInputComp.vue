@@ -39,12 +39,11 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
-import UserService from "@/services/UserService";
-import toasts from "toastr";
 import Api from "@/common/comments"
 import {mapMutations} from "vuex";
 import type {ResponseType} from '@/types/IResponse'
 import {UseCommentValidation} from "@/mixins/CommentValidationMixins";
+import {createErrorChain} from "@/services/ErrorHandler";
 
 interface State {
   text: string,
@@ -68,36 +67,27 @@ export default defineComponent({
       let isCommentValid = this.commentValidation.checkCommentText(this);
 
       if(isCommentValid) {
-        UserService.loginStatus().then(
-            response => {
-              if(response.data.status == true) {
-                const user_id = response.data.data.id
-                const user_name = response.data.data.login
-                const rating = this.rating.toFixed(1)
+        Api.addComment({
+          car_id: this.car_id,
+          text: this.text,
+          rating: this.rating.toFixed(1),
+        }, (res: ResponseType) => {
+          this.pushComment(res.data)
+        }, (err: any) => {
+          if(err.message === 'token_error') {
+            this.$toastr.error('Войдите в аккаунт, чтобы оставлять отзыв!')
+          } else {
+            const properties = [
+              'car_id', 'rating', 'text'
+            ]
 
-                Api.addComment({
-                  car_id: this.car_id,
-                  user_id: user_id,
-                  text: this.text,
-                  rating: rating,
-                }, (res: ResponseType) => {
-                  this.pushComment({
-                    created_at: res.data.created_at,
-                    id: res.data.id,
-                    rating: res.data.rating,
-                    text: res.data.text,
-                    user: user_name
-                  })
+            const errorHandler = createErrorChain(properties, (msg: string[]) => {
+              this.$toastr.error(msg.pop())
+            })
 
-                  toasts.success(res.message)
-                }, (err: any) => {
-                  toasts.error(err.error)
-                })
-              } else {
-                toasts.error('Войдите, чтобы оставлять отзывы')
-              }
-            }
-        )
+            errorHandler.handle(err)
+          }
+        })
       }
     },
   },
@@ -112,9 +102,13 @@ export default defineComponent({
 })
 </script>
 
+
+<style lang="scss">
+@import '@/assets/toasts';
+</style>
+
 <style lang="scss" scoped>
 @import '@/assets/theme';
-
 
 .comments-block {
   background-color: $light;

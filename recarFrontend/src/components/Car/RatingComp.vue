@@ -1,6 +1,6 @@
 <template>
   <div class="rating-block position-absolute text-center">
-    <p class="font-weight-medium">{{ rating }}</p>
+    <p class="font-weight-medium">{{ rating.toFixed(1) }}</p>
   </div>
 </template>
 
@@ -10,16 +10,22 @@ import Api from '@/common/comments';
 import {ResponseType} from '@/types/IResponse'
 
 interface State {
-  rating: string
+  rating: number
 }
 
 export default defineComponent({
   name: "RatingComponent",
+  props: {
+    model_id: {
+      type: Number,
+      required: true
+    }
+  },
   data: (): State => ({
-    rating: '-.-'
+    rating: 0
   }),
   created() {
-    Api.getCarRating({model_id: this.$route.params.slug}, (res: ResponseType) => {
+    Api.getCarRating({model_id: this.model_id}, (res: ResponseType) => {
       this.rating = res.data
     })
   }

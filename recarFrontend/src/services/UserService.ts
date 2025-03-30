@@ -1,25 +1,50 @@
 import axios from '@/plugins/axios'
-import authHeader from "@/services/AuthHeader";
-import {ApiUser, ApiLogout} from "@/const";
+import {ApiUser, ApiLogout, ApiJWTRefresh, ApiAdmin} from "@/const";
 import AuthService from "@/services/AuthService";
-import type {AxiosResponse} from "axios";
+import CookieService from "@/services/CookieService";
 
-/*
-    NOTE!!
 
-    Маршруты API, защищенные на бэке middleware писать сюда
-    Здесь добавляется authorization header для прохождения
-    проверки токена JWT
- */
 class UserService {
-    loginStatus() : Promise<AxiosResponse<any, any>> {
-        return axios.get(ApiUser, { headers: authHeader() })
+    fetchData(url: string) {
+        const userDataCookie = CookieService.getCookie('user')
+
+        if (userDataCookie) {
+            const userData = JSON.parse(userDataCookie);
+
+            console.info('user данные получены с cookie')
+
+            return Promise.resolve({ data: { status: true, data: userData } });
+        } else {
+            return axios.get(url).then(response => {
+                console.info('user данные получены через запрос')
+
+                if(parseInt(import.meta.env.VITE_VUE_APP_COOKIE_ON))
+                    CookieService.setCookie('user', JSON.stringify(response.data.data),
+                        parseInt(import.meta.env.VITE_VUE_APP_COOKIE_LIFETIME))
+
+                return response
+            })
+        }
+    }
+
+    loginStatus()  {
+        return this.fetchData(ApiUser)
+    }
+
+    adminStatus() {
+        return axios.get(ApiAdmin)
     }
 
     logout() : Promise<void> {
-        return axios.get(ApiLogout, { headers: authHeader() }).then(
+        return axios.get(ApiLogout).then(
             AuthService.logout
         )
+    }
+
+    refresh() {
+        // Удаление неактуального cookie
+        CookieService.eraseCookie('user')
+        return this.fetchData(ApiJWTRefresh)
     }
 }
 

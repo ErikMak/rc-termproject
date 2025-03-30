@@ -21,8 +21,14 @@ import {CommentType} from "@/types/ICommentData";
 
 export default defineComponent({
   name: 'CommentsBlockComponent',
+  props: {
+    model_id: {
+      type: Number,
+      required: true
+    }
+  },
   created() {
-    this.uploadComments(this.$route.params.slug)
+    this.uploadComments(this.model_id)
   },
   computed: {
     ...mapGetters(["getComments"]),

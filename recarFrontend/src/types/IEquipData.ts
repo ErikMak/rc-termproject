@@ -4,9 +4,12 @@ interface Equipment {
     equip_id: number
     name: string,
     transmission: string,
-    engine: EngineType,
+    car_engine: EngineType,
     is_exist: boolean,
     drive: string,
+    lat: string
+    long: string
+    price: string
     fuel: number
 }
 

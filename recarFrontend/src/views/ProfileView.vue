@@ -6,7 +6,7 @@
   </div>
   <v-sheet class="bg-balance pa-4 rounded mt-3">
     <p>Баланс</p>
-    <b class="text-h5">{{ getUserBalance }}$</b>
+    <b class="text-h5">{{ getUserBalance }}&#160;&#8381;</b>
   </v-sheet>
   <v-divider class="my-4"></v-divider>
 </template>

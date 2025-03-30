@@ -21,7 +21,7 @@
         </v-sheet>
         <v-sheet class="mt-3 px-4 py-3 price" rounded>
           <small>Стоимость</small>
-          <p class="text-h5 text-price"><b class="font-weight-bold">${{cost}}</b>/день</p>
+          <p class="text-h5 text-price"><b class="font-weight-bold">{{cost}}&#8381;</b>/день</p>
         </v-sheet>
         <div class="mt-4">
           <v-date-input

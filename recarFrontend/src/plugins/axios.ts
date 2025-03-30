@@ -1,9 +1,7 @@
 import Axios from 'axios'
 
 const axios = Axios.create({
-    // Backend сервер
-    baseURL: "http://localhost:5173/",
-    // baseURL: "http://recar.ru",
+    baseURL: import.meta.env.VITE_VUE_APP_URL,
     headers: {
         "Content-type": "application/json"
     }

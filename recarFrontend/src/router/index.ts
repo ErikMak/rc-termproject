@@ -3,8 +3,9 @@ import type { RouteRecordRaw } from "vue-router";
 import HomeView from '@/views/HomeView.vue'
 import CatalogView from "@/views/CatalogView.vue";
 import AuthView from "@/views/AuthView.vue";
-import guard from "@/router/middleware";
+import {guard, adminGuard} from "@/router/middleware";
 import WelcomeView from "@/views/WelcomeView.vue";
+import NotFoundView from "@/views/NotFoundView.vue"
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -70,6 +71,10 @@ const routes: Array<RouteRecordRaw> = [
     path: '/auth',
     name: 'auth',
     component: AuthView,
+  },
+  { path: '/:pathMatch(.*)*',
+    name: '404',
+    component: NotFoundView
   }
 ]
 

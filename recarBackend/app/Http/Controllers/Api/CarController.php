@@ -18,7 +18,7 @@ class CarController extends BaseController
      */
     public function index(CarFilter $filter) : JsonResponse
     {
-        $cars = Car::filter($filter)->paginate(15);
+        $cars = Car::filter($filter)->paginate(14);
 
         return $this->sendResponse(new CarsCollection($cars));
     }

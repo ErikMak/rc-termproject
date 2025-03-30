@@ -1,5 +1,5 @@
 interface Engine {
-    engine_id: number,
+    id: number,
     mark: string,
     HP: number,
     volume: string,

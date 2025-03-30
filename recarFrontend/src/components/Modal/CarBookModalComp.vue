@@ -48,7 +48,7 @@
                 <p class="ms-7 text">
                   Мощность:
                   <a class="engine-link text-decoration-underline">
-                    {{ row.engine.HP }} л.с ({{row.engine.volume}})
+                    {{ row.car_engine.HP }} л.с ({{row.car_engine.volume}})
                   </a>
                 </p>
               </div>
@@ -86,8 +86,8 @@ interface State {
 export default defineComponent({
   name: 'CarBookModalComponent',
   props: {
-    id: {
-      type: String,
+    model_id: {
+      type: Number,
       required: true
     }
   },
@@ -111,7 +111,7 @@ export default defineComponent({
       if(this.getLoggedStatus) {
         this.createReservation({
           equip_id: this.equip_id.toString(),
-          model_id: this.$route.params.slug
+          model_id: this.model_id
         })
         this.$router.push({name: 'booking'})
       } else {
@@ -120,7 +120,7 @@ export default defineComponent({
     }
   },
   created() {
-    this.uploadCarEquipments({id: this.id})
+    this.uploadCarEquipments({id: this.model_id})
   }
 })
 </script>
