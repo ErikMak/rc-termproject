@@ -63,10 +63,15 @@ export default defineComponent({
   }),
   methods: {
     ...mapMutations(["pushComment"]),
-    sendComment() {
+    validate(callback: any) {
       let isCommentValid = this.commentValidation.checkCommentText(this);
 
       if(isCommentValid) {
+        callback()
+      }
+    },
+    sendComment() {
+      this.validate(() => {
         Api.addComment({
           car_id: this.car_id,
           text: this.text,
@@ -74,7 +79,7 @@ export default defineComponent({
         }, (res: ResponseType) => {
           this.pushComment(res.data)
         }, (err: any) => {
-          if(err.message === 'token_error') {
+          if (err.message === 'token_error') {
             this.$toastr.error('Войдите в аккаунт, чтобы оставлять отзыв!')
           } else {
             const properties = [
@@ -88,7 +93,7 @@ export default defineComponent({
             errorHandler.handle(err)
           }
         })
-      }
+      })
     },
   },
   setup() {

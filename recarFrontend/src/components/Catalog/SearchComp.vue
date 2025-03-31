@@ -35,7 +35,7 @@ export default defineComponent({
   }),
   emits: ['car_name'],
   methods: {
-    emitToParent() : any {
+    emitToParent() : void {
       this.$emit('car_name', this.value)
     },
   }

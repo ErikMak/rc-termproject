@@ -36,8 +36,15 @@ class CarController extends BaseController
      */
     public function show(string $slug) : JsonResponse
     {
-        $car = Car::where('slug', $slug)
-            ->first();
+        $car = null;
+        $pattern_slug = '/^\d{5}-[a-zA-Z0-9-]+$/';
+        if(preg_match($pattern_slug, $slug)) {
+            $car = Car::where('slug', $slug)
+                ->first();
+        } else {
+            $car = Car::where('model_id', $slug)
+                ->first();
+        }
 
         if(is_null($car)) {
             return $this->sendError('Автомобиль не найден', 404);
@@ -63,7 +70,7 @@ class CarController extends BaseController
     }
 
     public function find(CarFilter $filter) : JsonResponse {
-        $cars = Car::filter($filter)->paginate(15);
+        $cars = Car::filter($filter)->paginate(14);
 
         return $this->sendResponse(new CarsCollection($cars));
     }

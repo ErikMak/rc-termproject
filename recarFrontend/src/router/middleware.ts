@@ -10,7 +10,11 @@ const guard = function (next: NavigationGuardNext) {
             if(response.data.status == true) {
                 store.commit('updateLoggedStatus', true)
                 store.commit('updateLogin', response.data.data.login)
-                store.commit('updateBalance', response.data.data.balance)
+                store.commit('updateUserData', {
+                    balance: response.data.data.balance,
+                    gender: response.data.data.gender,
+                    exp: response.data.data.exp
+                })
                 store.commit('updateUserID', response.data.data.id)
                 next()
             }
@@ -29,7 +33,11 @@ const adminGuard = function (next: NavigationGuardNext) {
         if(response.data.status == true) {
             store.commit('updateLoggedStatus', true)
             store.commit('updateLogin', response.data.data.login)
-            store.commit('updateBalance', response.data.data.balance)
+            store.commit('updateUserData', {
+                balance: response.data.data.balance,
+                gender: response.data.data.gender,
+                exp: response.data.data.exp
+            })
             store.commit('updateUserID', response.data.data.id)
             next()
         }

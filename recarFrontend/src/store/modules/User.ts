@@ -1,11 +1,16 @@
 import type { UserStateType } from "@/store/interfaces/IUsers";
 import UserService from "@/services/UserService";
 import TokenService from "@/services/TokenService";
+import type {UserDataType} from "@/types/IUserData";
 export default {
     state: (): UserStateType => ({
         user_id: null,
         login: '',
-        balance: '',
+        userData: {
+            exp: 0,
+            balance: '',
+            gender: false
+        },
         loggedIn: false,
         preloaderShow: false
     }),
@@ -16,8 +21,8 @@ export default {
         updateLogin(state: UserStateType, login: string) : void {
             state.login = login
         },
-        updateBalance(state: UserStateType, balance: string) : void {
-            state.balance = balance
+        updateUserData(state: UserStateType, data: UserDataType) : void {
+            state.userData = data
         },
         updateUserID(state: UserStateType, id: number) : void {
             state.user_id = id
@@ -43,7 +48,11 @@ export default {
                     if(response.data.status == true) {
                         ctx.commit('updateLoggedStatus', true)
                         ctx.commit('updateLogin', response.data.data.login)
-                        ctx.commit('updateBalance', response.data.data.balance)
+                        ctx.commit('updateUserData', {
+                            balance: response.data.data.balance,
+                            gender: response.data.data.gender,
+                            exp: response.data.data.exp
+                        })
                         ctx.commit('updateUserID', response.data.data.id)
                         ctx.commit('updatePreloader', false)
                     }
@@ -61,8 +70,8 @@ export default {
         getUserLogin(state: UserStateType) : string {
             return state.login
         },
-        getUserBalance(state: UserStateType) : string {
-            return state.balance
+        getUserData(state: UserStateType) : UserDataType {
+            return state.userData
         },
         getLoggedStatus(state: UserStateType) : boolean {
             return state.loggedIn

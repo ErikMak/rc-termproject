@@ -70,6 +70,8 @@ export default defineComponent({
         Api.deleteFromFavorites({favorite_id: model_id}, (res: ResponseType) => {
           this.$toastr.info(res.data)
           document.getElementById(idx)?.remove()
+        }, (err: any) => {
+          this.$toastr.error(err)
         })
       } else {
         this.$toastr.error('Не удалось удалить авто из избранного!')
@@ -88,6 +90,10 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="scss">
+@import '@/assets/toasts';
+</style>
 
 <style lang="scss">
 @import '@/assets/theme';

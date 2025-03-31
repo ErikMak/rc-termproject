@@ -50,6 +50,10 @@ class ReservationController extends BaseController
             return $this->sendError('Недостаточно средств!');
         }
 
+        if(!$user->gender || !$user->exp) {
+           return $this->sendError('Заполните персональные данные в профиле!');
+        }
+
         /*
          * Модуль DTP PREDICTION AI
          */
@@ -65,7 +69,7 @@ class ReservationController extends BaseController
             текущих условий, характеристик авто и вашего опыта, мы рекомендуем вам воздержаться
             от управления выбранным автомобилем в данный момент.
             Пожалуйста, рассмотрите возможность использования альтернативного
-            транспорта или подождите, пока ситуация улучшится.', 103);
+            транспорта или подождите, пока ситуация улучшится.', 503);
 
         $reservation = Reservation::create([
             'user_id' => $user->id,
