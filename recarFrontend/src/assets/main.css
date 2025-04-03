@@ -22,6 +22,7 @@ a,
   }
 
   #app {
+    width: 450px;
     display: grid;
     padding: 0 2rem;
   }

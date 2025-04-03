@@ -83,8 +83,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+@import '@/assets/toasts';
+</style>
+
+<style lang="scss">
 @import '@/assets/theme';
-@import 'toastr';
 
 .reservation-grid {
   display: grid;

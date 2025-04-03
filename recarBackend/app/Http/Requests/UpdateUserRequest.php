@@ -18,9 +18,7 @@ class UpdateUserRequest extends BaseRequest
     {
         return [
             'gender.required' => 'Не указан пол',
-            'gender.numeric' => 'Пол должен быть числом',
-            'gender.min' => 'Пол задается числом от 0 до 1',
-            'gender.max' => 'Пол задается числом от 0 до 1',
+            'gender.boolean' => 'Пол должен быть булевым типом данных',
             'exp.required' => 'Не указан водительский опыт',
             'exp.numeric' => 'Водительский опыт должен быть числом',
             'exp.min' => 'Водительский опыт не может быть отрицательным',
@@ -37,9 +35,7 @@ class UpdateUserRequest extends BaseRequest
         return [
             'gender' => [
                 'required',
-                'numeric',
-                'min:0',
-                'max:1',
+                'boolean'
             ],
             'exp' => [
                 'required',

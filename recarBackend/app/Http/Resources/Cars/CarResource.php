@@ -16,6 +16,7 @@ class CarResource extends JsonResource {
             "type" => $this->type,
             "img" => $this->img,
             "slug" => $this->slug,
+            "price" => $this->min_price
         ];
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Resources\Cars\CarFullResource;
 use App\Http\Resources\Cars\CarsCollection;
 use App\Models\Car;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 class CarController extends BaseController
 {
@@ -18,7 +19,14 @@ class CarController extends BaseController
      */
     public function index(CarFilter $filter) : JsonResponse
     {
-        $cars = Car::filter($filter)->paginate(15);
+        $cars = Car::filter($filter)
+            ->addSelect([
+                'min_price' => DB::table('equipment')
+                    ->selectRaw('MIN(price)')
+                    ->whereColumn('model_id', 'cars.model_id')
+                    ->limit(1)
+            ])
+            ->paginate(14);
 
         return $this->sendResponse(new CarsCollection($cars));
     }
@@ -36,8 +44,29 @@ class CarController extends BaseController
      */
     public function show(string $slug) : JsonResponse
     {
-        $car = Car::where('slug', $slug)
-            ->first();
+        $car = null;
+        $pattern_slug = '/^\d{5}-[a-zA-Z0-9-]+$/';
+        $patter_model_id = '/^\d+$/';
+        if(preg_match($pattern_slug, $slug)) {
+            $car = Car::where('slug', $slug)
+                ->addSelect([
+                    'min_price' => DB::table('equipment')
+                        ->selectRaw('MIN(price)')
+                        ->whereColumn('model_id', 'cars.model_id')
+                        ->limit(1)
+                ])
+                ->first();
+        }
+        if(preg_match($patter_model_id, $slug)) {
+            $car = Car::where('model_id', $slug)
+                ->addSelect([
+                    'min_price' => DB::table('equipment')
+                        ->selectRaw('MIN(price)')
+                        ->whereColumn('model_id', 'cars.model_id')
+                        ->limit(1)
+                ])
+                ->first();
+        }
 
         if(is_null($car)) {
             return $this->sendError('Автомобиль не найден', 404);
@@ -63,7 +92,14 @@ class CarController extends BaseController
     }
 
     public function find(CarFilter $filter) : JsonResponse {
-        $cars = Car::filter($filter)->paginate(15);
+        $cars = Car::filter($filter)
+        ->addSelect([
+            'min_price' => DB::table('equipment')
+                ->selectRaw('MIN(price)')
+                ->whereColumn('model_id', 'cars.model_id')
+                ->limit(1)
+        ])
+        ->paginate(14);
 
         return $this->sendResponse(new CarsCollection($cars));
     }

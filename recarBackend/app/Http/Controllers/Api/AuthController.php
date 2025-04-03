@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use PHPOpenSourceSaver\JWTAuth\JWTGuard;
 
 
 class AuthController extends BaseController
@@ -73,7 +74,7 @@ class AuthController extends BaseController
         return $this->sendError('Ошибка обновления токена авторизации!');
     }
 
-    private function guard() : StatefulGuard
+    private function guard() : JWTGuard
     {
         return Auth::guard();
     }

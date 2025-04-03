@@ -45,6 +45,8 @@ class CommentController extends BaseController
                 'rating' => $validated['rating']
             ]);
 
+            $comment["user"] = Auth::user()->login;
+
             return $this->sendResponse($comment, 'Отзыв добавлен!');
         }
 

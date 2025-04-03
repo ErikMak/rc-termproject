@@ -12,11 +12,12 @@
 
     <div class="wrapper mx-auto" style="width: 90%; margin-top: 10vh">
       <transition name="fade">
-        <div v-show="responseMsg" id="error-card" class="error-card mx-auto mb-3 px-5 py-3 rounded">
+        <div v-show="responseMsg" id="error-card" class="error-card text-center mx-auto mb-3 px-5 py-3 rounded">
           {{ responseMsg }}
         </div>
       </transition>
       <SigninFormComponent v-if="form"
+                           @sendResponseMsg="getResponseMessageFromChild"
                            @changeForm="changeForm"
       />
       <SignupFormComponent v-else

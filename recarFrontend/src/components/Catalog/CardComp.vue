@@ -18,7 +18,7 @@
         class="bg-white px-2 py-1"
     >
       <div class="d-flex flex-column">
-        <router-link :to="{name: 'car', params: { brand: data.brand.toLowerCase(), slug: data.model_id}}" class="pa-0">
+        <router-link :to="{name: 'car', params: { brand: data.brand.toLowerCase(), slug: data.slug}}" class="pa-0">
           <div class="d-flex flex-column" id="links">
             <b class="font-weight-medium">{{ data.brand + ' ' + data.name }}</b>
             <small style="margin-top: -3px;">
@@ -28,7 +28,7 @@
             >{{ data.category }};</b> {{ data.type }}</small>
           </div>
         </router-link>
-        <p class="mt-1"><strong>${{ data.price }}</strong>/день</p>
+        <p class="mt-1">от <strong>{{ data.price }}&#8381;</strong>/день</p>
       </div>
     </v-sheet>
   </v-sheet>

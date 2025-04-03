@@ -16,7 +16,7 @@ return new class extends Migration
             ->select('cars.model_id', 'veh_class', 'brand', 'cars.name', 'equipment.equip_id', 'weight', 'year',
             'equipment.name as equip_name', 'transmission', 'engines.id', 'mark', 'volume', 'engines.HP', 'engines.fuel as engine_fuel',
             'engines.type', 'is_exist', 'autopark.fuel', 'drive', 'autopark.long as long', 'autopark.lat as lat')
-            ->join('equipment', 'equipment.equip_id', '=', 'cars.model_id')
+            ->join('equipment', 'equipment.model_id', '=', 'cars.model_id')
             ->join('engines', 'engines.id', '=', 'equipment.engine')
             ->join('autopark', 'autopark.equip_id', '=', 'equipment.equip_id');
 

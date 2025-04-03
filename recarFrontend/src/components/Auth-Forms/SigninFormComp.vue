@@ -65,6 +65,9 @@
 import {defineComponent} from "vue";
 import {SigninFormType} from "@/types/ISigninForm";
 import {UseSigninValidation} from "@/mixins/SigninValidationMixins";
+import AuthService from "@/services/AuthService";
+import {mapActions} from "vuex";
+import {createErrorChain} from "@/services/ErrorHandler";
 
 const Component = defineComponent({
   name: 'SigninFormComponent',
@@ -74,6 +77,7 @@ const Component = defineComponent({
     pass: ''
   }),
   methods: {
+    ...mapActions(["checkLoggedStatus"]),
     signinAction() {
       let isPasswordValid = this.signinValidation.checkPass(this),
           isLoginValid = this.signinValidation.checkLogin(this)
@@ -81,7 +85,22 @@ const Component = defineComponent({
       let isFormValid = isLoginValid && isPasswordValid
 
       if(isFormValid) {
-        console.log('biba')
+        AuthService.login({
+          login: this.login,
+          password: this.pass
+        }).then(() => {
+          this.checkLoggedStatus()
+          this.login = ''; this.pass = '';
+          this.$router.push({name: 'welcome'})
+        }).catch(err => {
+          const properties = ['login', 'password']
+
+          const errorHandler = createErrorChain(properties, (msg: string[]) => {
+            this.$emit('sendResponseMsg', msg.pop())
+          })
+
+          errorHandler.handle(err)
+        })
       }
     }
   },
@@ -97,6 +116,10 @@ const Component = defineComponent({
 
 export default Component
 </script>
+
+<style lang="scss">
+@import '@/assets/toasts';
+</style>
 
 <style lang="scss" scoped>
 @use 'FormStyles';

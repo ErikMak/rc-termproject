@@ -31,9 +31,10 @@
             class="px-3"
         >
         </v-img>
-        <RatingComponent/>
+        <!-- Динамическая загрузка компонента RatingComponent -->
+        <component v-if="RatingBlock" :is="RatingBlock" :model_id="details.model_id"/>
         <div class="price-block position-absolute text-center">
-          <p class="font-weight-medium"><b class="font-weight-bold">${{details.price}}</b>/день</p>
+          <p class="font-weight-medium">от <b class="font-weight-bold">{{details.min_price}}&#8381;</b>/день</p>
         </div>
         <FavoriteComponent :car-view="true" :car_id="details.model_id"/>
       </div>
@@ -103,7 +104,8 @@
   </v-row>
   <v-row>
     <v-col>
-      <CarBookModalComponent :id="this.$route.params.slug" />
+      <!-- Динамическая загрузка компонента CarBookModalComponent -->
+      <component v-if="CarBookModalBlock" :is="CarBookModalBlock" :model_id="details.model_id"/>
     </v-col>
   </v-row>
   <v-row>
@@ -114,7 +116,7 @@
   <v-row>
     <v-col>
       <!-- Динамическая загрузка компонента CommentsBlockComponent -->
-      <component v-if="CommentsBlock" :is="CommentsBlock" />
+      <component v-if="CommentsBlock" :is="CommentsBlock" :model_id="details.model_id"/>
     </v-col>
   </v-row>
 </template>
@@ -124,28 +126,25 @@ import TitleComponent from "@/components/Title/TitleComp.vue";
 import { defineComponent, defineAsyncComponent, markRaw } from "vue";
 import CommentInputComponent from "@/components/Comments/CommentInputComp.vue";
 import Api from '@/common/cars'
-import RatingComponent from "@/components/Car/RatingComp.vue";
 import FavoriteComponent from "@/components/Favorite/FavoriteComp.vue";
 import CarHeaderPreloaderComponent from "@/components/Car/CarHeaderPreloaderComp.vue";
 import type ResponseType from '@/types/IResponse';
-import {CarType} from "@/types/ICarData";
-import CarBookModalComponent from "@/components/Modal/CarBookModalComp.vue";
 import DataMixins from "@/mixins/DataMixins";
+import {FullCarType} from "@/types/IFullCarData";
 
 interface State {
-  details: CarType,
+  details: FullCarType,
   preloaderShow: boolean,
-  rating: string,
   CommentsBlock: any
+  RatingBlock: any
+  CarBookModalBlock: any
 }
 
 export default defineComponent({
   name: "CarView",
   components: {
-    CarBookModalComponent,
     CarHeaderPreloaderComponent,
     FavoriteComponent,
-    RatingComponent,
     CommentInputComponent,
     TitleComponent
   },
@@ -156,17 +155,18 @@ export default defineComponent({
       category: '',
       brand: '',
       type: '',
-      price: '',
+      min_price: '',
       country: '',
-      weight: '',
+      weight: 0,
       tank: '',
       year: 0,
       flag: '',
       img: ''
     },
-    rating: '',
     preloaderShow: true,
-    CommentsBlock: null
+    CommentsBlock: null,
+    RatingBlock: null,
+    CarBookModalBlock: null
   }),
   mixins: [DataMixins],
   methods: {
@@ -176,11 +176,25 @@ export default defineComponent({
           import("@/components/Comments/CommentsBlockComp.vue")
       ));
     },
+    async loadRatingBlock() {
+      // Динамически импортируемый компонент RatingComp
+      this.RatingBlock = markRaw(defineAsyncComponent(() =>
+          import("@/components/Car/RatingComp.vue")
+      ));
+    },
+    async loadCarBookModalBlock() {
+      // Динамически импортируемый компонент RatingComp
+      this.CarBookModalBlock = markRaw(defineAsyncComponent(() =>
+          import("@/components/Modal/CarBookModalComp.vue")
+      ));
+    },
     uploadCar(slug: any) {
       return new Promise((resolve: any) => {
         Api.getCarById({id: slug}, (res: ResponseType) => {
           this.details = res.data
           this.loadCommentsBlock()
+          this.loadRatingBlock()
+          this.loadCarBookModalBlock()
           resolve()
         }, (err: any) => {
           if(err.response.status == 404) {

@@ -1,5 +1,6 @@
 import Ajax from "@/common/ajax";
 import {ApiRating, ApiComments} from "@/const";
+import requestMiddlewareService from "@/common/middleware";
 
 export default {
     getCarRating(data: any, success: any) {
@@ -11,6 +12,14 @@ export default {
     },
 
     addComment(data: any, success: any, failure: any) {
-        Ajax.post(ApiComments, data, success, failure)
+        try {
+            requestMiddlewareService.checkRequestLimit()
+
+            Ajax.post(ApiComments, data, success, failure)
+        } catch (err: any) {
+            if(err.message === 'request_limit') {
+                failure({error: {request_limit: ['Превышен лимит запросов. Пожалуйста, попробуйте позже.']}})
+            }
+        }
     }
 }

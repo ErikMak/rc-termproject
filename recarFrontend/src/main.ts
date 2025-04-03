@@ -7,6 +7,7 @@ import axios from './plugins/axios'
 import vuetify from './plugins/vuetify'
 import toastr from './plugins/toastr'
 import store from './store'
+import setupInterceptors from './plugins/axiosInterceptors'
 
 // Font Awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -24,6 +25,8 @@ app.component('font-awesome-icon', FontAwesomeIcon)
 app.use(router)
 app.use(vuetify)
 app.use(store)
+
+setupInterceptors()
 
 app.config.globalProperties.$axios = axios;
 app.config.globalProperties.$toastr = toastr;

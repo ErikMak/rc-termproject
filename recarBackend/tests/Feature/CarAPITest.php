@@ -15,7 +15,7 @@ class CarAPITest extends TestCase
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) =>
             $json->hasAll(['status', 'data'])
-                ->has('data.cars', 15)
+                ->has('data.cars', 14)
                 ->has('data.cars.0', fn (AssertableJson $json) =>
                 $json->where('model_id', 1)
                     ->where('name', 'Mazda6')
@@ -59,7 +59,7 @@ class CarAPITest extends TestCase
         $response->assertStatus(200);
         $response->assertJson(fn (AssertableJson $json) =>
         $json->hasAll(['status', 'data'])
-            ->has('data.cars', 15)
+            ->has('data.cars', 14)
             ->has('data.cars.0', fn (AssertableJson $json) =>
             $json->where('model_id', 1)
                 ->where('name', 'Mazda6')

@@ -15,7 +15,7 @@
     <v-card
         title="Выбор комплектации"
     >
-      <v-card-text>
+      <v-card-text class="pb-0">
         <div class="radio-tile-group">
           <div class="input-container position-relative" v-for="row in carEquipments">
             <input
@@ -48,9 +48,12 @@
                 <p class="ms-7 text">
                   Мощность:
                   <a class="engine-link text-decoration-underline">
-                    {{ row.engine.HP }} л.с ({{row.engine.volume}})
+                    {{ row.car_engine.HP }} л.с ({{row.car_engine.volume}})
                   </a>
                 </p>
+              </div>
+              <div class="price-block text-center mt-2">
+                <p class="font-weight-medium"><b class="font-weight-bold">{{row.price}}&#8381;</b>/день</p>
               </div>
             </v-sheet>
           </div>
@@ -86,8 +89,8 @@ interface State {
 export default defineComponent({
   name: 'CarBookModalComponent',
   props: {
-    id: {
-      type: String,
+    model_id: {
+      type: Number,
       required: true
     }
   },
@@ -111,7 +114,7 @@ export default defineComponent({
       if(this.getLoggedStatus) {
         this.createReservation({
           equip_id: this.equip_id.toString(),
-          model_id: this.$route.params.slug
+          model_id: this.model_id
         })
         this.$router.push({name: 'booking'})
       } else {
@@ -120,7 +123,7 @@ export default defineComponent({
     }
   },
   created() {
-    this.uploadCarEquipments({id: this.id})
+    this.uploadCarEquipments({id: this.model_id})
   }
 })
 </script>
@@ -134,6 +137,22 @@ export default defineComponent({
   text-align: center;
   width: 100%;
   background-color: $yellow;
+}
+
+.price-block {
+  width: fit-content;
+  height: 30px;
+  top: 0;
+  left: 0;
+  background-color: #b9ed85;
+  font-size: 14px;
+  padding: 0 4px;
+  line-height: 30px;
+  p {
+    vertical-align: middle;
+    display: inline-block;
+    line-height: 1.5;
+  }
 }
 
 .radio-tile-group {
