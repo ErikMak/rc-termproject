@@ -6,6 +6,7 @@ interface Car {
     type: string,
     img: string,
     slug: string
+    price: string
 }
 
 export type { Car as CarType }

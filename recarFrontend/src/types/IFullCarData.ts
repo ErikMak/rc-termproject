@@ -5,6 +5,7 @@ interface FullCar {
     country: string
     flag: string
     tank: string
+    min_price: string
     veh_class: number
     weight: number
     year: number

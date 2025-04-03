@@ -1,16 +1,16 @@
 <template>
   <div class="col-md-9 col-xs-12 px-3 mx-auto">
-    <div class="not_found-card bg-black shadow p-4">
+    <div class="not_found-card shadow pa-4">
       <div class="d-flex align-items-center">
         <h6 class="text-white mb-0">Не найдено</h6>
-        <i class="far fa-window-restore"></i>
+        <font-awesome-icon icon="fa-solid fa-window-restore" />
       </div>
       <hr class="border-3 opacity-100">
       <div class="row">
         <div class="col my-5 text-center">
           <img src="@/assets/pandas.png" class="img-fluid mb-3" alt="Панда">
-          <h5 class="text-light">Упс! Страница, которую вы запрашиваете, не существует</h5>
-          <small class="text-light">Попробуйте вернуться на <a href="/" style="color:#5faaff;">главную</a></small>
+          <h5 class="text-white">Упс! Страница, которую вы запрашиваете, не существует</h5>
+          <small class="text-white">Попробуйте вернуться на <a href="/" style="color:#5faaff;">главную</a></small>
         </div>
       </div>
     </div>
@@ -31,16 +31,18 @@ defineComponent({
 @import '@/assets/mixins';
 
 img {
-  width: 63px;
+  width: 53px;
 }
 
 .not_found-card {
   border-radius: 15px;
   margin-top: 8%;
+  background-color: rgba(45,48,51, 1);
 }
 
 hr {
-  color: rgb(63, 65, 66) !important;
+  margin: 0.5em 0;
+  color: rgb(45,48,51, 1) !important;
 }
 .fa-window-restore {
   color: rgb(79, 79, 79);

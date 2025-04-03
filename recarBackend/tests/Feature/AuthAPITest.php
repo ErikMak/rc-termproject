@@ -43,6 +43,7 @@ class AuthAPITest extends TestCase
             $json->where('exp', 20)
                 ->where('gender', 1)
                 ->where('login', 'Test003')
+                ->has('balance')
                 ->has('id')
             )
         );

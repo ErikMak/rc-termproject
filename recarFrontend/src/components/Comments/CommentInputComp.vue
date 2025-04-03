@@ -77,6 +77,7 @@ export default defineComponent({
           text: this.text,
           rating: this.rating.toFixed(1),
         }, (res: ResponseType) => {
+          this.$toastr.success(res.message)
           this.pushComment(res.data)
         }, (err: any) => {
           if (err.message === 'token_error') {

@@ -146,7 +146,6 @@ export default defineComponent({
       ApiCar.getCarById({id: this.car.model_id}, (res: ResponseType) => {
         const car = res.data
 
-        this.cost = parseFloat(car.price)
         this.car_name = car.brand + ' ' + car.name
       }, (err: any) => {
 
@@ -204,7 +203,7 @@ export default defineComponent({
           this.loading = false
           this.$router.push({name: 'catalog_all'})
         }, (err: any) => {
-          if(err.response.status === 503) {
+          if(err.response.status != undefined && err.response.status === 503) {
             console.info('оповещение системы безопасности')
             this.bookDialog.toggleDialog()
             this.loading = false

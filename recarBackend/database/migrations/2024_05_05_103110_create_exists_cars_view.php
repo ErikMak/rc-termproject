@@ -15,7 +15,7 @@ return new class extends Migration
         $query = DB::table('cars')
             ->select('cars.model_id', 'brand', 'cars.name', 'equipment.equip_id',
 'equipment.name as equip_name')
-            ->join('equipment', 'equipment.equip_id', '=', 'cars.model_id')
+            ->join('equipment', 'equipment.model_id', '=', 'cars.model_id')
             ->join('autopark', 'autopark.equip_id', '=', 'equipment.equip_id')
             ->where([
                 ['autopark.is_exist', '=', 1]

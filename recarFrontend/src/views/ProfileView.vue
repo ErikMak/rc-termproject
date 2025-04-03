@@ -42,6 +42,7 @@ import {UseUserDataValidation} from "@/mixins/UserDataValidationMixins";
 import Api from '@/common/user'
 import {createErrorChain} from "@/services/ErrorHandler";
 import type {UserDataType} from "@/types/IUserData";
+import CookieService from "@/services/CookieService";
 
 interface State {
   exp: string
@@ -78,6 +79,10 @@ export default defineComponent({
             exp: exp,
             gender: gender
           }, (res: ResponseType) => {
+            // Обновление cookie userData
+            CookieService.setCookie('user', JSON.stringify(res.data),
+              parseInt(import.meta.env.VITE_VUE_APP_COOKIE_LIFETIME))
+
             this.$toastr.info(res.message)
           }, (err: any) => {
             const properties = [
@@ -95,7 +100,7 @@ export default defineComponent({
       logout() {
         UserService.logout().then(() => {
           this.checkLoggedStatus()
-          this.$router.push({name: 'welcome'})
+          this.$router.go(0)
         })
       }
   },

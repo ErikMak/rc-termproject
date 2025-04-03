@@ -34,7 +34,7 @@ class UserAPITest extends TestCase
             ->assertJson([
                 'status' => false,
                 'error' => [
-                    'gender' => ['Пол задается числом от 0 до 1'],
+                    'gender' => ['Пол должен быть булевым типом данных'],
                     'exp' => ['Водительский опыт не может быть отрицательным']
                 ]
             ]);
@@ -43,7 +43,7 @@ class UserAPITest extends TestCase
     public function test_valid_update_user_info(): void {
         $response = $this->actingAs($this->user)->putJson('/api/user', [
             'exp' => 30,
-            'gender' => 0,
+            'gender' => false,
         ]);
 
         $response->assertStatus(200);
@@ -53,8 +53,9 @@ class UserAPITest extends TestCase
             ->has('data', fn (AssertableJson $json) =>
                     $json->has('id')
                     ->where('exp', 30)
-                    ->where('gender', 0)
+                    ->where('gender', false)
                     ->where('login', 'Test005')
+                    ->has('balance')
                 )
         );
 

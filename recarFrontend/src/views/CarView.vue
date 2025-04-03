@@ -34,7 +34,7 @@
         <!-- Динамическая загрузка компонента RatingComponent -->
         <component v-if="RatingBlock" :is="RatingBlock" :model_id="details.model_id"/>
         <div class="price-block position-absolute text-center">
-          <p class="font-weight-medium"><b class="font-weight-bold">{{details.price}}&#8381;</b>/день</p>
+          <p class="font-weight-medium">от <b class="font-weight-bold">{{details.min_price}}&#8381;</b>/день</p>
         </div>
         <FavoriteComponent :car-view="true" :car_id="details.model_id"/>
       </div>
@@ -155,7 +155,7 @@ export default defineComponent({
       category: '',
       brand: '',
       type: '',
-      price: '',
+      min_price: '',
       country: '',
       weight: 0,
       tank: '',

@@ -22,6 +22,8 @@ class CarFilter extends QueryFilter {
     }
 
     public function name(string $name) : void {
+        $name = Str::lower($name);
+
         $this->builder
             ->whereRaw("LOWER(cars.name) LIKE ? OR LOWER(cars.brand) LIKE ?", ['%'.$name.'%', '%'.$name.'%']);
     }

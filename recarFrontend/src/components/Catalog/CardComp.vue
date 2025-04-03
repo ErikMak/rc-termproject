@@ -28,7 +28,7 @@
             >{{ data.category }};</b> {{ data.type }}</small>
           </div>
         </router-link>
-        <p class="mt-1"><strong>{{ 0 }}&#8381;</strong>/день</p>
+        <p class="mt-1">от <strong>{{ data.price }}&#8381;</strong>/день</p>
       </div>
     </v-sheet>
   </v-sheet>

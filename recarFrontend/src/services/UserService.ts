@@ -10,7 +10,6 @@ class UserService {
 
         if (userDataCookie) {
             const userData = JSON.parse(userDataCookie);
-
             console.info('user данные получены с cookie')
 
             return Promise.resolve({ data: { status: true, data: userData } });
