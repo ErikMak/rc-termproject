@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('login', 30)->unique();
             $table->string('password', 255);
-            $table->double('balance')->default(0);
+            $table->double('balance')->default(10000);
             $table->integer('exp')->unsigned()->nullable();
             $table->unsignedTinyInteger('gender')->nullable();
             $table->rememberToken();
