@@ -203,13 +203,6 @@ export default defineComponent({
           this.loading = false
           this.$router.push({name: 'catalog_all'})
         }, (err: any) => {
-          if(err.response.status != undefined && err.response.status === 503) {
-            console.info('оповещение системы безопасности')
-            this.bookDialog.toggleDialog()
-            this.loading = false
-            throw new Error('ai_safety_error');
-          }
-
           const properties = [
             'model_id', 'eqiup_id', 'date_issue', 'date_return', 'total_cost', 'peop_in_car'
           ]
@@ -221,6 +214,13 @@ export default defineComponent({
           })
 
           errorHandler.handle(err)
+
+          if(err.response.status != undefined && err.response.status === 503) {
+            console.info('оповещение системы безопасности')
+            this.bookDialog.toggleDialog()
+            this.loading = false
+            throw new Error('ai_safety_error');
+          }
         })
       })
     },

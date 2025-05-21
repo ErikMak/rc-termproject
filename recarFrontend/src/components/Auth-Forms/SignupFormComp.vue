@@ -40,6 +40,14 @@
             style="color: #8d8a8a;"
         />
       </template>
+      <template v-slot:append-inner>
+          <div class="tooltip"><font-awesome-icon
+                icon="fas fa-info-circle"
+                style="color: #8d8a8a;"
+            />
+            <span class="tooltiptext">Пароль состоит из не менее 6 и не более 30 символов;<br>Содержит латинские буквы разного регистра;<br>Содержит хотя бы одно число;</span>
+          </div>
+      </template>
     </v-text-field>
 
     <div class="text-subtitle-1 text-medium-emphasis">Повтор пароля</div>
@@ -143,4 +151,31 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use 'FormStyles';
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  top: -5px;
+  right: 105%;
+  margin-left: -60px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  font-size: 10px;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
 </style>
