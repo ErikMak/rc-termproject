@@ -18,7 +18,6 @@ class StoreCommentRequest extends BaseRequest
             'car_id.required' => 'ID машины не может быть пустым',
             'car_id.exists' => 'Машины с таким ID не существует',
             'text.required' => 'Текст комментария не может быть пустым',
-            'text.regex' => 'Присутствуют недопустимые символы или длина комментария превышает 500 символов',
             'rating.required' => 'Не указана оценка',
             'rating.decimal' => 'Оценка должна быть числом с плавающей точкой и одним знаком после запятой'
         ];
@@ -38,7 +37,6 @@ class StoreCommentRequest extends BaseRequest
             ],
             'text' => [
                 'required',
-                'regex:/^[a-zA-Zа-яА-Я0-9\s\.,!?()-]{1,500}$/'
             ],
             'rating' => [
                 'required',
